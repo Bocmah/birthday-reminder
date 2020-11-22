@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: ./.docker/php/Dockerfile
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    volumes:
+      - ./:/var/www:cached
+    tty: true
