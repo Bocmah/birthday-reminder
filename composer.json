@@ -1,0 +1,11 @@
+{
+    "name": "bocmah/vkbd",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Artem Trushkin",
+            "email": "atrushkin1@gmail.com"
+        }
+    ],
+    "require": {}
+}
