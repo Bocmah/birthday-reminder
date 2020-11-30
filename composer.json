@@ -19,10 +19,16 @@
             "Vkbd\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^9",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "clue/block-react": "^1.4"
     }
 }
