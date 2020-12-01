@@ -29,6 +29,7 @@
         "phpunit/phpunit": "^9",
         "friendsofphp/php-cs-fixer": "^2.16",
         "squizlabs/php_codesniffer": "*",
-        "clue/block-react": "^1.4"
+        "clue/block-react": "^1.4",
+        "ringcentral/psr7": "^1.3"
     }
 }
