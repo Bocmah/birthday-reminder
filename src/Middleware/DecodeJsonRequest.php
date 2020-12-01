@@ -6,6 +6,7 @@ namespace Vkbd\Middleware;
 
 use JsonException;
 use Psr\Http\Message\ServerRequestInterface;
+use React\Promise\PromiseInterface;
 
 use function React\Promise\resolve;
 
@@ -17,9 +18,9 @@ final class DecodeJsonRequest
      *
      * @throws JsonException
      *
-     * @return mixed
+     * @return PromiseInterface
      */
-    public function __invoke(ServerRequestInterface $request, callable $next)
+    public function __invoke(ServerRequestInterface $request, callable $next): PromiseInterface
     {
         $contentType = $request->getHeaderLine('Content-type');
         if ($contentType === 'application/json') {
