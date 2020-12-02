@@ -32,5 +32,11 @@
         "clue/block-react": "^1.4",
         "ringcentral/psr7": "^1.3",
         "infection/infection": "^0.20.2"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "infection": "@php vendor/bin/infection"
     }
 }

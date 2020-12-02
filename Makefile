@@ -16,3 +16,6 @@ docker-down:
 
 docker-shell:
 	@docker-compose exec $(PHP_SERVICE) bash
+
+infection:
+	@docker-compose exec $(PHP_SERVICE) composer infection
