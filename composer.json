@@ -38,6 +38,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "infection": "@php vendor/bin/infection"
+        "infection": "@php vendor/bin/infection",
+        "psalm": "@php vendor/bin/psalm --show-info=true"
     }
 }
