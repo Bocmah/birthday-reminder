@@ -8,8 +8,6 @@ use JsonException;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;
 
-use function React\Promise\resolve;
-
 final class DecodeJsonRequest
 {
     /**
@@ -18,9 +16,9 @@ final class DecodeJsonRequest
      *
      * @throws JsonException
      *
-     * @return PromiseInterface
+     * @return PromiseInterface|ServerRequestInterface
      */
-    public function __invoke(ServerRequestInterface $request, callable $next): PromiseInterface
+    public function __invoke(ServerRequestInterface $request, callable $next)
     {
         $contentType = $request->getHeaderLine('Content-type');
         if ($contentType === 'application/json') {
@@ -30,6 +28,6 @@ final class DecodeJsonRequest
             $request = $request->withParsedBody($decodedBody);
         }
 
-        return resolve($next($request));
+        return $next($request);
     }
 }

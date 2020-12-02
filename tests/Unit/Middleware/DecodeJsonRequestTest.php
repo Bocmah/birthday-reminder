@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit\Middleware;
 
 use Exception;
-use React\EventLoop\Factory;
 use PHPUnit\Framework\TestCase;
 use React\Http\Message\ServerRequest;
 use Vkbd\Middleware\DecodeJsonRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function Clue\React\Block\await;
 use function RingCentral\Psr7\stream_for;
 
 final class DecodeJsonRequestTest extends TestCase
@@ -29,9 +27,10 @@ final class DecodeJsonRequestTest extends TestCase
 
         $middleware = new DecodeJsonRequest();
         /** @var ServerRequestInterface $requestWithDecodedBody */
-        $requestWithDecodedBody = await($middleware($request, static function (ServerRequestInterface $request) {
-            return $request;
-        }), Factory::create());
+        $requestWithDecodedBody = $middleware(
+            $request,
+            static fn (ServerRequestInterface $request): ServerRequestInterface => $request
+        );
 
         self::assertEquals($body, $requestWithDecodedBody->getParsedBody());
     }
@@ -49,9 +48,10 @@ final class DecodeJsonRequestTest extends TestCase
 
         $middleware = new DecodeJsonRequest();
         /** @var ServerRequestInterface $requestAfterMiddleware */
-        $requestAfterMiddleware = await($middleware($request, static function (ServerRequestInterface $request) {
-            return $request;
-        }), Factory::create());
+        $requestAfterMiddleware = $middleware(
+            $request,
+            static fn (ServerRequestInterface $request): ServerRequestInterface => $request
+        );
 
         self::assertEquals($jsonBody, $requestAfterMiddleware->getBody());
         self::assertNull($requestAfterMiddleware->getParsedBody());
