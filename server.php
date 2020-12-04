@@ -21,7 +21,7 @@ $loop = Factory::create();
 $server = new Server(
     $loop,
     new DecodeJsonRequest(),
-    new RejectUnsupportedEvents([Vk\Event::CONFIRMATION, Vk\Event::NEW_MESSAGE]),
+    new RejectUnsupportedEvents([new Vk\Event(Vk\Event::CONFIRMATION), new Vk\Event(Vk\Event::NEW_MESSAGE)]),
     new ConfirmServerEndpoint((string) $_ENV['VK_CONFIRMATION_TOKEN'], Vk\Event::CONFIRMATION),
 );
 

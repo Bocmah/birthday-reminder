@@ -33,11 +33,7 @@ final class ConfirmServerEndpoint
     public function __invoke(ServerRequestInterface $request, callable $next)
     {
         if ($this->isConfirmationRequest($request)) {
-            return new Response(
-                200,
-                [],
-                $this->confirmationToken
-            );
+            return new Response(200, [], $this->confirmationToken);
         }
 
         return $next($request);

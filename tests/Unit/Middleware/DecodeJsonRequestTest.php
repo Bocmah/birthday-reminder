@@ -22,11 +22,15 @@ final class DecodeJsonRequestTest extends TestCase
         $body = ['foo' => 'bar'];
         $jsonBody = json_encode($body, JSON_THROW_ON_ERROR);
 
+        /** @var ServerRequestInterface $request */
         $request = (new ServerRequest('GET', 'https://example.com/', ['Content-type' => 'application/json']))
             ->withBody(stream_for($jsonBody));
 
         $middleware = new DecodeJsonRequest();
-        /** @var ServerRequestInterface $requestWithDecodedBody */
+        /**
+         * @var ServerRequestInterface $requestWithDecodedBody
+         * @psalm-suppress InvalidArgument
+         */
         $requestWithDecodedBody = $middleware(
             $request,
             static fn (ServerRequestInterface $request): ServerRequestInterface => $request
@@ -43,11 +47,15 @@ final class DecodeJsonRequestTest extends TestCase
         $body = ['foo' => 'bar'];
         $jsonBody = json_encode($body, JSON_THROW_ON_ERROR);
 
+        /** @var ServerRequestInterface $request */
         $request = (new ServerRequest('GET', 'https://example.com/'))
             ->withBody(stream_for($jsonBody));
 
         $middleware = new DecodeJsonRequest();
-        /** @var ServerRequestInterface $requestAfterMiddleware */
+        /**
+         * @var ServerRequestInterface $requestAfterMiddleware
+         * @psalm-suppress InvalidArgument
+         */
         $requestAfterMiddleware = $middleware(
             $request,
             static fn (ServerRequestInterface $request): ServerRequestInterface => $request

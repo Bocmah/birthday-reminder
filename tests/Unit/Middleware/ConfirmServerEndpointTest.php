@@ -30,7 +30,7 @@ final class ConfirmServerEndpointTest extends TestCase
 
         $result = $middleware(
             $request,
-            static fn (ServerRequestInterface $request): ServerRequestInterface => $request
+            static fn (ServerRequestInterface $request): ResponseInterface => new Response(201, [], 'foobar'),
         );
 
         self::assertInstanceOf(ResponseInterface::class, $result);
