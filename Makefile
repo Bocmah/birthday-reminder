@@ -1,4 +1,4 @@
-.PHONY: docker-up-build docker-up docker-down
+.PHONY: docker-up-build docker-up docker-down docker-shell infection psalm
 .DEFAULT_GOAL := help
 PHP_SERVICE = php
 
