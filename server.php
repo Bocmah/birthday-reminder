@@ -8,6 +8,7 @@ use React\EventLoop\Factory;
 use React\Http\Server;
 use React\Socket\Server as Socket;
 use Symfony\Component\Dotenv\Dotenv;
+use Vkbd\Middleware\RejectUnsupportedEvents;
 use Vkbd\Vk;
 use Vkbd\Middleware\ConfirmServerEndpoint;
 use Vkbd\Middleware\DecodeJsonRequest;
@@ -20,7 +21,8 @@ $loop = Factory::create();
 $server = new Server(
     $loop,
     new DecodeJsonRequest(),
-    new ConfirmServerEndpoint((string) $_ENV['VK_CONFIRMATION_TOKEN'], Vk\Event::CONFIRMATION)
+    new RejectUnsupportedEvents([Vk\Event::CONFIRMATION, Vk\Event::NEW_MESSAGE]),
+    new ConfirmServerEndpoint((string) $_ENV['VK_CONFIRMATION_TOKEN'], Vk\Event::CONFIRMATION),
 );
 
 $socket = new Socket('0.0.0.0:8000', $loop);
