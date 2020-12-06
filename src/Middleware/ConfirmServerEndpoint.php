@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Vkbd\Middleware;
 
-use ArrayAccess;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
 use React\Promise\PromiseInterface;
-use UnexpectedValueException;
 
 final class ConfirmServerEndpoint
 {
@@ -43,22 +41,10 @@ final class ConfirmServerEndpoint
     {
         $body = $request->getParsedBody();
 
-        $this->checkBody($body);
-
         if (isset($body['type'])) {
             return $body['type'] === $this->confirmationEventName;
         }
 
         return false;
-    }
-
-    /**
-     * @param mixed $body
-     */
-    private function checkBody($body): void
-    {
-        if (!\is_array($body) && !($body instanceof ArrayAccess)) {
-            throw new UnexpectedValueException('Expected body to be an array or instance of ArrayAccess');
-        }
     }
 }
