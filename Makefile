@@ -17,6 +17,9 @@ docker-down: ## Stop services
 docker-shell: ## Jump to PHP service shell
 	@docker-compose exec $(PHP_SERVICE) bash
 
+cs: ## Run PHP Code Sniffer across all project files
+	@docker-compose exec $(PHP_SERVICE) composer cs
+
 infection: ## Run infection across all project files
 	@docker-compose exec $(PHP_SERVICE) composer infection
 
