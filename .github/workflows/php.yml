@@ -37,3 +37,6 @@ jobs:
 
     - name: Run infection
       run: composer infection
+
+    - name: Run psalm
+      run: composer psalm-ci
