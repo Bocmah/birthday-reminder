@@ -17,7 +17,7 @@ docker-down: ## Stop services
 docker-shell: ## Jump to PHP service shell
 	@docker-compose exec $(PHP_SERVICE) bash
 
-phpunit:
+phpunit: ## Run tests
 	@docker-compose exec $(PHP_SERVICE) composer phpunit
 
 cs: ## Run PHP Code Sniffer across all project files
