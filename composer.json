@@ -1,5 +1,6 @@
 {
     "name": "bocmah/vkbd",
+    "description": "Bot for vk.com which will help you to never forget about your friends birthdays again",
     "type": "project",
     "authors": [
         {
