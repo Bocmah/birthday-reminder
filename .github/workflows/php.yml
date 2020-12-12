@@ -34,3 +34,6 @@ jobs:
 
     - name: Run test suite
       run: composer phpunit
+
+    - name: Run infection
+      run: composer infection

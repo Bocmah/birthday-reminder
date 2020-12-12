@@ -42,7 +42,7 @@
     "scripts": {
         "phpunit": "@php vendor/bin/phpunit",
         "cs": "@php vendor/bin/phpcs --report=full",
-        "infection": "@php vendor/bin/infection",
+        "infection": "@php vendor/bin/infection --min-msi=80 --threads=4",
         "psalm": "@php vendor/bin/psalm --show-info=true"
     }
 }
