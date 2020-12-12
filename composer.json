@@ -38,6 +38,7 @@
         "sort-packages": true
     },
     "scripts": {
+        "phpunit": "@php vendor/bin/phpunit",
         "cs": "@php vendor/bin/phpcs",
         "infection": "@php vendor/bin/infection",
         "psalm": "@php vendor/bin/psalm --show-info=true"
