@@ -11,10 +11,11 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "ext-json": "*",
         "react/event-loop": "^1.1.1",
         "react/http": "^1.1.0",
         "symfony/dotenv": "^5.1",
-        "ext-json": "*"
+        "webmozart/assert": "^1.9"
     },
     "autoload": {
         "psr-4": {
