@@ -48,7 +48,7 @@ final class AlphanumericVkIdTest extends TestCase
     }
 
     /**
-     * @return iterable<int[]>
+     * @return iterable<string[]>
      */
     public function validIdsProvider(): iterable
     {
