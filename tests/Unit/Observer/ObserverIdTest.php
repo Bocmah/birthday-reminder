@@ -10,7 +10,7 @@ use Vkbd\Observer\ObserverId;
 final class ObserverIdTest extends TestCase
 {
     /**
-     * @dataProvider idsProvider
+     * @dataProvider invalidIdsProvider
      *
      * @param int $invalidId
      */
@@ -22,13 +22,37 @@ final class ObserverIdTest extends TestCase
     }
 
     /**
+     * @dataProvider validIdsProvider
+     *
+     * @param int $validId
+     */
+    public function test_it_accepts_positive_integers(int $validId): void
+    {
+        $id = new ObserverId($validId);
+
+        self::assertSame($validId, $id->id());
+    }
+
+    /**
      * @return iterable<int[]>
      */
-    public function idsProvider(): iterable
+    public function invalidIdsProvider(): iterable
     {
         return [
             [-1],
-            [0]
+            [0],
+        ];
+    }
+
+    /**
+     * @return iterable<int[]>
+     */
+    public function validIdsProvider(): iterable
+    {
+        return [
+            [1],
+            [2],
+            [1345],
         ];
     }
 }
