@@ -11,6 +11,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Setup PHP with specific version of PECL extension
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        extensions: mysqli, pdo_mysql, pcntl
+        coverage: pcov
+
+    - name: Checkout source code
     - uses: actions/checkout@v2
 
     - name: Validate composer.json and composer.lock
