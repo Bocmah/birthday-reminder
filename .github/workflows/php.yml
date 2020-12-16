@@ -9,15 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            php-versions: ['7.4', '8.0']
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup PHP with specific version of PECL extension
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php-versions }}
           extensions: mysqli, pdo_mysql, pcntl
           coverage: pcov
 
