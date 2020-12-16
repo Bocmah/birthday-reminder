@@ -17,6 +17,9 @@ docker-down: ## Stop services
 docker-shell: ## Jump to PHP service shell
 	@docker-compose exec $(PHP_SERVICE) bash
 
+composer-update:
+	@docker-compose exec $(PHP_SERVICE) composer update
+
 phpunit: ## Run tests
 	@docker-compose exec $(PHP_SERVICE) composer phpunit
 
