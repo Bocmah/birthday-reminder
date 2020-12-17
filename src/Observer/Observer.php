@@ -14,8 +14,12 @@ final class Observer
     private FullName $fullName;
     private bool $shouldAlwaysBeNotified;
 
-    public function __construct(ObserverId $id, NumericVkId $vkId, FullName $fullName, bool $shouldAlwaysBeNotified = true)
-    {
+    public function __construct(
+        ObserverId $id,
+        NumericVkId $vkId,
+        FullName $fullName,
+        bool $shouldAlwaysBeNotified = true
+    ) {
         $this->id = $id;
         $this->vkId = $vkId;
         $this->fullName = $fullName;
