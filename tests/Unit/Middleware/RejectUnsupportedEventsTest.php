@@ -77,4 +77,21 @@ final class RejectUnsupportedEventsTest extends TestCase
         self::assertSame(400, $result->getStatusCode());
         self::assertSame("Body of the request must have a 'type' key", $result->getBody()->getContents());
     }
+
+    public function test_it_converts_body_type_to_string(): void
+    {
+        $request = (new ServerRequest('GET', 'https://example.com/'))
+            ->withParsedBody(['type' => 2]);
+
+        $middleware = new RejectUnsupportedEvents([new Event(Event::CONFIRMATION), new Event(Event::NEW_MESSAGE)]);
+
+        $result = $middleware(
+            $request,
+            static fn (ServerRequestInterface $request): ResponseInterface => new Response(200, [], 'foobar')
+        );
+
+        self::assertInstanceOf(ResponseInterface::class, $result);
+        self::assertSame(400, $result->getStatusCode());
+        self::assertSame('Unsupported event', $result->getBody()->getContents());
+    }
 }
