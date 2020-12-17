@@ -19,6 +19,13 @@
             "ignoreSourceCodeByRegex": [
                 ".*json_decode.*"
             ]
+        },
+        "PublicVisibility": {
+            "ignore": [
+                "Vkbd\\Observer\\Observer",
+                "Vkbd\\Person\\FullName",
+                "Vkbd\\Command\\Definition"
+            ]
         }
     }
 }
