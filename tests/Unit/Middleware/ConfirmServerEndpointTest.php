@@ -64,4 +64,28 @@ final class ConfirmServerEndpointTest extends TestCase
             json_decode($result->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR),
         );
     }
+
+    public function test_it_ignores_requests_which_does_not_have_body_type_key(): void
+    {
+        $request = (new ServerRequest('GET', 'https://example.com/', ['Content-type' => 'application/json']))
+            ->withParsedBody(['foo' => 'bar']);
+
+        $middleware = new ConfirmServerEndpoint('test_confirmation_token', 'test_confirmation_event_name');
+
+        $result = $middleware(
+            $request,
+            static fn (ServerRequestInterface $request): ResponseInterface => new Response(
+                201,
+                [],
+                json_encode(['baz' => 'qux'], JSON_THROW_ON_ERROR),
+            )
+        );
+
+        self::assertInstanceOf(ResponseInterface::class, $result);
+        self::assertSame(201, $result->getStatusCode());
+        self::assertSame(
+            ['baz' => 'qux'],
+            json_decode($result->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR),
+        );
+    }
 }
