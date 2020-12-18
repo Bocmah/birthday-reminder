@@ -19,9 +19,12 @@ services:
     restart: always
     image: mysql:8.0
     volumes:
-      - db_data:/var/lib/mysql
+      - vkbd-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
+
+volumes:
+    vkbd-data:
