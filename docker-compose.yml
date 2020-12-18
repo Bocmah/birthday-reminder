@@ -12,3 +12,16 @@ services:
       - ./:/var/www:cached
       - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
     tty: true
+
+  mysql:
+    ports:
+      - '3306:3306'
+    restart: always
+    image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
