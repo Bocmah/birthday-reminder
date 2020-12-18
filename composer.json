@@ -12,6 +12,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
+        "doctrine/migrations": "^3.0",
         "react/event-loop": "^1.1.1",
         "react/http": "^1.1.0",
         "react/mysql": "^0.5.4",
