@@ -30,7 +30,7 @@ final class ObserverStorage
                 new ObserverId($queryResult->insertId),
                 $vkId,
                 $fullName,
-                $shouldAlwaysBeNotified)
-            );
+                $shouldAlwaysBeNotified
+            ));
     }
 }
