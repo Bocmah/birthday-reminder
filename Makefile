@@ -31,3 +31,9 @@ infection: ## Run infection across all project files
 
 psalm: ## Run psalm across all project files
 	@docker-compose exec $(PHP_SERVICE) composer psalm
+
+migrate-generate:
+	@docker-compose exec $(PHP_SERVICE) composer migrate-generate
+
+migrate:
+	docker-compose exec $(PHP_SERVICE) composer migrate
