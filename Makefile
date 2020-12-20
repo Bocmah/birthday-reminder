@@ -36,4 +36,4 @@ migrate-generate:
 	@docker-compose exec $(PHP_SERVICE) composer migrate-generate
 
 migrate:
-	docker-compose exec $(PHP_SERVICE) composer migrate
+	@docker-compose exec $(PHP_SERVICE) composer migrate
