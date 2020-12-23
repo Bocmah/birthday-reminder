@@ -10,6 +10,9 @@ use Vkbd\Vk\NumericVkId;
 use Vkbd\Person\FullName;
 use React\MySQL\QueryResult;
 
+use function React\Promise\reject;
+use function React\Promise\resolve;
+
 final class ObserverStorage
 {
     private ConnectionInterface $connection;
@@ -21,16 +24,25 @@ final class ObserverStorage
 
     public function create(NumericVkId $vkId, FullName $fullName, bool $shouldAlwaysBeNotified = true): PromiseInterface
     {
-        return $this->connection
-            ->query(
+        return $this
+            ->observerDoesNotExist($vkId)
+            ->then(fn () => $this->connection->query(
                 'INSERT INTO observers (first_name, last_name, vk_id, should_always_be_notified) VALUES (?, ?, ?, ?)',
                 [$fullName->firstName(), $fullName->lastName(), $vkId->id(), $shouldAlwaysBeNotified],
-            )
-            ->then(fn (QueryResult $queryResult): Observer => new Observer(
-                new ObserverId($queryResult->insertId),
-                $vkId,
-                $fullName,
-                $shouldAlwaysBeNotified
             ));
+    }
+
+    private function observerDoesNotExist(NumericVkId $vkId): PromiseInterface
+    {
+        return $this->connection
+            ->query(
+                'SELECT 1 FROM observers WHERE vk_id = ?',
+                [$vkId->id()]
+            )
+            ->then(
+                fn (QueryResult $result): PromiseInterface => empty($result->resultRows) ?
+                    resolve() :
+                    reject(new ObserverAlreadyExists())
+            );
     }
 }
