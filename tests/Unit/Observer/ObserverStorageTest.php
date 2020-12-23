@@ -105,7 +105,7 @@ final class ObserverStorageTest extends TestCase
             'vk_id' => (string) $rawVkId,
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'should_always_be_notified' => false,
+            'should_always_be_notified' => '1',
         ];
         $queryResult = new QueryResult();
         $queryResult->resultRows = [$rawObserver];
@@ -135,7 +135,7 @@ final class ObserverStorageTest extends TestCase
                 new ObserverId((int) $rawObserver['id']),
                 $vkId,
                 new FullName($rawObserver['first_name'], $rawObserver['last_name']),
-                $rawObserver['should_always_be_notified'],
+                true,
             ),
             $result
         );

@@ -36,13 +36,20 @@ final class ObserverStorage
                     throw ObserverWasNotFound::withVkId($vkId);
                 }
 
-                /** @var array<string, mixed> $row */
+                /** @var array{
+                 *      id: string,
+                 *      vk_id: string,
+                 *      first_name: string,
+                 *      last_name: string,
+                 *      should_always_be_notified: string
+                 * } $row
+                 */
                 $row = $result->resultRows[0];
 
                 return new Observer(
                     new ObserverId((int) $row['id']),
                     new NumericVkId((int) $row['vk_id']),
-                    new FullName((string) $row['first_name'], (string) $row['last_name']),
+                    new FullName($row['first_name'], $row['last_name']),
                     (bool) $row['should_always_be_notified'],
                 );
             });
