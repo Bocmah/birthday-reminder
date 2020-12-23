@@ -13,6 +13,7 @@ use Vkbd\Observer\Observer;
 use Vkbd\Observer\ObserverAlreadyExists;
 use Vkbd\Observer\ObserverId;
 use Vkbd\Observer\ObserverStorage;
+use Vkbd\Observer\ObserverWasNotFound;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\NumericVkId;
 
@@ -35,7 +36,6 @@ final class ObserverStorageTest extends TestCase
         $queryResult->resultRows = [1];
 
         $connection = $this->createMock(ConnectionInterface::class);
-
         $connection
             ->method('query')
             ->willReturn(resolve($queryResult));
@@ -69,7 +69,6 @@ final class ObserverStorageTest extends TestCase
         $insertQueryResult->insertId = $observerId;
 
         $connection = $this->createMock(ConnectionInterface::class);
-
         $connection
             ->method('query')
             ->willReturnOnConsecutiveCalls(
@@ -102,8 +101,8 @@ final class ObserverStorageTest extends TestCase
         $rawVkId = 824703;
         $vkId = new NumericVkId($rawVkId);
         $rawObserver = [
-            'id' => 1,
-            'vk_id' => $rawVkId,
+            'id' => '1',
+            'vk_id' => (string) $rawVkId,
             'first_name' => 'John',
             'last_name' => 'Doe',
             'should_always_be_notified' => false,
@@ -112,7 +111,6 @@ final class ObserverStorageTest extends TestCase
         $queryResult->resultRows = [$rawObserver];
 
         $connection = $this->createMock(ConnectionInterface::class);
-
         $connection
             ->method('query')
             ->willReturn(resolve($queryResult));
@@ -121,16 +119,48 @@ final class ObserverStorageTest extends TestCase
 
         $loop = Factory::create();
 
-        $result = await($storage->getByVkId($vkId), $loop);
+        /** @var Observer $result */
+        $result = await($storage->findByVkId($vkId), $loop);
 
         self::assertEquals(
             new Observer(
-                new ObserverId($rawObserver['id']),
+                new ObserverId((int) $rawObserver['id']),
                 $vkId,
                 new FullName($rawObserver['first_name'], $rawObserver['last_name']),
                 $rawObserver['should_always_be_notified'],
             ),
             $result
+        );
+    }
+
+    /** @noinspection BadExceptionsProcessingInspection */
+    /**
+     * @throws Exception
+     */
+    public function test_it_rejects_when_observer_was_not_found(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        $queryResult = new QueryResult();
+        $queryResult->resultRows = [];
+
+        $connection = $this->createMock(ConnectionInterface::class);
+        $connection
+            ->method('query')
+            ->willReturn(resolve($queryResult));
+
+        $storage = new ObserverStorage($connection);
+
+        $loop = Factory::create();
+
+        try {
+            await($storage->findByVkId(new NumericVkId(5)), $loop);
+        } catch (ObserverWasNotFound $exception) {
+            return;
+        }
+
+        self::fail(
+            'Failed to assert that ObserverStorage::findByVkId() will throw an exception when observer was not found'
         );
     }
 }

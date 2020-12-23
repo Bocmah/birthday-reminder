@@ -22,7 +22,7 @@ final class ObserverStorage
         $this->connection = $connection;
     }
 
-    public function getByVkId(NumericVkId $vkId): PromiseInterface
+    public function findByVkId(NumericVkId $vkId): PromiseInterface
     {
         $columns = 'id, first_name, last_name, vk_id, should_always_be_notified';
 
@@ -36,12 +36,13 @@ final class ObserverStorage
                     throw ObserverWasNotFound::withVkId($vkId);
                 }
 
+                /** @var array<string, mixed> $row */
                 $row = $result->resultRows[0];
 
                 return new Observer(
                     new ObserverId((int) $row['id']),
                     new NumericVkId((int) $row['vk_id']),
-                    new FullName($row['first_name'], $row['last_name']),
+                    new FullName((string) $row['first_name'], (string) $row['last_name']),
                     (bool) $row['should_always_be_notified'],
                 );
             });
