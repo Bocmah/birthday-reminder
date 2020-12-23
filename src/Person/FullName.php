@@ -13,8 +13,8 @@ final class FullName
 
     public function __construct(string $firstName, string $lastName)
     {
-        Assert::stringNotEmpty($firstName, 'First name can not be empty');
-        Assert::stringNotEmpty($lastName, 'Last name can not be empty');
+        Assert::alpha($firstName, 'First name can only contain letters');
+        Assert::alpha($lastName, 'Last name can only contain letters');
 
         $this->firstName = $firstName;
         $this->lastName = $lastName;
