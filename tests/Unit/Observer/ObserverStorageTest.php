@@ -115,6 +115,14 @@ final class ObserverStorageTest extends TestCase
             ->method('query')
             ->willReturn(resolve($queryResult));
 
+        $connection
+            ->expects(self::once())
+            ->method('query')
+            ->with(
+                self::stringContains('SELECT'),
+                self::equalTo([$vkId->id()])
+            );
+
         $storage = new ObserverStorage($connection);
 
         $loop = Factory::create();
