@@ -22,6 +22,31 @@ final class ObserverStorage
         $this->connection = $connection;
     }
 
+    public function getByVkId(NumericVkId $vkId): PromiseInterface
+    {
+        $columns = 'id, first_name, last_name, vk_id, should_always_be_notified';
+
+        return $this->connection
+            ->query(
+                "SELECT $columns FROM observers WHERE vk_id = ?",
+                [$vkId->id()]
+            )
+            ->then(static function (QueryResult $result) use ($vkId) {
+                if (empty($result->resultRows)) {
+                    throw ObserverWasNotFound::withVkId($vkId);
+                }
+
+                $row = $result->resultRows[0];
+
+                return new Observer(
+                    new ObserverId((int) $row['id']),
+                    new NumericVkId((int) $row['vk_id']),
+                    new FullName($row['first_name'], $row['last_name']),
+                    (bool) $row['should_always_be_notified'],
+                );
+            });
+    }
+
     public function create(NumericVkId $vkId, FullName $fullName, bool $shouldAlwaysBeNotified = true): PromiseInterface
     {
         return $this

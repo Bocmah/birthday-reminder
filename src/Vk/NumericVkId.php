@@ -21,4 +21,9 @@ final class NumericVkId implements VkId
     {
         return $this->id;
     }
+
+    public function __toString(): string
+    {
+        return (string) $this->id;
+    }
 }

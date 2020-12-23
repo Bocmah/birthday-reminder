@@ -11,6 +11,7 @@ use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
 use Vkbd\Observer\Observer;
 use Vkbd\Observer\ObserverAlreadyExists;
+use Vkbd\Observer\ObserverId;
 use Vkbd\Observer\ObserverStorage;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\NumericVkId;
@@ -91,5 +92,45 @@ final class ObserverStorageTest extends TestCase
         $loop = Factory::create();
 
         await($storage->create($vkId, $fullName), $loop);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test_it_gets_observer_by_vk_id(): void
+    {
+        $rawVkId = 824703;
+        $vkId = new NumericVkId($rawVkId);
+        $rawObserver = [
+            'id' => 1,
+            'vk_id' => $rawVkId,
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'should_always_be_notified' => false,
+        ];
+        $queryResult = new QueryResult();
+        $queryResult->resultRows = [$rawObserver];
+
+        $connection = $this->createMock(ConnectionInterface::class);
+
+        $connection
+            ->method('query')
+            ->willReturn(resolve($queryResult));
+
+        $storage = new ObserverStorage($connection);
+
+        $loop = Factory::create();
+
+        $result = await($storage->getByVkId($vkId), $loop);
+
+        self::assertEquals(
+            new Observer(
+                new ObserverId($rawObserver['id']),
+                $vkId,
+                new FullName($rawObserver['first_name'], $rawObserver['last_name']),
+                $rawObserver['should_always_be_notified'],
+            ),
+            $result
+        );
     }
 }
