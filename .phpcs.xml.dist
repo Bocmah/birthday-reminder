@@ -10,7 +10,9 @@
 
     <ini name="memory_limit" value="64M"/>
 
-    <rule ref="PSR12"/>
+    <rule ref="PSR12">
+        <exclude name="Generic.Files.LineLength"/>
+    </rule>
 
     <!-- We are using snake case for tests to make it easily distinguishable from regular methods -->
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
