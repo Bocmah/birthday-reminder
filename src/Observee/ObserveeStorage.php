@@ -33,10 +33,8 @@ final class ObserveeStorage
         return $this
             ->observeeDoesNotExist($observerId, $vkId)
             ->then(fn () => $this->connection->query(
-                // phpcs:disable Generic.Files.LineLength.TooLong
                 'INSERT INTO observees (observer_id, first_name, last_name, vk_id, birthdate) VALUES (?, ?, ?, ?, ?)',
                 [$observerId->id(), $fullName->firstName(), $fullName->lastName(), $vkId->id(), $birthdate->format('Y-m-d')],
-                // phpcs:enable
             ));
     }
 
