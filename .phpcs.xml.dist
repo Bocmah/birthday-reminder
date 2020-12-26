@@ -12,6 +12,10 @@
 
     <rule ref="PSR12"/>
 
+    <rule ref="Generic">
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+    </rule>
+
     <!-- We are using snake case for tests to make it easily distinguishable from regular methods -->
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
         <exclude-pattern>*/tests/*</exclude-pattern>
