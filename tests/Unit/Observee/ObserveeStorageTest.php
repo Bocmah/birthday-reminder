@@ -14,6 +14,7 @@ use Vkbd\Observee\Observee;
 use Vkbd\Observee\ObserveeAlreadyExists;
 use Vkbd\Observee\ObserveeId;
 use Vkbd\Observee\ObserveeStorage;
+use Vkbd\Observee\ObserveeWasNotFound;
 use Vkbd\Observer\ObserverId;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\NumericVkId;
@@ -162,6 +163,40 @@ final class ObserveeStorageTest extends TestCase
                 $observerId,
             ),
             $result
+        );
+    }
+
+    /**
+     * @noinspection BadExceptionsProcessingInspection
+     *
+     * @throws Exception
+     */
+    public function test_it_rejects_when_observee_was_not_found(): void
+    {
+        $this->expectNotToPerformAssertions();
+
+        $queryResult = new QueryResult();
+        $queryResult->resultRows = [];
+
+        $connection = $this->createMock(ConnectionInterface::class);
+        $connection
+            ->method('query')
+            ->willReturn(resolve($queryResult));
+
+        $storage = new ObserveeStorage($connection);
+
+        $loop = Factory::create();
+
+        try {
+            await($storage->findByObserverIdAndVkId(
+                new ObserverId(10),
+                new NumericVkId(5)), $loop);
+        } catch (ObserveeWasNotFound $exception) {
+            return;
+        }
+
+        self::fail(
+            'Failed to assert that ObserveeStorage::findByObserverIdAndVkId() will throw an exception when observer was not found'
         );
     }
 }
