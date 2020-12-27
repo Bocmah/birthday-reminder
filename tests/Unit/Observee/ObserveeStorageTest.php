@@ -12,6 +12,7 @@ use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
 use Vkbd\Observee\Observee;
 use Vkbd\Observee\ObserveeAlreadyExists;
+use Vkbd\Observee\ObserveeId;
 use Vkbd\Observee\ObserveeStorage;
 use Vkbd\Observer\ObserverId;
 use Vkbd\Person\FullName;
@@ -110,5 +111,57 @@ final class ObserveeStorageTest extends TestCase
             $fullName,
             $birthdate
         ), $loop);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function test_it_gets_observee_by_observer_id_and_vk_id(): void
+    {
+        $rawObserverId = 10;
+        $observerId = new ObserverId($rawObserverId);
+        $rawVkId = 824703;
+        $vkId = new NumericVkId($rawVkId);
+        $rawObservee = [
+            'id' => '1',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'vk_id' => (string) $rawVkId,
+            'birthdate' => '1990-05-16',
+            'observer_id' => (string) $rawObserverId,
+        ];
+        $queryResult = new QueryResult();
+        $queryResult->resultRows = [$rawObservee];
+
+        $connection = $this->createMock(ConnectionInterface::class);
+        $connection
+            ->method('query')
+            ->willReturn(resolve($queryResult));
+
+        $connection
+            ->expects(self::once())
+            ->method('query')
+            ->with(
+                self::stringContains('SELECT'),
+                self::equalTo([$observerId->id(), $vkId->id()])
+            );
+
+        $storage = new ObserveeStorage($connection);
+
+        $loop = Factory::create();
+
+        /** @var Observee $result */
+        $result = await($storage->findByObserverIdAndVkId($observerId, $vkId), $loop);
+
+        self::assertEquals(
+            new Observee(
+                new ObserveeId((int) $rawObservee['id']),
+                $vkId,
+                new FullName($rawObservee['first_name'], $rawObservee['last_name']),
+                new DateTimeImmutable($rawObservee['birthdate']),
+                $observerId,
+            ),
+            $result
+        );
     }
 }
