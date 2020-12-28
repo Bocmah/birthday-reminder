@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Vk;
+namespace Tests\Unit\Vk\User;
 
 use PHPUnit\Framework\TestCase;
 use Vkbd\Vk\User\NumericVkId;
