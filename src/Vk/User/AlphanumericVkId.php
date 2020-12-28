@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Vk;
+namespace Vkbd\Vk\User;
 
 use Webmozart\Assert\Assert;
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Vkbd\Vk\Message;
 
-use Vkbd\Vk\NumericVkId;
+use Vkbd\Vk\User\NumericVkId;
 
 final class IncomingMessage
 {

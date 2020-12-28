@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vkbd\Observer;
 
 use RuntimeException;
-use Vkbd\Vk\NumericVkId;
+use Vkbd\Vk\User\NumericVkId;
 
 final class ObserverWasNotFound extends RuntimeException
 {

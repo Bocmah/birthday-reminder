@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Vk\AlphanumericVkId;
+use Vkbd\Vk\User\AlphanumericVkId;
 
 final class AlphanumericVkIdTest extends TestCase
 {

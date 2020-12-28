@@ -6,7 +6,7 @@ namespace Vkbd\Observee;
 
 use RuntimeException;
 use Vkbd\Observer\ObserverId;
-use Vkbd\Vk\NumericVkId;
+use Vkbd\Vk\User\NumericVkId;
 
 final class ObserveeWasNotFound extends RuntimeException
 {

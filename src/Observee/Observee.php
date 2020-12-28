@@ -7,7 +7,7 @@ namespace Vkbd\Observee;
 use DateTimeImmutable;
 use Vkbd\Observer\ObserverId;
 use Vkbd\Person\FullName;
-use Vkbd\Vk\NumericVkId;
+use Vkbd\Vk\User\NumericVkId;
 
 final class Observee
 {

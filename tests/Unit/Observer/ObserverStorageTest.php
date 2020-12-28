@@ -15,7 +15,7 @@ use Vkbd\Observer\ObserverId;
 use Vkbd\Observer\ObserverStorage;
 use Vkbd\Observer\ObserverWasNotFound;
 use Vkbd\Person\FullName;
-use Vkbd\Vk\NumericVkId;
+use Vkbd\Vk\User\NumericVkId;
 
 use function Clue\React\Block\await;
 use function React\Promise\resolve;
