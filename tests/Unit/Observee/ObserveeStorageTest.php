@@ -188,9 +188,13 @@ final class ObserveeStorageTest extends TestCase
         $loop = Factory::create();
 
         try {
-            await($storage->findByObserverIdAndVkId(
-                new ObserverId(10),
-                new NumericVkId(5)), $loop);
+            await(
+                $storage->findByObserverIdAndVkId(
+                    new ObserverId(10),
+                    new NumericVkId(5)
+                ),
+                $loop
+            );
         } catch (ObserveeWasNotFound $exception) {
             return;
         }
