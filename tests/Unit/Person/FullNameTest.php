@@ -14,7 +14,7 @@ final class FullNameTest extends TestCase
      *
      * @param string $name
      */
-    public function test_you_can_not_create_full_name_providing_invalid_first_name(string $name): void
+    public function test_it_can_not_be_created_with_invalid_first_name(string $name): void
     {
         $this->expectExceptionMessage('First name can only contain letters');
 
@@ -26,7 +26,7 @@ final class FullNameTest extends TestCase
      *
      * @param string $name
      */
-    public function test_you_can_not_create_full_name_providing_invalid_last_name(string $name): void
+    public function test_it_can_not_be_created_with_invalid_last_name(string $name): void
     {
         $this->expectExceptionMessage('Last name can only contain letters');
 

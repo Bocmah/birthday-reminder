@@ -9,7 +9,7 @@ use Vkbd\Vk\Event;
 
 final class EventTest extends TestCase
 {
-    public function test_it_rejects_wrong_values(): void
+    public function test_it_can_not_be_created_with_wrong_values(): void
     {
         new Event(Event::CONFIRMATION);
         new Event(Event::NEW_MESSAGE);

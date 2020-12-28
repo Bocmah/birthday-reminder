@@ -14,7 +14,7 @@ final class ObserverIdTest extends TestCase
      *
      * @param int $invalidId
      */
-    public function test_you_can_not_create_observer_id_providing_not_positive_number(int $invalidId): void
+    public function test_it_can_not_be_created_with_not_positive_number(int $invalidId): void
     {
         $this->expectExceptionMessage('Observer id must be positive');
 
