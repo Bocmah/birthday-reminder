@@ -24,7 +24,7 @@ phpunit: ## Run tests
 	@docker-compose exec $(PHP_SERVICE) composer phpunit
 
 cs: ## Run PHP Code Sniffer across all project files
-	@docker-compose exec $(PHP_SERVICE) composer cs
+	@docker-compose exec $(PHP_SERVICE) composer phpcs
 
 infection: ## Run infection across all project files
 	@docker-compose exec $(PHP_SERVICE) composer infection
