@@ -21,5 +21,10 @@
                 <directory name="tests"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
+        <TooManyTemplateParams>
+            <errorLevel type="suppress">
+                <file name="src/Vk/Api/VkApi.php" />
+            </errorLevel>
+        </TooManyTemplateParams>
     </issueHandlers>
 </psalm>
