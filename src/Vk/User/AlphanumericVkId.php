@@ -6,7 +6,7 @@ namespace Vkbd\Vk\User;
 
 use Webmozart\Assert\Assert;
 
-final class AlphanumericVkId implements VkId
+final class AlphanumericVkId
 {
     private string $id;
 

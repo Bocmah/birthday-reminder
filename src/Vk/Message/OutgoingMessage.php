@@ -4,20 +4,29 @@ declare(strict_types=1);
 
 namespace Vkbd\Vk\Message;
 
-use Vkbd\Vk\User\VkId;
+use Vkbd\Vk\User\AlphanumericVkId;
+use Vkbd\Vk\User\NumericVkId;
 
 final class OutgoingMessage
 {
-    private VkId $to;
+    /** @var AlphanumericVkId|NumericVkId */
+    private $to;
     private string $text;
 
-    public function __construct(VkId $to, string $text)
+    /**
+     * @param AlphanumericVkId|NumericVkId $to
+     * @param string $text
+     */
+    public function __construct($to, string $text)
     {
         $this->to = $to;
         $this->text = $text;
     }
 
-    public function to(): VkId
+    /**
+     * @return AlphanumericVkId|NumericVkId
+     */
+    public function to()
     {
         return $this->to;
     }
