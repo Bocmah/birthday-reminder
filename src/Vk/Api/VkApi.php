@@ -32,8 +32,9 @@ final class VkApi
             ->then(
                 null,
                 static function (Exception $exception) use ($method) {
-                throw FailedToCallVkApiMethod::withMethodAndReason($method, $exception->getMessage());
-            });
+                    throw FailedToCallVkApiMethod::withMethodAndReason($method, $exception->getMessage());
+                }
+            );
     }
 
     /**
