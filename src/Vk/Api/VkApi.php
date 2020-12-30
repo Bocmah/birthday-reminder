@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Vkbd\Vk\Api;
 
+use Exception;
 use React\Http\Browser;
 use React\Promise\PromiseInterface;
 
@@ -26,7 +27,11 @@ final class VkApi
      */
     public function callMethod(string $method, array $parameters): PromiseInterface
     {
-        return $this->browser->get($this->buildUrl($method, $parameters));
+        return $this->browser
+            ->get($this->buildUrl($method, $parameters))
+            ->otherwise(static function (Exception $exception) use ($method) {
+                throw FailedToCallVkApiMethod::withMethodAndReason($method, $exception->getMessage());
+            });
     }
 
     /**
