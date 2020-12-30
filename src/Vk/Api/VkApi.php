@@ -29,7 +29,9 @@ final class VkApi
     {
         return $this->browser
             ->get($this->buildUrl($method, $parameters))
-            ->otherwise(static function (Exception $exception) use ($method) {
+            ->then(
+                null,
+                static function (Exception $exception) use ($method) {
                 throw FailedToCallVkApiMethod::withMethodAndReason($method, $exception->getMessage());
             });
     }
