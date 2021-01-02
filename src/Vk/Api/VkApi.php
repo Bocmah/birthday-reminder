@@ -33,7 +33,10 @@ final class VkApi implements VkApiInterface
                         throw FailedToCallVkApiMethod::unexpectedStatusCode($response->getStatusCode());
                     }
 
-                    return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+                    /** @var array<string, mixed> $decoded */
+                    $decoded = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+
+                    return $decoded;
                 },
                 static function (Exception $exception) use ($method): void {
                     throw FailedToCallVkApiMethod::withMethodAndReason($method, $exception->getMessage());

@@ -39,7 +39,7 @@ final class VkApiTest extends TestCase
             ->expects(self::once())
             ->method('get')
             ->with(
-                "{$config->baseUrl()}/method/".self::TEST_METHOD."?access_token={$config->token()}&v={$config->version()}&user_id={$parameters['user_id']}&message={$parameters['message']}"
+                "{$config->baseUrl()}/method/" . self::TEST_METHOD . "?access_token={$config->token()}&v={$config->version()}&user_id={$parameters['user_id']}&message={$parameters['message']}"
             )
             ->willReturn(
                 resolve(
@@ -51,6 +51,7 @@ final class VkApiTest extends TestCase
                 )
             );
 
+        /** @var array<string, mixed> $result */
         $result = await(
             (new VkApi($config, $browser))->callMethod(self::TEST_METHOD, $parameters),
             Factory::create(),
@@ -119,7 +120,7 @@ final class VkApiTest extends TestCase
             );
         } catch (FailedToCallVkApiMethod $exception) {
             self::assertEquals(
-                'Failed to call method '.self::TEST_METHOD.". Reason: $error",
+                'Failed to call method ' . self::TEST_METHOD . ". Reason: $error",
                 $exception->getMessage(),
             );
             return;
