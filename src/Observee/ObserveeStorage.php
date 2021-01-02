@@ -31,7 +31,7 @@ final class ObserveeStorage
         return $this->connection
             ->query(
                 "SELECT $columns FROM observees WHERE observer_id = ? AND vk_id = ?",
-                [$observerId->id(), $vkId->id()]
+                [$observerId->value(), $vkId->value()]
             )
             ->then(static function (QueryResult $result) use ($observerId, $vkId) {
                 if (empty($result->resultRows)) {
@@ -69,7 +69,7 @@ final class ObserveeStorage
             ->observeeDoesNotExist($observerId, $vkId)
             ->then(fn () => $this->connection->query(
                 'INSERT INTO observees (observer_id, first_name, last_name, vk_id, birthdate) VALUES (?, ?, ?, ?, ?)',
-                [$observerId->id(), $fullName->firstName(), $fullName->lastName(), $vkId->id(), $birthdate->format('Y-m-d')],
+                [$observerId->value(), $fullName->firstName(), $fullName->lastName(), $vkId->value(), $birthdate->format('Y-m-d')],
             ));
     }
 
@@ -78,7 +78,7 @@ final class ObserveeStorage
         return $this->connection
             ->query(
                 'SELECT 1 FROM observees WHERE observer_id = ? AND vk_id = ?',
-                [$observerId->id(), $vkId->id()]
+                [$observerId->value(), $vkId->value()]
             )
             ->then(
                 fn (QueryResult $result): PromiseInterface => empty($result->resultRows) ?

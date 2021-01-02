@@ -17,7 +17,7 @@ final class NumericVkId
         $this->id = $id;
     }
 
-    public function id(): int
+    public function value(): int
     {
         return $this->id;
     }

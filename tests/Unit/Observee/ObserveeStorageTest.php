@@ -97,9 +97,9 @@ final class ObserveeStorageTest extends TestCase
             ->withConsecutive(
                 [
                     'SELECT 1 FROM observees WHERE observer_id = ? AND vk_id = ?',
-                    [$observerId->id(), $vkId->id()]
+                    [$observerId->value(), $vkId->value()]
                 ],
-                [$insert, [$observerId->id(), $fullName->firstName(), $fullName->lastName(), $vkId->id(), '1990-05-10']],
+                [$insert, [$observerId->value(), $fullName->firstName(), $fullName->lastName(), $vkId->value(), '1990-05-10']],
             );
 
         $storage = new ObserveeStorage($connection);
@@ -144,7 +144,7 @@ final class ObserveeStorageTest extends TestCase
             ->method('query')
             ->with(
                 self::stringContains('SELECT'),
-                self::equalTo([$observerId->id(), $vkId->id()])
+                self::equalTo([$observerId->value(), $vkId->value()])
             );
 
         $storage = new ObserveeStorage($connection);

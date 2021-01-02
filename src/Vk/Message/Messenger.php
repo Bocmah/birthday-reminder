@@ -19,7 +19,7 @@ final class Messenger
     public function send(OutgoingMessage $message): PromiseInterface
     {
         return $this->vkApi->callMethod('messages.send', [
-            'user_id' => $message->to()->id(),
+            'user_id' => $message->to()->value(),
             'message' => $message->text(),
         ]);
     }

@@ -17,7 +17,7 @@ final class AlphanumericVkId
         $this->id = $id;
     }
 
-    public function id(): string
+    public function value(): string
     {
         return $this->id;
     }

@@ -30,7 +30,7 @@ final class AlphanumericVkIdTest extends TestCase
     {
         $id = new AlphanumericVkId($validId);
 
-        self::assertSame($validId, $id->id());
+        self::assertSame($validId, $id->value());
     }
 
     /**

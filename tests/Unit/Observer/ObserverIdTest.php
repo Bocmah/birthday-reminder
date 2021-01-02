@@ -30,7 +30,7 @@ final class ObserverIdTest extends TestCase
     {
         $id = new ObserverId($validId);
 
-        self::assertSame($validId, $id->id());
+        self::assertSame($validId, $id->value());
     }
 
     /**

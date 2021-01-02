@@ -82,8 +82,8 @@ final class ObserverStorageTest extends TestCase
             ->expects(self::exactly(2))
             ->method('query')
             ->withConsecutive(
-                ['SELECT 1 FROM observers WHERE vk_id = ?', [$vkId->id()]],
-                [$insert, [$fullName->firstName(), $fullName->lastName(), $vkId->id(), true]],
+                ['SELECT 1 FROM observers WHERE vk_id = ?', [$vkId->value()]],
+                [$insert, [$fullName->firstName(), $fullName->lastName(), $vkId->value(), true]],
             );
 
         $storage = new ObserverStorage($connection);
@@ -120,7 +120,7 @@ final class ObserverStorageTest extends TestCase
             ->method('query')
             ->with(
                 self::stringContains('SELECT'),
-                self::equalTo([$vkId->id()])
+                self::equalTo([$vkId->value()])
             );
 
         $storage = new ObserverStorage($connection);

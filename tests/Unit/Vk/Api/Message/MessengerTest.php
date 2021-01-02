@@ -25,7 +25,7 @@ final class MessengerTest extends TestCase
             ->with(
                 'messages.send',
                 [
-                    'user_id' => $message->to()->id(),
+                    'user_id' => $message->to()->value(),
                     'message' => $message->text(),
                 ]
             )

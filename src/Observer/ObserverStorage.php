@@ -29,7 +29,7 @@ final class ObserverStorage
         return $this->connection
             ->query(
                 "SELECT $columns FROM observers WHERE vk_id = ?",
-                [$vkId->id()]
+                [$vkId->value()]
             )
             ->then(static function (QueryResult $result) use ($vkId) {
                 if (empty($result->resultRows)) {
@@ -61,7 +61,7 @@ final class ObserverStorage
             ->observerDoesNotExist($vkId)
             ->then(fn () => $this->connection->query(
                 'INSERT INTO observers (first_name, last_name, vk_id, should_always_be_notified) VALUES (?, ?, ?, ?)',
-                [$fullName->firstName(), $fullName->lastName(), $vkId->id(), $shouldAlwaysBeNotified],
+                [$fullName->firstName(), $fullName->lastName(), $vkId->value(), $shouldAlwaysBeNotified],
             ));
     }
 
@@ -70,7 +70,7 @@ final class ObserverStorage
         return $this->connection
             ->query(
                 'SELECT 1 FROM observers WHERE vk_id = ?',
-                [$vkId->id()]
+                [$vkId->value()]
             )
             ->then(
                 fn (QueryResult $result): PromiseInterface => empty($result->resultRows) ?
