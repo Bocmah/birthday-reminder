@@ -13,7 +13,4 @@
             <directory>./tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <extensions>
-        <extension class="Tests\Hook\BypassFinalHook"/>
-    </extensions>
 </phpunit>
