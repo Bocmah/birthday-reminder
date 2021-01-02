@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vkbd\Vk\Api;
 
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 use React\Http\Browser;
 use React\Promise\PromiseInterface;
 
@@ -27,8 +28,14 @@ final class VkApi implements VkApiInterface
         return $this->browser
             ->get($this->buildUrl($method, $parameters))
             ->then(
-                null,
-                static function (Exception $exception) use ($method) {
+                static function (ResponseInterface $response): array {
+                    if ($response->getStatusCode() !== 200) {
+                        throw FailedToCallVkApiMethod::unexpectedStatusCode($response->getStatusCode());
+                    }
+
+                    return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+                },
+                static function (Exception $exception) use ($method): void {
                     throw FailedToCallVkApiMethod::withMethodAndReason($method, $exception->getMessage());
                 }
             );
