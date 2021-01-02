@@ -21,16 +21,16 @@ composer-update:
 	@docker-compose exec $(PHP_SERVICE) composer update
 
 phpunit: ## Run tests
-	@docker-compose exec $(PHP_SERVICE) composer phpunit
+	@docker-compose exec -T $(PHP_SERVICE) composer phpunit
 
 phpcs: ## Run PHP Code Sniffer across all project files
-	@docker-compose exec $(PHP_SERVICE) composer phpcs
+	@docker-compose exec -T $(PHP_SERVICE) composer phpcs
 
 infection: ## Run infection across all project files
-	@docker-compose exec $(PHP_SERVICE) composer infection
+	@docker-compose exec -T $(PHP_SERVICE) composer infection
 
 psalm: ## Run psalm across all project files
-	@docker-compose exec $(PHP_SERVICE) composer psalm
+	@docker-compose exec -T $(PHP_SERVICE) composer psalm
 
 migrate-generate:
 	@docker-compose exec $(PHP_SERVICE) composer migrate-generate
