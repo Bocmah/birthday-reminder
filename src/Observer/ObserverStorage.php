@@ -37,11 +37,11 @@ final class ObserverStorage
                 }
 
                 /** @var array{
-                 *      id: string,
-                 *      vk_id: string,
-                 *      first_name: string,
-                 *      last_name: string,
-                 *      should_always_be_notified: string
+                 *    id: string,
+                 *    vk_id: string,
+                 *    first_name: string,
+                 *    last_name: string,
+                 *    should_always_be_notified: string
                  * } $row
                  */
                 $row = $result->resultRows[0];
