@@ -12,7 +12,6 @@ use React\Promise\PromiseInterface;
 final class ConfirmServerEndpoint
 {
     private string $confirmationToken;
-
     private string $confirmationEventName;
 
     public function __construct(string $confirmationToken, string $confirmationEventName)
