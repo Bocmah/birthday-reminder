@@ -8,7 +8,7 @@ use Exception;
 use React\Http\Browser;
 use React\Promise\PromiseInterface;
 
-final class VkApi
+final class VkApi implements VkApiInterface
 {
     private Config $config;
     private Browser $browser;
@@ -20,10 +20,7 @@ final class VkApi
     }
 
     /**
-     * @param string $method
-     * @param array<string, mixed> $parameters
-     *
-     * @return PromiseInterface
+     * @inheritDoc
      */
     public function callMethod(string $method, array $parameters): PromiseInterface
     {
