@@ -9,7 +9,7 @@ use Exception;
 use React\EventLoop\Factory;
 use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
-use Tests\TestCase;
+use Tests\TestCaseWithPromisesHelpers;
 use Vkbd\Observee\Observee;
 use Vkbd\Observee\ObserveeAlreadyExists;
 use Vkbd\Observee\ObserveeId;
@@ -22,7 +22,7 @@ use Vkbd\Vk\User\NumericVkId;
 use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
-final class ObserveeStorageTest extends TestCase
+final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
 {
     /**
      * @noinspection BadExceptionsProcessingInspection
@@ -47,7 +47,7 @@ final class ObserveeStorageTest extends TestCase
         $storage = new ObserveeStorage($connection);
 
         try {
-            $this->awaitPromise($storage->create(
+            $this->await($storage->create(
                 $observerId,
                 $vkId,
                 $fullName,
@@ -96,7 +96,7 @@ final class ObserveeStorageTest extends TestCase
 
         $storage = new ObserveeStorage($connection);
 
-        $this->awaitPromise($storage->create(
+        $this->await($storage->create(
             $observerId,
             $vkId,
             $fullName,
@@ -176,7 +176,7 @@ final class ObserveeStorageTest extends TestCase
         $storage = new ObserveeStorage($connection);
 
         try {
-            $this->awaitPromise($storage->findByObserverIdAndVkId(
+            $this->await($storage->findByObserverIdAndVkId(
                 new ObserverId(10),
                 new NumericVkId(5)
             ));
