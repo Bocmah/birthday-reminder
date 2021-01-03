@@ -6,10 +6,10 @@ namespace Tests\Unit\Observee;
 
 use DateTimeImmutable;
 use Exception;
-use PHPUnit\Framework\TestCase;
 use React\EventLoop\Factory;
 use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
+use Tests\TestCase;
 use Vkbd\Observee\Observee;
 use Vkbd\Observee\ObserveeAlreadyExists;
 use Vkbd\Observee\ObserveeId;
@@ -26,8 +26,6 @@ final class ObserveeStorageTest extends TestCase
 {
     /**
      * @noinspection BadExceptionsProcessingInspection
-     *
-     * @throws Exception
      */
     public function test_it_checks_if_observee_already_exists(): void
     {
@@ -48,16 +46,13 @@ final class ObserveeStorageTest extends TestCase
 
         $storage = new ObserveeStorage($connection);
 
-        $loop = Factory::create();
-
         try {
-            /** @var Observee $result */
-            await($storage->create(
+            $this->awaitPromise($storage->create(
                 $observerId,
                 $vkId,
                 $fullName,
                 $birthdate
-            ), $loop);
+            ));
         } catch (ObserveeAlreadyExists $exception) {
             return;
         }
@@ -67,9 +62,6 @@ final class ObserveeStorageTest extends TestCase
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function test_it_passes_insert_statement_to_connection(): void
     {
         $observerId = new ObserverId(5);
@@ -104,14 +96,12 @@ final class ObserveeStorageTest extends TestCase
 
         $storage = new ObserveeStorage($connection);
 
-        $loop = Factory::create();
-
-        await($storage->create(
+        $this->awaitPromise($storage->create(
             $observerId,
             $vkId,
             $fullName,
             $birthdate
-        ), $loop);
+        ));
     }
 
     /**
@@ -185,16 +175,11 @@ final class ObserveeStorageTest extends TestCase
 
         $storage = new ObserveeStorage($connection);
 
-        $loop = Factory::create();
-
         try {
-            await(
-                $storage->findByObserverIdAndVkId(
-                    new ObserverId(10),
-                    new NumericVkId(5)
-                ),
-                $loop
-            );
+            $this->awaitPromise($storage->findByObserverIdAndVkId(
+                new ObserverId(10),
+                new NumericVkId(5)
+            ));
         } catch (ObserveeWasNotFound $exception) {
             return;
         }
