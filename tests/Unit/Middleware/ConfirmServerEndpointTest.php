@@ -65,6 +65,9 @@ final class ConfirmServerEndpointTest extends TestCase
         );
     }
 
+    /**
+     * @throws JsonException
+     */
     public function test_it_ignores_requests_which_does_not_have_body_type_key(): void
     {
         $request = (new ServerRequest('GET', 'https://example.com/', ['Content-type' => 'application/json']))
