@@ -79,7 +79,7 @@ final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
             ->withConsecutive(
                 [
                     'SELECT 1 FROM observees WHERE observer_id = ? AND vk_id = ?',
-                    [$observerId->value(), $vkId->value()]
+                    [$observerId->value(), $vkId->value()],
                 ],
                 [$insert, [$observerId->value(), $fullName->firstName(), $fullName->lastName(), $vkId->value(), '1990-05-10']],
             );

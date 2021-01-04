@@ -10,8 +10,6 @@ use React\EventLoop\Factory;
 use React\Promise\PromiseInterface;
 use React\Promise\Timer\TimeoutException;
 use RuntimeException;
-use Tests\Exception\ActualValueIsNotAPromiseException;
-use Tests\Exception\LoopTimedOutException;
 
 use function Clue\React\Block\await;
 

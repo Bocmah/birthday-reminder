@@ -12,6 +12,7 @@ use React\Promise\PromiseInterface;
 final class VkApi implements VkApiInterface
 {
     private Config $config;
+
     private Browser $browser;
 
     public function __construct(Config $config, Browser $browser)
@@ -21,7 +22,7 @@ final class VkApi implements VkApiInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function callMethod(string $method, array $parameters): PromiseInterface
     {
@@ -33,10 +34,8 @@ final class VkApi implements VkApiInterface
                         throw FailedToCallVkApiMethod::unexpectedStatusCode($response->getStatusCode());
                     }
 
-                    /** @var array<string, mixed> $decoded */
-                    $decoded = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-
-                    return $decoded;
+                    /** @var array<string, mixed> */
+                    return json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
                 },
                 static function (Exception $exception) use ($method): void {
                     throw FailedToCallVkApiMethod::withMethodAndReason($method, $exception->getMessage());

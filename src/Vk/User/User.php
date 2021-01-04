@@ -9,6 +9,7 @@ use Vkbd\Person\FullName;
 final class User
 {
     private NumericVkId $id;
+
     private FullName $fullName;
 
     public function __construct(NumericVkId $id, FullName $fullName)

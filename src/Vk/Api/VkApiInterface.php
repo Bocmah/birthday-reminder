@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Vkbd\Vk\Api;
 
 use React\Promise\PromiseInterface;

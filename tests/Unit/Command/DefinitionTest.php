@@ -18,7 +18,7 @@ final class DefinitionTest extends TestCase
      */
     public function test_it_correctly_matches(string $pattern, string $command, bool $expected): void
     {
-        $definition = new Definition($pattern, static function () {
+        $definition = new Definition($pattern, static function (): void {
         });
 
         self::assertSame($expected, $definition->matches($command));

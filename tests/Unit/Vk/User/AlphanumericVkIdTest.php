@@ -43,7 +43,7 @@ final class AlphanumericVkIdTest extends TestCase
             [' '],
             ['gfasd hrhrg'],
             ['~a4'],
-            ['----08']
+            ['----08'],
         ];
     }
 
@@ -56,7 +56,7 @@ final class AlphanumericVkIdTest extends TestCase
             ['fageawd4213'],
             ['1'],
             ['a'],
-            ['nbrdgrk']
+            ['nbrdgrk'],
         ];
     }
 }

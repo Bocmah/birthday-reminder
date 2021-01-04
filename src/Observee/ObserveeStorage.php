@@ -81,7 +81,7 @@ final class ObserveeStorage
                 [$observerId->value(), $vkId->value()]
             )
             ->then(
-                fn (QueryResult $result): PromiseInterface => empty($result->resultRows) ?
+                static fn (QueryResult $result): PromiseInterface => empty($result->resultRows) ?
                     resolve() :
                     reject(new ObserveeAlreadyExists())
             );

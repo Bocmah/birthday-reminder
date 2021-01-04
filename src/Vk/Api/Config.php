@@ -10,7 +10,9 @@ use Webmozart\Assert\Assert;
 final class Config
 {
     private string $baseUrl;
+
     private string $token;
+
     private string $version;
 
     public function __construct(string $baseUrl, string $token, string $version)

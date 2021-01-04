@@ -27,9 +27,9 @@ abstract class TestCaseWithPromisesHelpers extends TestCase
     /**
      * @param PromiseInterface $promise
      *
-     * @return mixed
-     *
      * @throws Exception
+     *
+     * @return mixed
      */
     public function await(PromiseInterface $promise)
     {

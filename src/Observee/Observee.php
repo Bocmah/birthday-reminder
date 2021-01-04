@@ -12,9 +12,13 @@ use Vkbd\Vk\User\NumericVkId;
 final class Observee
 {
     private ObserveeId $id;
+
     private NumericVkId $vkId;
+
     private FullName $fullName;
+
     private DateTimeImmutable $birthdate;
+
     private ObserverId $observerId;
 
     public function __construct(

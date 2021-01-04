@@ -25,7 +25,7 @@ final class RejectUnsupportedEvents
 
     /**
      * @param ServerRequestInterface $request
-     * @param callable               $next
+     * @param callable $next
      * @psalm-param callable(ServerRequestInterface):(ResponseInterface|PromiseInterface) $next
      *
      * @return ResponseInterface|PromiseInterface

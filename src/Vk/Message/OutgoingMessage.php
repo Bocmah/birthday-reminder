@@ -9,6 +9,7 @@ use Vkbd\Vk\User\NumericVkId;
 final class OutgoingMessage
 {
     private NumericVkId $to;
+
     private string $text;
 
     public function __construct(NumericVkId $to, string $text)

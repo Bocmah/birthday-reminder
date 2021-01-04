@@ -10,8 +10,11 @@ use Vkbd\Vk\User\NumericVkId;
 final class Observer
 {
     private ObserverId $id;
+
     private NumericVkId $vkId;
+
     private FullName $fullName;
+
     private bool $shouldAlwaysBeNotified;
 
     public function __construct(

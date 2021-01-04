@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk\Api\Message;
 
 use Exception;
-use React\EventLoop\Factory;
 use Tests\TestCaseWithPromisesHelpers;
 use Vkbd\Vk\Api\FailedToCallVkApiMethod;
 use Vkbd\Vk\Api\VkApiInterface;

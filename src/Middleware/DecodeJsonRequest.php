@@ -13,7 +13,7 @@ final class DecodeJsonRequest
 {
     /**
      * @param ServerRequestInterface $request
-     * @param callable               $next
+     * @param callable $next
      * @psalm-param callable(ServerRequestInterface):(ResponseInterface|PromiseInterface) $next
      *
      * @throws JsonException

@@ -12,6 +12,7 @@ use React\Promise\PromiseInterface;
 final class ConfirmServerEndpoint
 {
     private string $confirmationToken;
+
     private string $confirmationEventName;
 
     public function __construct(string $confirmationToken, string $confirmationEventName)
@@ -22,7 +23,7 @@ final class ConfirmServerEndpoint
 
     /**
      * @param ServerRequestInterface $request
-     * @param callable               $next
+     * @param callable $next
      * @psalm-param callable(ServerRequestInterface):(ResponseInterface|PromiseInterface) $next
      *
      * @return ResponseInterface|PromiseInterface

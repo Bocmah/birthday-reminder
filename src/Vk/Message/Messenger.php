@@ -26,7 +26,7 @@ final class Messenger
         ])
             ->then(
                 null,
-                static function (FailedToCallVkApiMethod $exception) {
+                static function (FailedToCallVkApiMethod $exception): void {
                     throw FailedToSendMessage::because($exception->getMessage());
                 }
             );
