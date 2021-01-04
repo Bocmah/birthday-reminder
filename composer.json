@@ -45,6 +45,7 @@
     "scripts": {
         "phpunit": "@php vendor/bin/phpunit",
         "phpcs": "@php vendor/bin/phpcs --report=full",
+        "php-cs-fixer": "@php vendor/bin/php-cs-fixer fix",
         "infection": "@php vendor/bin/infection --min-msi=70 --threads=4",
         "psalm": "@php vendor/bin/psalm --show-info=true --threads=4",
         "psalm-ci": "@php vendor/bin/psalm --show-info=true --output-format=github --threads=4",
