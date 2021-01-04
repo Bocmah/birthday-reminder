@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk\User;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
 use React\EventLoop\Factory;
+use Tests\TestCaseWithPromisesHelpers;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\Api\FailedToCallVkApiMethod;
 use Vkbd\Vk\Api\VkApiInterface;
@@ -19,7 +19,7 @@ use function Clue\React\Block\await;
 use function React\Promise\reject;
 use function React\Promise\resolve;
 
-final class UserRetrieverTest extends TestCase
+final class UserRetrieverTest extends TestCaseWithPromisesHelpers
 {
     /**
      * @throws Exception
@@ -65,30 +65,17 @@ final class UserRetrieverTest extends TestCase
     public function test_it_rejects_on_error(): void
     {
         $vkApi = $this->createMock(VkApiInterface::class);
-
-        $apiError = 'API is on maintenance';
         $vkApi
             ->method('callMethod')
             ->willReturn(
                 reject(
-                    new FailedToCallVkApiMethod($apiError)
+                    new FailedToCallVkApiMethod('API is on maintenance')
                 )
             );
 
-        try {
-            await(
-                (new UserRetriever($vkApi))->retrieve(new NumericVkId(134)),
-                Factory::create(),
-            );
-        } catch (FailedToRetrieveUser $exception) {
-            self::assertEquals(
-                "Failed to retrieve user. Reason: $apiError",
-                $exception->getMessage()
-            );
-
-            return;
-        }
-
-        self::fail('Failed to assert that retrieve rejects with ' . FailedToRetrieveUser::class);
+        $this->assertRejectsWith(
+            (new UserRetriever($vkApi))->retrieve(new NumericVkId(134)),
+            FailedToRetrieveUser::class,
+        );
     }
 }

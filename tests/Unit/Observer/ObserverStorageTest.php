@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Observer;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
 use React\EventLoop\Factory;
 use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
+use Tests\TestCaseWithPromisesHelpers;
 use Vkbd\Observer\Observer;
 use Vkbd\Observer\ObserverAlreadyExists;
 use Vkbd\Observer\ObserverId;
@@ -20,16 +20,10 @@ use Vkbd\Vk\User\NumericVkId;
 use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
-final class ObserverStorageTest extends TestCase
+final class ObserverStorageTest extends TestCaseWithPromisesHelpers
 {
-    /** @noinspection BadExceptionsProcessingInspection */
-    /**
-     * @throws Exception
-     */
     public function test_it_checks_if_observer_already_exists(): void
     {
-        $this->expectNotToPerformAssertions();
-
         $vkId = new NumericVkId(25);
         $fullName = new FullName('John', 'Doe');
         $queryResult = new QueryResult();
@@ -42,17 +36,9 @@ final class ObserverStorageTest extends TestCase
 
         $storage = new ObserverStorage($connection);
 
-        $loop = Factory::create();
-
-        try {
-            /** @var Observer $result */
-            await($storage->create($vkId, $fullName), $loop);
-        } catch (ObserverAlreadyExists $exception) {
-            return;
-        }
-
-        self::fail(
-            'Failed to assert that ObserverStorage::create() will throw an exception when observer already exists'
+        $this->assertRejectsWith(
+            $storage->create($vkId, $fullName),
+            ObserverAlreadyExists::class,
         );
     }
 
@@ -141,14 +127,8 @@ final class ObserverStorageTest extends TestCase
         );
     }
 
-    /** @noinspection BadExceptionsProcessingInspection */
-    /**
-     * @throws Exception
-     */
     public function test_it_rejects_when_observer_was_not_found(): void
     {
-        $this->expectNotToPerformAssertions();
-
         $queryResult = new QueryResult();
         $queryResult->resultRows = [];
 
@@ -159,16 +139,9 @@ final class ObserverStorageTest extends TestCase
 
         $storage = new ObserverStorage($connection);
 
-        $loop = Factory::create();
-
-        try {
-            await($storage->findByVkId(new NumericVkId(5)), $loop);
-        } catch (ObserverWasNotFound $exception) {
-            return;
-        }
-
-        self::fail(
-            'Failed to assert that ObserverStorage::findByVkId() will throw an exception when observer was not found'
+        $this->assertRejectsWith(
+            $storage->findByVkId(new NumericVkId(5)),
+            ObserverWasNotFound::class,
         );
     }
 }

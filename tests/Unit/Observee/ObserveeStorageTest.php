@@ -24,13 +24,8 @@ use function React\Promise\resolve;
 
 final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
 {
-    /**
-     * @noinspection BadExceptionsProcessingInspection
-     */
     public function test_it_checks_if_observee_already_exists(): void
     {
-        $this->expectNotToPerformAssertions();
-
         $observerId = new ObserverId(5);
         $vkId = new NumericVkId(10560);
         $fullName = new FullName('John', 'Doe');
@@ -46,19 +41,14 @@ final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserveeStorage($connection);
 
-        try {
-            $this->await($storage->create(
+        $this->assertRejectsWith(
+            $storage->create(
                 $observerId,
                 $vkId,
                 $fullName,
                 $birthdate
-            ));
-        } catch (ObserveeAlreadyExists $exception) {
-            return;
-        }
-
-        self::fail(
-            'Failed to assert that ObserveeStorage::create() will throw an exception when observee already exists'
+            ),
+            ObserveeAlreadyExists::class,
         );
     }
 
@@ -156,15 +146,8 @@ final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
         );
     }
 
-    /**
-     * @noinspection BadExceptionsProcessingInspection
-     *
-     * @throws Exception
-     */
     public function test_it_rejects_when_observee_was_not_found(): void
     {
-        $this->expectNotToPerformAssertions();
-
         $queryResult = new QueryResult();
         $queryResult->resultRows = [];
 
@@ -175,17 +158,9 @@ final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserveeStorage($connection);
 
-        try {
-            $this->await($storage->findByObserverIdAndVkId(
-                new ObserverId(10),
-                new NumericVkId(5)
-            ));
-        } catch (ObserveeWasNotFound $exception) {
-            return;
-        }
-
-        self::fail(
-            'Failed to assert that ObserveeStorage::findByObserverIdAndVkId() will throw an exception when observer was not found'
+        $this->assertRejectsWith(
+            $storage->findByObserverIdAndVkId(new ObserverId(10), new NumericVkId(5)),
+            ObserveeWasNotFound::class,
         );
     }
 }
