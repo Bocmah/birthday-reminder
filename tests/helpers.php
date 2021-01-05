@@ -14,9 +14,9 @@ if (!\function_exists('await')) {
     /**
      * @param PromiseInterface $promise
      *
-     * @return mixed
-     *
      * @throws Exception
+     *
+     * @return mixed
      *
      * @noinspection BadExceptionsProcessingInspection
      */
