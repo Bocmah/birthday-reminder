@@ -46,7 +46,9 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHP CS Fixer
-        run: bin/php-cs-fixer-ci.sh
+        run: |
+          chmod +x ./bin/php-cs-fixer-ci.sh
+          ./bin/php-cs-fixer-ci.sh
 
       - name: Run PHP Code Sniffer
         run: composer phpcs
