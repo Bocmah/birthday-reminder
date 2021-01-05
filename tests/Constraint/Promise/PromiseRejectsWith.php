@@ -6,12 +6,10 @@ namespace Tests\Constraint\Promise;
 
 use Exception;
 use PHPUnit\Framework\Constraint\Constraint;
-use React\EventLoop\Factory;
 use React\Promise\PromiseInterface;
-use React\Promise\Timer\TimeoutException;
 use RuntimeException;
 
-use function Clue\React\Block\await;
+use function Tests\await;
 
 final class PromiseRejectsWith extends Constraint
 {
@@ -33,9 +31,7 @@ final class PromiseRejectsWith extends Constraint
         }
 
         try {
-            await($other, Factory::create());
-        } catch (TimeoutException $exception) {
-            throw new RuntimeException('Loop timed out');
+            await($other);
         } catch (Exception $exception) {
             if ($exception instanceof $this->expectedException) {
                 return true;
