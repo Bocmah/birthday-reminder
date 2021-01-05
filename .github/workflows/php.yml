@@ -45,6 +45,9 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress
 
+      - name: Run PHP CS Fixer
+        run: bin/php-cs-fixer-ci.sh
+
       - name: Run PHP Code Sniffer
         run: composer phpcs
 
