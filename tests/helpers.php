@@ -20,8 +20,7 @@ if (!\function_exists('await')) {
      *
      * @noinspection BadExceptionsProcessingInspection
      */
-    function await(PromiseInterface $promise)
-    {
+    function await(PromiseInterface $promise) {
         try {
             return \Clue\React\Block\await($promise, Factory::create());
         } catch (TimeoutException $exception) {
