@@ -52,6 +52,6 @@ final class PromiseRejectsWith extends Constraint
 
     public function toString(): string
     {
-        return "rejects with {$this->expectedException}";
+        return "promise rejects with {$this->expectedException}";
     }
 }
