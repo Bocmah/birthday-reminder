@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Unit\Observer;
 
 use Exception;
-use React\EventLoop\Factory;
 use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
 use Tests\TestCaseWithPromisesHelpers;
@@ -17,7 +16,7 @@ use Vkbd\Observer\ObserverWasNotFound;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\User\NumericVkId;
 
-use function Clue\React\Block\await;
+use function Tests\await;
 use function React\Promise\resolve;
 
 final class ObserverStorageTest extends TestCaseWithPromisesHelpers
@@ -74,9 +73,7 @@ final class ObserverStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserverStorage($connection);
 
-        $loop = Factory::create();
-
-        await($storage->create($vkId, $fullName), $loop);
+        await($storage->create($vkId, $fullName));
     }
 
     public function test_it_gets_observer_by_vk_id(): void

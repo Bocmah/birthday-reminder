@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
-use React\EventLoop\Factory;
 use React\Promise\PromiseInterface;
 use Tests\Constraint\Promise\PromiseRejectsWith;
 use Tests\Constraint\Promise\PromiseResolvesWith;
-
-use function Clue\React\Block\await;
 
 abstract class TestCaseWithPromisesHelpers extends TestCase
 {
@@ -33,17 +29,5 @@ abstract class TestCaseWithPromisesHelpers extends TestCase
     public function assertRejectsWith(PromiseInterface $promise, string $exception, string $message = ''): void
     {
         self::assertThat($promise, new PromiseRejectsWith($exception), $message);
-    }
-
-    /**
-     * @param PromiseInterface $promise
-     *
-     * @throws Exception
-     *
-     * @return mixed
-     */
-    public function await(PromiseInterface $promise)
-    {
-        return await($promise, Factory::create());
     }
 }

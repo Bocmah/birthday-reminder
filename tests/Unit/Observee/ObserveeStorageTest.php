@@ -19,6 +19,7 @@ use Vkbd\Person\FullName;
 use Vkbd\Vk\User\NumericVkId;
 
 use function React\Promise\resolve;
+use function Tests\await;
 
 final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
 {
@@ -50,6 +51,9 @@ final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
         );
     }
 
+    /**
+     * @throws Exception
+     */
     public function test_it_passes_insert_statement_to_connection(): void
     {
         $observerId = new ObserverId(5);
@@ -84,7 +88,7 @@ final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserveeStorage($connection);
 
-        $this->await($storage->create(
+        await($storage->create(
             $observerId,
             $vkId,
             $fullName,
