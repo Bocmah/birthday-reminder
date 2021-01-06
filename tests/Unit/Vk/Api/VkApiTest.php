@@ -5,15 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk\Api;
 
 use Exception;
-use React\EventLoop\Factory;
 use React\Http\Browser;
 use React\Http\Message\Response;
 use Tests\TestCaseWithPromisesHelpers;
 use Vkbd\Vk\Api\Config;
-use Vkbd\Vk\Api\FailedToCallVkApiMethod;
 use Vkbd\Vk\Api\VkApi;
 
-use function Clue\React\Block\await;
 use function React\Promise\reject;
 use function React\Promise\resolve;
 
@@ -78,21 +75,11 @@ final class VkApiTest extends TestCaseWithPromisesHelpers
                 )
             );
 
-        try {
-            await(
-                (new VkApi($config, $browser))
-                    ->callMethod(self::TEST_METHOD, $this->createParameters()),
-                Factory::create()
-            );
-        } catch (FailedToCallVkApiMethod $exception) {
-            self::assertEquals(
-                "Failed to call VK api. Received unexpected status code $responseCode",
-                $exception->getMessage(),
-            );
-            return;
-        }
-
-        self::fail('Failed to assert that callMethod rejects with ' . FailedToCallVkApiMethod::class);
+        $this->assertRejectsWithExceptionMessage(
+            (new VkApi($config, $browser))
+                ->callMethod(self::TEST_METHOD, $this->createParameters()),
+            "Failed to call VK api. Received unexpected status code $responseCode",
+        );
     }
 
     /**
@@ -109,21 +96,11 @@ final class VkApiTest extends TestCaseWithPromisesHelpers
             ->method('get')
             ->willReturn(reject(new Exception($error)));
 
-        try {
-            await(
-                (new VkApi($config, $browser))
-                    ->callMethod(self::TEST_METHOD, $this->createParameters()),
-                Factory::create()
-            );
-        } catch (FailedToCallVkApiMethod $exception) {
-            self::assertEquals(
-                'Failed to call method ' . self::TEST_METHOD . ". Reason: $error",
-                $exception->getMessage(),
-            );
-            return;
-        }
-
-        self::fail('Failed to assert that callMethod rejects with ' . FailedToCallVkApiMethod::class);
+        $this->assertRejectsWithExceptionMessage(
+            (new VkApi($config, $browser))
+                ->callMethod(self::TEST_METHOD, $this->createParameters()),
+            'Failed to call method ' . self::TEST_METHOD . ". Reason: $error",
+        );
     }
 
     private function createConfig(): Config

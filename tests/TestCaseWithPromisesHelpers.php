@@ -7,6 +7,7 @@ namespace Tests;
 use PHPUnit\Framework\TestCase;
 use React\Promise\PromiseInterface;
 use Tests\Constraint\Promise\PromiseRejectsWith;
+use Tests\Constraint\Promise\PromiseRejectsWithExceptionMessage;
 use Tests\Constraint\Promise\PromiseResolvesWith;
 
 abstract class TestCaseWithPromisesHelpers extends TestCase
@@ -29,5 +30,14 @@ abstract class TestCaseWithPromisesHelpers extends TestCase
     public function assertRejectsWith(PromiseInterface $promise, string $exception, string $message = ''): void
     {
         self::assertThat($promise, new PromiseRejectsWith($exception), $message);
+    }
+
+    public function assertRejectsWithExceptionMessage(PromiseInterface $promise, string $exceptionMessage, string $message = ''): void
+    {
+        self::assertThat(
+            $promise,
+            new PromiseRejectsWithExceptionMessage($exceptionMessage),
+            $message
+        );
     }
 }
