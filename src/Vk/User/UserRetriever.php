@@ -25,7 +25,7 @@ final class UserRetriever
      */
     public function retrieve($id): PromiseInterface
     {
-        $onFulfilled = function (array $user): User {
+        $onFulfilled = static function (array $user): User {
             /** @var array{id: int, first_name: string, last_name: string} $user */
 
             return new User(
