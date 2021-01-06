@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Constraint\Promise;
 
 use Exception;
-use InvalidArgumentException;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsEqual;
 use React\Promise\PromiseInterface;
+use Webmozart\Assert\Assert;
 
 use function Tests\await;
 
@@ -28,9 +28,7 @@ final class PromiseResolvesWith extends Constraint
     /** @noinspection BadExceptionsProcessingInspection */
     protected function matches($other): bool
     {
-        if (!($other instanceof PromiseInterface)) {
-            throw new InvalidArgumentException('Actual value is not a Promise');
-        }
+        Assert::isInstanceOf($other, PromiseInterface::class);
 
         try {
             /** @psalm-suppress MixedAssignment */

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Constraint\Promise;
 
 use Exception;
-use InvalidArgumentException;
 use PHPUnit\Framework\Constraint\Constraint;
 use React\Promise\PromiseInterface;
+use Webmozart\Assert\Assert;
 
 use function Tests\await;
 
@@ -26,9 +26,7 @@ final class PromiseRejectsWith extends Constraint
 
     protected function matches($other): bool
     {
-        if (!($other instanceof PromiseInterface)) {
-            throw new InvalidArgumentException('Actual value is not a Promise');
-        }
+        Assert::isInstanceOf($other, PromiseInterface::class);
 
         try {
             await($other);
