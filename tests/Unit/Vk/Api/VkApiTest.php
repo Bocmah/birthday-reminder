@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk\Api;
 
 use Exception;
-use PHPUnit\Framework\TestCase;
 use React\EventLoop\Factory;
 use React\Http\Browser;
 use React\Http\Message\Response;
+use Tests\TestCaseWithPromisesHelpers;
 use Vkbd\Vk\Api\Config;
 use Vkbd\Vk\Api\FailedToCallVkApiMethod;
 use Vkbd\Vk\Api\VkApi;
@@ -17,7 +17,7 @@ use function Clue\React\Block\await;
 use function React\Promise\reject;
 use function React\Promise\resolve;
 
-final class VkApiTest extends TestCase
+final class VkApiTest extends TestCaseWithPromisesHelpers
 {
     private const TEST_METHOD = 'messages.send';
 
@@ -51,13 +51,10 @@ final class VkApiTest extends TestCase
                 )
             );
 
-        /** @var array<string, mixed> $result */
-        $result = await(
+        $this->assertResolvesWith(
             (new VkApi($config, $browser))->callMethod(self::TEST_METHOD, $parameters),
-            Factory::create(),
+            $response,
         );
-
-        self::assertEquals($response, $result);
     }
 
     /**

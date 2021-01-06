@@ -9,11 +9,22 @@ use PHPUnit\Framework\TestCase;
 use React\EventLoop\Factory;
 use React\Promise\PromiseInterface;
 use Tests\Constraint\Promise\PromiseRejectsWith;
+use Tests\Constraint\Promise\PromiseResolvesWith;
 
 use function Clue\React\Block\await;
 
 abstract class TestCaseWithPromisesHelpers extends TestCase
 {
+    /**
+     * @param PromiseInterface $promise
+     * @param mixed $value
+     * @param string $message
+     */
+    public function assertResolvesWith(PromiseInterface $promise, $value, string $message = ''): void
+    {
+        self::assertThat($promise, new PromiseResolvesWith($value), $message);
+    }
+
     /**
      * @param PromiseInterface $promise
      * @param class-string $exception

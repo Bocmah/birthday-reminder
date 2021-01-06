@@ -6,7 +6,6 @@ namespace Tests\Unit\Observee;
 
 use DateTimeImmutable;
 use Exception;
-use React\EventLoop\Factory;
 use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
 use Tests\TestCaseWithPromisesHelpers;
@@ -19,7 +18,6 @@ use Vkbd\Observer\ObserverId;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\User\NumericVkId;
 
-use function Clue\React\Block\await;
 use function React\Promise\resolve;
 
 final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
@@ -129,20 +127,15 @@ final class ObserveeStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserveeStorage($connection);
 
-        $loop = Factory::create();
-
-        /** @var Observee $result */
-        $result = await($storage->findByObserverIdAndVkId($observerId, $vkId), $loop);
-
-        self::assertEquals(
+        $this->assertResolvesWith(
+            $storage->findByObserverIdAndVkId($observerId, $vkId),
             new Observee(
                 new ObserveeId((int) $rawObservee['id']),
                 $vkId,
                 new FullName($rawObservee['first_name'], $rawObservee['last_name']),
                 new DateTimeImmutable($rawObservee['birthdate']),
                 $observerId,
-            ),
-            $result
+            )
         );
     }
 

@@ -79,9 +79,6 @@ final class ObserverStorageTest extends TestCaseWithPromisesHelpers
         await($storage->create($vkId, $fullName), $loop);
     }
 
-    /**
-     * @throws Exception
-     */
     public function test_it_gets_observer_by_vk_id(): void
     {
         $rawVkId = 824703;
@@ -111,19 +108,14 @@ final class ObserverStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserverStorage($connection);
 
-        $loop = Factory::create();
-
-        /** @var Observer $result */
-        $result = await($storage->findByVkId($vkId), $loop);
-
-        self::assertEquals(
+        $this->assertResolvesWith(
+            $storage->findByVkId($vkId),
             new Observer(
                 new ObserverId((int) $rawObserver['id']),
                 $vkId,
                 new FullName($rawObserver['first_name'], $rawObserver['last_name']),
                 true,
             ),
-            $result
         );
     }
 
