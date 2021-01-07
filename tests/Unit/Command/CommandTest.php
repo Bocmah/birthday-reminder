@@ -5,23 +5,26 @@ declare(strict_types=1);
 namespace Tests\Unit\Command;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Command\Definition;
+use Vkbd\Command\Command;
 
-final class DefinitionTest extends TestCase
+final class CommandTest extends TestCase
 {
     /**
      * @param string $pattern
-     * @param string $command
+     * @param string $commandText
      * @param bool $expected
      *
      * @dataProvider matchProvider
      */
-    public function test_it_correctly_matches(string $pattern, string $command, bool $expected): void
+    public function test_it_correctly_matches(string $pattern, string $commandText, bool $expected): void
     {
-        $definition = new Definition($pattern, static function (): void {
-        });
+        /** @var Command $command */
+        $command = $this->getMockForAbstractClass(
+            Command::class,
+            [$pattern]
+        );
 
-        self::assertSame($expected, $definition->matches($command));
+        self::assertSame($expected, $command->matches($commandText));
     }
 
     /**

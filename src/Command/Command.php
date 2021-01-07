@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace Vkbd\Command;
 
-final class Definition
+use Vkbd\Vk\Message\IncomingMessage;
+
+abstract class Command
 {
     private string $pattern;
 
-    /** @var callable */
-    private $handler;
-
-    public function __construct(string $pattern, callable $handler)
+    public function __construct(string $pattern)
     {
         $this->pattern = $pattern;
-        $this->handler = $handler;
     }
 
     public function matches(string $value): bool
@@ -22,8 +20,5 @@ final class Definition
         return (bool) preg_match($this->pattern, $value);
     }
 
-    public function handler(): callable
-    {
-        return $this->handler;
-    }
+    abstract public function execute(IncomingMessage $message): Response;
 }
