@@ -14,7 +14,7 @@ use Vkbd\Observer\ObserverId;
 use Vkbd\Observer\ObserverStorage;
 use Vkbd\Observer\ObserverWasNotFound;
 use Vkbd\Person\FullName;
-use Vkbd\Vk\User\NumericVkId;
+use Vkbd\Vk\User\Id\NumericVkId;
 
 use function Tests\await;
 use function React\Promise\resolve;

@@ -8,6 +8,8 @@ use React\Promise\PromiseInterface;
 use Vkbd\Vk\Api\FailedToCallVkApiMethod;
 use Vkbd\Vk\Api\VkApiInterface;
 use Vkbd\Person\FullName;
+use Vkbd\Vk\User\Id\AlphanumericVkId;
+use Vkbd\Vk\User\Id\NumericVkId;
 
 final class UserRetriever
 {

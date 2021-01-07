@@ -11,7 +11,7 @@ use Vkbd\Vk\Api\VkApiInterface;
 use Vkbd\Vk\Message\FailedToSendMessage;
 use Vkbd\Vk\Message\Messenger;
 use Vkbd\Vk\Message\OutgoingMessage;
-use Vkbd\Vk\User\NumericVkId;
+use Vkbd\Vk\User\Id\NumericVkId;
 
 use function React\Promise\reject;
 use function React\Promise\resolve;

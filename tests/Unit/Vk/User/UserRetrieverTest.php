@@ -10,7 +10,7 @@ use Vkbd\Person\FullName;
 use Vkbd\Vk\Api\FailedToCallVkApiMethod;
 use Vkbd\Vk\Api\VkApiInterface;
 use Vkbd\Vk\User\FailedToRetrieveUser;
-use Vkbd\Vk\User\NumericVkId;
+use Vkbd\Vk\User\Id\NumericVkId;
 use Vkbd\Vk\User\User;
 use Vkbd\Vk\User\UserRetriever;
 

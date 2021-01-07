@@ -32,7 +32,6 @@ return PhpCsFixer\Config::create()
         'encoding' => true,
         'fopen_flag_order' => true,
         'fopen_flags' => ['b_mode' => false],
-        'final_class' => true,
         'final_static_access' => true,
         'full_opening_tag' => true,
         'fully_qualified_strict_types' => true,

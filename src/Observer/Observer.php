@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vkbd\Observer;
 
 use Vkbd\Person\FullName;
-use Vkbd\Vk\User\NumericVkId;
+use Vkbd\Vk\User\Id\NumericVkId;
 
 final class Observer
 {

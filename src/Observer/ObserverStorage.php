@@ -6,7 +6,7 @@ namespace Vkbd\Observer;
 
 use React\MySQL\ConnectionInterface;
 use React\Promise\PromiseInterface;
-use Vkbd\Vk\User\NumericVkId;
+use Vkbd\Vk\User\Id\NumericVkId;
 use Vkbd\Person\FullName;
 use React\MySQL\QueryResult;
 
