@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Vkbd\Observer;
 
+use Exception;
 use React\MySQL\ConnectionInterface;
 use React\Promise\PromiseInterface;
 use Vkbd\Vk\User\Id\NumericVkId;
@@ -59,10 +60,31 @@ final class ObserverStorage
     {
         return $this
             ->observerDoesNotExist($vkId)
-            ->then(fn () => $this->connection->query(
+            ->then(fn (): PromiseInterface => $this->connection->query(
                 'INSERT INTO observers (first_name, last_name, vk_id, should_always_be_notified) VALUES (?, ?, ?, ?)',
                 [$fullName->firstName(), $fullName->lastName(), $vkId->value(), $shouldAlwaysBeNotified],
-            ));
+            ))
+            ->then(
+                static function (QueryResult $queryResult) use ($vkId, $fullName, $shouldAlwaysBeNotified): Observer {
+                    if ($queryResult->insertId === null) {
+                        throw FailedToCreateObserver::because('Received null insert id');
+                    }
+
+                    if ($queryResult->insertId <= 0) {
+                        throw FailedToCreateObserver::because('Received non-positive insert id');
+                    }
+
+                    return new Observer(
+                        new ObserverId($queryResult->insertId),
+                        $vkId,
+                        $fullName,
+                        $shouldAlwaysBeNotified,
+                    );
+                },
+                static function (Exception $exception): void {
+                    throw FailedToCreateObserver::because($exception->getMessage());
+                },
+            );
     }
 
     private function observerDoesNotExist(NumericVkId $vkId): PromiseInterface

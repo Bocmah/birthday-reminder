@@ -9,14 +9,12 @@ use React\MySQL\ConnectionInterface;
 use React\MySQL\QueryResult;
 use Tests\TestCaseWithPromisesHelpers;
 use Vkbd\Observer\Observer;
-use Vkbd\Observer\ObserverAlreadyExists;
 use Vkbd\Observer\ObserverId;
 use Vkbd\Observer\ObserverStorage;
 use Vkbd\Observer\ObserverWasNotFound;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\User\Id\NumericVkId;
 
-use function Tests\await;
 use function React\Promise\resolve;
 
 final class ObserverStorageTest extends TestCaseWithPromisesHelpers
@@ -35,16 +33,16 @@ final class ObserverStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserverStorage($connection);
 
-        $this->assertRejectsWith(
+        $this->assertRejectsWithExceptionMessage(
             $storage->create($vkId, $fullName),
-            ObserverAlreadyExists::class,
+            'Observer already exists',
         );
     }
 
     /**
      * @throws Exception
      */
-    public function test_it_passes_insert_statement_to_connection(): void
+    public function test_it_passes_insert_statement_to_connection_and_returns_created_observer(): void
     {
         $vkId = new NumericVkId(25);
         $fullName = new FullName('John', 'Doe');
@@ -73,7 +71,40 @@ final class ObserverStorageTest extends TestCaseWithPromisesHelpers
 
         $storage = new ObserverStorage($connection);
 
-        await($storage->create($vkId, $fullName));
+        $this->assertResolvesWith(
+            $storage->create($vkId, $fullName),
+            new Observer(new ObserverId($observerId), $vkId, $fullName)
+        );
+    }
+
+    /**
+     * @dataProvider invalidInsertIds
+     *
+     * @param $insertId
+     * @param string $expectedExceptionMessage
+     */
+    public function test_it_rejects_on_receiving_invalid_insert_id(?int $insertId, string $expectedExceptionMessage): void
+    {
+        $vkId = new NumericVkId(25);
+        $fullName = new FullName('John', 'Doe');
+
+        $insertQueryResult = new QueryResult();
+        $insertQueryResult->insertId = $insertId;
+
+        $connection = $this->createMock(ConnectionInterface::class);
+        $connection
+            ->method('query')
+            ->willReturnOnConsecutiveCalls(
+                resolve(new QueryResult()),
+                resolve($insertQueryResult)
+            );
+
+        $storage = new ObserverStorage($connection);
+
+        $this->assertRejectsWithExceptionMessage(
+            $storage->create($vkId, $fullName),
+            $expectedExceptionMessage,
+        );
     }
 
     public function test_it_gets_observer_by_vk_id(): void
@@ -132,5 +163,17 @@ final class ObserverStorageTest extends TestCaseWithPromisesHelpers
             $storage->findByVkId(new NumericVkId(5)),
             ObserverWasNotFound::class,
         );
+    }
+
+    /**
+     * @return iterable<array>
+     */
+    public function invalidInsertIds(): iterable
+    {
+        return [
+            [null, 'Received null insert id'],
+            [-1, 'Received non-positive insert id'],
+            [0, 'Received non-positive insert id'],
+        ];
     }
 }
