@@ -6,7 +6,7 @@ namespace Vkbd\Vk\User;
 
 use RuntimeException;
 
-final class FailedToRetrieveUser extends RuntimeException
+class FailedToRetrieveUser extends RuntimeException
 {
     public static function because(string $reason): self
     {

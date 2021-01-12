@@ -8,6 +8,7 @@ use React\Promise\PromiseInterface;
 use Vkbd\Vk\Api\FailedToCallVkApiMethod;
 use Vkbd\Vk\Api\VkApiInterface;
 use Vkbd\Person\FullName;
+use Vkbd\Vk\Error;
 use Vkbd\Vk\User\Id\AlphanumericVkId;
 use Vkbd\Vk\User\Id\NumericVkId;
 
@@ -27,8 +28,16 @@ final class UserRetriever
      */
     public function retrieve($id): PromiseInterface
     {
-        $onFulfilled = static function (array $user): User {
-            /** @var array{id: int, first_name: string, last_name: string} $user */
+        $onFulfilled = function (array $user): User {
+            /** @var array{
+             *     id: int,
+             *     first_name: string,
+             *     last_name: string,
+             *     deactivated?: string
+             * } $user
+             */
+            $this->checkForErrors($user);
+            $this->checkIfUserIsDeactivated($user);
 
             return new User(
                 new NumericVkId($user['id']),
@@ -47,5 +56,38 @@ final class UserRetriever
                 ]
             )
             ->then($onFulfilled, $onRejected);
+    }
+
+    private function checkForErrors(array $response): void
+    {
+        /** @var array{error_code: int}|null $error */
+        $error = $response['error'] ?? null;
+
+        if ($error === null) {
+            return;
+        }
+
+        if (!isset($error['error_code'])) {
+            throw new UnknownError();
+        }
+
+        $invalidUserIdError = new Error(Error::INVALID_USER_ID);
+
+        if ($invalidUserIdError->is($error['error_code'])) {
+            throw new UserWasNotFound();
+        }
+
+        throw new UnknownError();
+    }
+
+    private function checkIfUserIsDeactivated(array $response): void
+    {
+        if (!isset($response['deactivated'])) {
+            return;
+        }
+
+        if (isset($response['first_name']) && $response['first_name'] === 'DELETED') {
+            throw new UserIsDeactivated();
+        }
     }
 }
