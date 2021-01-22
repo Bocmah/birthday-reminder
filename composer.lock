@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "242bc67b5bc7c9d599ac08cec5d30eb0",
+    "content-hash": "eabd2340bfc50ae5e5309773b0e06f29",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -3067,6 +3067,59 @@
                 "source": "https://github.com/amphp/byte-stream/tree/master"
             },
             "time": "2020-06-29T18:35:05+00:00"
+        },
+        {
+            "name": "bocmah/psalm-reactphp-promise-plugin",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bocmah/psalm-reactphp-promise-plugin.git",
+                "reference": "5dc24a1e16f7c5cc24816d7d9828dc6d7ede5d17"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bocmah/psalm-reactphp-promise-plugin/zipball/5dc24a1e16f7c5cc24816d7d9828dc6d7ede5d17",
+                "reference": "5dc24a1e16f7c5cc24816d7d9828dc6d7ede5d17",
+                "shasum": ""
+            },
+            "require": {
+                "vimeo/psalm": "^4.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.2",
+                "react/promise": "^2.8.0",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "default-branch": true,
+            "type": "psalm-plugin",
+            "extra": {
+                "psalm": {
+                    "pluginClass": "Bocmah\\PsalmReactPhpPromisePlugin\\Plugin"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bocmah\\PsalmReactPhpPromisePlugin\\": [
+                        "."
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Artem Trushkin",
+                    "email": "atrushkin1@gmail.com"
+                }
+            ],
+            "description": "Psalm plugin for react/promise",
+            "support": {
+                "issues": "https://github.com/Bocmah/psalm-reactphp-promise-plugin/issues",
+                "source": "https://github.com/Bocmah/psalm-reactphp-promise-plugin/tree/main"
+            },
+            "time": "2021-01-22T20:57:54+00:00"
         },
         {
             "name": "clue/block-react",
@@ -7544,8 +7597,9 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
+        "bocmah/psalm-reactphp-promise-plugin": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,

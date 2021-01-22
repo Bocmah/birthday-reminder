@@ -34,6 +34,7 @@
         ]
     },
     "require-dev": {
+        "bocmah/psalm-reactphp-promise-plugin": "9999999-dev",
         "clue/block-react": "^1.4",
         "friendsofphp/php-cs-fixer": "^2.16",
         "infection/infection": "^0.20.2",
@@ -50,10 +51,11 @@
         "phpunit": "@php vendor/bin/phpunit",
         "phpcs": "@php vendor/bin/phpcs --report=full",
         "php-cs-fixer": "@php vendor/bin/php-cs-fixer fix",
-        "infection": "@php vendor/bin/infection --min-msi=70 --threads=4",
+        "infection": "@php vendor/bin/infection --min-msi=20 --threads=4",
         "psalm": "@php vendor/bin/psalm --show-info=true --threads=4",
         "psalm-ci": "@php vendor/bin/psalm --show-info=true --output-format=github --threads=4",
         "migrate-generate": "@php vendor/bin/doctrine-migrations generate",
         "migrate": "@php vendor/bin/doctrine-migrations migrate"
-    }
+    },
+    "minimum-stability": "dev"
 }

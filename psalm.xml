@@ -7,11 +7,11 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="src" />
-        <directory name="tests" />
-        <file name="server.php" />
+        <directory name="src"/>
+        <directory name="tests"/>
+        <file name="server.php"/>
         <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
 
@@ -23,8 +23,12 @@
         </PropertyNotSetInConstructor>
         <TooManyTemplateParams>
             <errorLevel type="suppress">
-                <file name="src/Vk/Api/VkApi.php" />
+                <file name="src/Vk/Api/VkApi.php"/>
             </errorLevel>
         </TooManyTemplateParams>
     </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Bocmah\PsalmReactPhpPromisePlugin\Plugin"/>
+    </plugins>
 </psalm>
