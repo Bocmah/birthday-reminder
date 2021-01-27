@@ -30,5 +30,5 @@
 
     <plugins>
         <pluginClass class="Bocmah\PsalmReactPhpPromisePlugin\Plugin"/>
-    </plugins>
+    <pluginClass class="Bocmah\PsalmReactPhpMysqlPlugin\Plugin"/></plugins>
 </psalm>
