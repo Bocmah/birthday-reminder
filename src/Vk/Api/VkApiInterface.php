@@ -12,7 +12,7 @@ interface VkApiInterface
      * @param string $method
      * @param array<string, mixed> $parameters
      *
-     * @return PromiseInterface
+     * @return PromiseInterface<array<string, mixed>>
      */
     public function callMethod(string $method, array $parameters): PromiseInterface;
 }

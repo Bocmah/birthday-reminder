@@ -12,7 +12,7 @@ use Vkbd\Vk\Error;
 use Vkbd\Vk\User\Id\AlphanumericVkId;
 use Vkbd\Vk\User\Id\NumericVkId;
 
-final class UserRetriever
+class UserRetriever
 {
     private VkApiInterface $vkApi;
 
@@ -24,7 +24,7 @@ final class UserRetriever
     /**
      * @param AlphanumericVkId|NumericVkId $id
      *
-     * @return PromiseInterface
+     * @return PromiseInterface<User>
      */
     public function retrieve($id): PromiseInterface
     {

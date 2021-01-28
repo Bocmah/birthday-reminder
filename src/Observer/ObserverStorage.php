@@ -14,7 +14,7 @@ use React\MySQL\QueryResult;
 use function React\Promise\reject;
 use function React\Promise\resolve;
 
-final class ObserverStorage
+class ObserverStorage
 {
     private ConnectionInterface $connection;
 
@@ -23,6 +23,11 @@ final class ObserverStorage
         $this->connection = $connection;
     }
 
+    /**
+     * @param NumericVkId $vkId
+     *
+     * @return PromiseInterface<Observer>
+     */
     public function findByVkId(NumericVkId $vkId): PromiseInterface
     {
         $columns = 'id, first_name, last_name, vk_id, should_always_be_notified';
@@ -56,6 +61,13 @@ final class ObserverStorage
             });
     }
 
+    /**
+     * @param NumericVkId $vkId
+     * @param FullName $fullName
+     * @param bool $shouldAlwaysBeNotified
+     *
+     * @return PromiseInterface<Observer>
+     */
     public function create(NumericVkId $vkId, FullName $fullName, bool $shouldAlwaysBeNotified = true): PromiseInterface
     {
         return $this

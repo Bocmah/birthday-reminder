@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Vkbd\Command;
 
+use React\Promise\PromiseInterface;
 use Vkbd\Vk\Message\IncomingMessage;
 
 abstract class Command
@@ -20,5 +21,10 @@ abstract class Command
         return (bool) preg_match($this->pattern, $value);
     }
 
-    abstract public function execute(IncomingMessage $message): Response;
+    /**
+     * @param IncomingMessage $message
+     *
+     * @return PromiseInterface<Response>
+     */
+    abstract public function execute(IncomingMessage $message): PromiseInterface;
 }

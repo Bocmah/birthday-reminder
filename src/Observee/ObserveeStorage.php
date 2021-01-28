@@ -15,7 +15,7 @@ use Vkbd\Vk\User\Id\NumericVkId;
 use function React\Promise\reject;
 use function React\Promise\resolve;
 
-final class ObserveeStorage
+class ObserveeStorage
 {
     private ConnectionInterface $connection;
 
@@ -24,6 +24,12 @@ final class ObserveeStorage
         $this->connection = $connection;
     }
 
+    /**
+     * @param ObserverId $observerId
+     * @param NumericVkId $vkId
+     *
+     * @return PromiseInterface<Observee>
+     */
     public function findByObserverIdAndVkId(ObserverId $observerId, NumericVkId $vkId): PromiseInterface
     {
         $columns = 'id, first_name, last_name, vk_id, birthdate, observer_id';
