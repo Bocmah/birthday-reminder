@@ -54,7 +54,7 @@
         "php-cs-fixer": "@php vendor/bin/php-cs-fixer fix",
         "infection": "@php vendor/bin/infection --min-msi=20 --threads=4",
         "psalm": "@php vendor/bin/psalm --show-info=true --threads=4",
-        "psalm-ci": "@php vendor/bin/psalm --show-info=true --output-format=github --threads=4",
+        "psalm-ci": "@php vendor/bin/psalm --show-info=true --output-format=github --threads=4 --shepherd",
         "migrate-generate": "@php vendor/bin/doctrine-migrations generate",
         "migrate": "@php vendor/bin/doctrine-migrations migrate"
     }
