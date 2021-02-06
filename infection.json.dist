@@ -5,8 +5,10 @@
         ]
     },
     "logs": {
-        "text": "php://stderr"
-
+        "text": "php://stderr",
+        "badge": {
+            "branch": "main"
+        }
     },
     "mutators": {
         "@default": true,
