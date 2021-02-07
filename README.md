@@ -3,4 +3,6 @@
 
 # Birthday reminder bot for vk.com
 
+Work in progress.
+
 This bot will help you to never forget about your friends' birthdays.
