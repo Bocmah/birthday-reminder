@@ -117,8 +117,8 @@ final class AddObservee extends Command
                 }
             )
             ->then(
-                static fn (QueryResult $_) => Response::withTranslatableMessage('observee.created', ['vk_id' => $observeeVkId->value()]),
-                static fn (TranslatableException $exception) => new Response($exception)
+                static fn (QueryResult $_): Response => Response::withTranslatableMessage('observee.created', ['vk_id' => $observeeVkId->value()]),
+                static fn (TranslatableException $exception): Response => new Response($exception)
             );
     }
 
