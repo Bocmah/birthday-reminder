@@ -65,6 +65,14 @@ class ObserveeStorage
             });
     }
 
+    /**
+     * @param ObserverId $observerId
+     * @param NumericVkId $vkId
+     * @param FullName $fullName
+     * @param DateTimeImmutable $birthdate
+     *
+     * @return PromiseInterface<QueryResult>
+     */
     public function create(
         ObserverId $observerId,
         NumericVkId $vkId,
