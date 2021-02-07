@@ -8,14 +8,10 @@ use Vkbd\Vk\User\Id\NumericVkId;
 
 final class OutgoingMessage
 {
-    private NumericVkId $to;
-
-    private string $text;
-
-    public function __construct(NumericVkId $to, string $text)
-    {
-        $this->to = $to;
-        $this->text = $text;
+    public function __construct(
+        private NumericVkId $to,
+        private string $text
+    ) {
     }
 
     public function to(): NumericVkId

@@ -11,7 +11,10 @@
     <ini name="memory_limit" value="64M"/>
 
     <rule ref="PSR12">
+        <!-- Temporarily disabling scope indent since it is giving false positives on constructor property promotion -->
+        <exclude name="Generic.WhiteSpace.ScopeIndent"/>
         <exclude name="Generic.Files.LineLength"/>
+        <exclude name="PSR12.Operators.OperatorSpacing"/>
     </rule>
 
     <!-- We are using snake case for tests to make it easily distinguishable from regular methods -->

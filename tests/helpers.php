@@ -17,14 +17,12 @@ if (!\function_exists('await')) {
      * @throws Exception
      *
      * @return mixed
-     *
-     * @noinspection BadExceptionsProcessingInspection
      */
-    function await(PromiseInterface $promise)
+    function await(PromiseInterface $promise): mixed
     {
         try {
             return \Clue\React\Block\await($promise, Factory::create());
-        } catch (TimeoutException $exception) {
+        } catch (TimeoutException) {
             throw new RuntimeException('Loop timed out');
         }
     }

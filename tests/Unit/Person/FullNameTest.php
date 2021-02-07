@@ -33,9 +33,6 @@ final class FullNameTest extends TestCase
         new FullName('John', $name);
     }
 
-    /**
-     * @return iterable<string[]>
-     */
     public function invalidNames(): iterable
     {
         return [

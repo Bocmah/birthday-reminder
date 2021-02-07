@@ -9,24 +9,12 @@ use Vkbd\Vk\User\Id\NumericVkId;
 
 final class Observer
 {
-    private ObserverId $id;
-
-    private NumericVkId $vkId;
-
-    private FullName $fullName;
-
-    private bool $shouldAlwaysBeNotified;
-
     public function __construct(
-        ObserverId $id,
-        NumericVkId $vkId,
-        FullName $fullName,
-        bool $shouldAlwaysBeNotified = true
+        private ObserverId $id,
+        private NumericVkId $vkId,
+        private FullName $fullName,
+        private bool $shouldAlwaysBeNotified = true
     ) {
-        $this->id = $id;
-        $this->vkId = $vkId;
-        $this->fullName = $fullName;
-        $this->shouldAlwaysBeNotified = $shouldAlwaysBeNotified;
     }
 
     public function id(): ObserverId

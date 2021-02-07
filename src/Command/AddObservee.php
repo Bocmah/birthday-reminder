@@ -39,23 +39,13 @@ final class AddObservee extends Command
 
     private const COMMAND_FORMAT = 'add id DD.MM.YYYY';
 
-    private ObserverStorage $observerStorage;
-
-    private ObserveeStorage $observeeStorage;
-
-    private UserRetriever $userRetriever;
-
     public function __construct(
         string $pattern,
-        ObserverStorage $observerStorage,
-        ObserveeStorage $observeeStorage,
-        UserRetriever $userRetriever
+        private ObserverStorage $observerStorage,
+        private ObserveeStorage $observeeStorage,
+        private UserRetriever $userRetriever
     ) {
         parent::__construct($pattern);
-
-        $this->observerStorage = $observerStorage;
-        $this->observeeStorage = $observeeStorage;
-        $this->userRetriever = $userRetriever;
     }
 
     /**
@@ -72,15 +62,15 @@ final class AddObservee extends Command
                 'birthdate' => $birthdate,
                 'id' => $observeeVkId,
             ] = $this->parseMessage($message->text());
-        } catch (InvalidCommandFormat $exception) {
+        } catch (InvalidCommandFormat) {
             return resolve(
                 Response::withTranslatableMessage('validation.command.invalid_format', ['valid_format' => self::COMMAND_FORMAT])
             );
-        } catch (InvalidDateFormat $exception) {
+        } catch (InvalidDateFormat) {
             return resolve(
                 Response::withTranslatableMessage('validation.date.invalid_format', ['valid_format' => self::DATE_USER_FORMAT])
             );
-        } catch (InvalidVkId $exception) {
+        } catch (InvalidVkId) {
             return resolve(
                 Response::withTranslatableMessage('validation.vk_id.invalid_format')
             );
@@ -127,7 +117,7 @@ final class AddObservee extends Command
      *
      * @return PromiseInterface<User>
      */
-    private function retrieveObservee($observeeVkId): PromiseInterface
+    private function retrieveObservee(NumericVkId|AlphanumericVkId $observeeVkId): PromiseInterface
     {
         return $this->userRetriever
             ->retrieve($observeeVkId)
@@ -203,12 +193,7 @@ final class AddObservee extends Command
         ];
     }
 
-    /**
-     * @param string $rawId
-     *
-     * @return NumericVkId|AlphanumericVkId
-     */
-    private function extractId(string $rawId)
+    private function extractId(string $rawId): NumericVkId|AlphanumericVkId
     {
         if (is_numeric($rawId)) {
             return new NumericVkId((int) $rawId);

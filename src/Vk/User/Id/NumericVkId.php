@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace Vkbd\Vk\User\Id;
 
 use InvalidArgumentException;
+use Stringable;
 use Webmozart\Assert\Assert;
 
-final class NumericVkId
+final class NumericVkId implements Stringable
 {
     private int $id;
 
-    /** @noinspection BadExceptionsProcessingInspection */
     public function __construct(int $id)
     {
         try {
             Assert::greaterThanEq($id, 1);
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException) {
             throw new InvalidNumericVkId('VK id must be greater or equal to 1');
         }
 

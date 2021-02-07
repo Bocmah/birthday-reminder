@@ -11,14 +11,10 @@ use React\Promise\PromiseInterface;
 
 final class VkApi implements VkApiInterface
 {
-    private Config $config;
-
-    private Browser $browser;
-
-    public function __construct(Config $config, Browser $browser)
-    {
-        $this->config = $config;
-        $this->browser = $browser;
+    public function __construct(
+        private Config $config,
+        private Browser $browser
+    ) {
     }
 
     /**

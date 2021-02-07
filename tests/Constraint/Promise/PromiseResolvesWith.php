@@ -14,18 +14,11 @@ use function Tests\await;
 
 final class PromiseResolvesWith extends Constraint
 {
-    /** @var mixed */
-    private $expectedValue;
-
-    /**
-     * @param mixed $expectedValue
-     */
-    public function __construct($expectedValue)
-    {
-        $this->expectedValue = $expectedValue;
+    public function __construct(
+        private mixed $expectedValue
+    ) {
     }
 
-    /** @noinspection BadExceptionsProcessingInspection */
     protected function matches($other): bool
     {
         Assert::isInstanceOf($other, PromiseInterface::class);
@@ -33,7 +26,7 @@ final class PromiseResolvesWith extends Constraint
         try {
             /** @psalm-suppress MixedAssignment */
             $result = await($other);
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return false;
         }
 

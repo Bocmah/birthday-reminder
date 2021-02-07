@@ -8,14 +8,10 @@ use Vkbd\Vk\User\Id\NumericVkId;
 
 final class IncomingMessage
 {
-    private NumericVkId $from;
-
-    private string $text;
-
-    public function __construct(NumericVkId $from, string $text)
-    {
-        $this->from = $from;
-        $this->text = $text;
+    public function __construct(
+        private NumericVkId $from,
+        private string $text
+    ) {
     }
 
     public function from(): NumericVkId

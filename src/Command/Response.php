@@ -9,11 +9,8 @@ use Symfony\Contracts\Translation\TranslatableInterface;
 
 final class Response
 {
-    private TranslatableInterface $message;
-
-    public function __construct(TranslatableInterface $message)
+    public function __construct(private TranslatableInterface $message)
     {
-        $this->message = $message;
     }
 
     public static function withTranslatableMessage(string $message, array $parameters = []): self

@@ -11,14 +11,10 @@ use React\Promise\PromiseInterface;
 
 final class ConfirmServerEndpoint
 {
-    private string $confirmationToken;
-
-    private string $confirmationEventName;
-
-    public function __construct(string $confirmationToken, string $confirmationEventName)
-    {
-        $this->confirmationToken = $confirmationToken;
-        $this->confirmationEventName = $confirmationEventName;
+    public function __construct(
+        private string $confirmationToken,
+        private string $confirmationEventName
+    ) {
     }
 
     /**
@@ -28,7 +24,7 @@ final class ConfirmServerEndpoint
      *
      * @return ResponseInterface|PromiseInterface
      */
-    public function __invoke(ServerRequestInterface $request, callable $next)
+    public function __invoke(ServerRequestInterface $request, callable $next): PromiseInterface|ResponseInterface
     {
         if ($this->isConfirmationRequest($request)) {
             return new Response(200, [], $this->confirmationToken);

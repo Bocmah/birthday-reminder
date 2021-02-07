@@ -33,9 +33,6 @@ final class ObserverIdTest extends TestCase
         self::assertSame($validId, $id->value());
     }
 
-    /**
-     * @return iterable<int[]>
-     */
     public function invalidIdsProvider(): iterable
     {
         return [
@@ -44,9 +41,6 @@ final class ObserverIdTest extends TestCase
         ];
     }
 
-    /**
-     * @return iterable<int[]>
-     */
     public function validIdsProvider(): iterable
     {
         return [

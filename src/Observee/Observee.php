@@ -11,28 +11,13 @@ use Vkbd\Vk\User\Id\NumericVkId;
 
 final class Observee
 {
-    private ObserveeId $id;
-
-    private NumericVkId $vkId;
-
-    private FullName $fullName;
-
-    private DateTimeImmutable $birthdate;
-
-    private ObserverId $observerId;
-
     public function __construct(
-        ObserveeId $id,
-        NumericVkId $vkId,
-        FullName $fullName,
-        DateTimeImmutable $birthdate,
-        ObserverId $observerId
+        private ObserveeId $id,
+        private NumericVkId $vkId,
+        private FullName $fullName,
+        private DateTimeImmutable $birthdate,
+        private ObserverId $observerId
     ) {
-        $this->id = $id;
-        $this->vkId = $vkId;
-        $this->fullName = $fullName;
-        $this->birthdate = $birthdate;
-        $this->observerId = $observerId;
     }
 
     public function id(): ObserveeId

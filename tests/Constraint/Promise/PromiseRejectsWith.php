@@ -13,15 +13,12 @@ use function Tests\await;
 
 final class PromiseRejectsWith extends Constraint
 {
-    /** @var class-string */
-    private string $expectedException;
-
     /**
      * @param class-string $expectedException
      */
-    public function __construct(string $expectedException)
-    {
-        $this->expectedException = $expectedException;
+    public function __construct(
+        private string $expectedException
+    ) {
     }
 
     protected function matches($other): bool

@@ -20,7 +20,7 @@ final class DecodeJsonRequest
      *
      * @return PromiseInterface|ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, callable $next)
+    public function __invoke(ServerRequestInterface $request, callable $next): PromiseInterface|ResponseInterface
     {
         $contentType = $request->getHeaderLine('Content-type');
         if ($contentType === 'application/json') {

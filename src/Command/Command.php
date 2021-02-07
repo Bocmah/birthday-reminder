@@ -9,11 +9,8 @@ use Vkbd\Vk\Message\IncomingMessage;
 
 abstract class Command
 {
-    private string $pattern;
-
-    public function __construct(string $pattern)
+    public function __construct(private string $pattern)
     {
-        $this->pattern = $pattern;
     }
 
     public function matches(string $value): bool

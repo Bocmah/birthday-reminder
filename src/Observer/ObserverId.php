@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Vkbd\Observer;
 
+use Stringable;
 use Webmozart\Assert\Assert;
 
-final class ObserverId
+final class ObserverId implements Stringable
 {
     private int $id;
 

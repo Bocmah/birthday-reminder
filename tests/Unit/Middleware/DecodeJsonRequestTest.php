@@ -6,6 +6,8 @@ namespace Tests\Unit\Middleware;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use React\Http\Message\Response;
 use React\Http\Message\ServerRequest;
 use Vkbd\Middleware\DecodeJsonRequest;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,16 +29,15 @@ final class DecodeJsonRequestTest extends TestCase
             ->withBody(stream_for($jsonBody));
 
         $middleware = new DecodeJsonRequest();
-        /**
-         * @var ServerRequestInterface $requestWithDecodedBody
-         * @psalm-suppress InvalidArgument
-         */
-        $requestWithDecodedBody = $middleware(
-            $request,
-            static fn (ServerRequestInterface $request): ServerRequestInterface => $request
-        );
 
-        self::assertEquals($body, $requestWithDecodedBody->getParsedBody());
+        $middleware(
+            $request,
+            static function (ServerRequestInterface $request) use ($body): ResponseInterface {
+                self::assertEquals($body, $request->getParsedBody());
+
+                return new Response();
+            }
+        );
     }
 
     /**
@@ -52,16 +53,15 @@ final class DecodeJsonRequestTest extends TestCase
             ->withBody(stream_for($jsonBody));
 
         $middleware = new DecodeJsonRequest();
-        /**
-         * @var ServerRequestInterface $requestAfterMiddleware
-         * @psalm-suppress InvalidArgument
-         */
-        $requestAfterMiddleware = $middleware(
-            $request,
-            static fn (ServerRequestInterface $request): ServerRequestInterface => $request
-        );
 
-        self::assertEquals($jsonBody, $requestAfterMiddleware->getBody());
-        self::assertNull($requestAfterMiddleware->getParsedBody());
+        $middleware(
+            $request,
+            static function (ServerRequestInterface $request) use ($jsonBody): ResponseInterface {
+                self::assertEquals($jsonBody, $request->getBody());
+                self::assertNull($request->getParsedBody());
+
+                return new Response();
+            }
+        );
     }
 }

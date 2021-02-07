@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Vkbd\Vk;
 
 use InvalidArgumentException;
+use Stringable;
 
-final class Event
+final class Event implements Stringable
 {
     public const CONFIRMATION = 'confirmation';
 

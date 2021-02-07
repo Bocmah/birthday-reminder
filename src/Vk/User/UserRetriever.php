@@ -14,11 +14,8 @@ use Vkbd\Vk\User\Id\NumericVkId;
 
 class UserRetriever
 {
-    private VkApiInterface $vkApi;
-
-    public function __construct(VkApiInterface $vkApi)
+    public function __construct(private VkApiInterface $vkApi)
     {
-        $this->vkApi = $vkApi;
     }
 
     /**
@@ -26,7 +23,7 @@ class UserRetriever
      *
      * @return PromiseInterface<User>
      */
-    public function retrieve($id): PromiseInterface
+    public function retrieve(NumericVkId|AlphanumericVkId $id): PromiseInterface
     {
         $onFulfilled = function (array $user): User {
             /** @var array{

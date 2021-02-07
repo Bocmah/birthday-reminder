@@ -12,12 +12,7 @@ use Tests\Constraint\Promise\PromiseResolvesWith;
 
 abstract class TestCaseWithPromisesHelpers extends TestCase
 {
-    /**
-     * @param PromiseInterface $promise
-     * @param mixed $value
-     * @param string $message
-     */
-    public function assertResolvesWith(PromiseInterface $promise, $value, string $message = ''): void
+    public function assertResolvesWith(PromiseInterface $promise, mixed $value, string $message = ''): void
     {
         self::assertThat($promise, new PromiseResolvesWith($value), $message);
     }

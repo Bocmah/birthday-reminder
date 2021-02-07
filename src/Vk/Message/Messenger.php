@@ -10,11 +10,8 @@ use Vkbd\Vk\Api\VkApiInterface;
 
 final class Messenger
 {
-    private VkApiInterface $vkApi;
-
-    public function __construct(VkApiInterface $vkApi)
+    public function __construct(private VkApiInterface $vkApi)
     {
-        $this->vkApi = $vkApi;
     }
 
     public function send(OutgoingMessage $message): PromiseInterface

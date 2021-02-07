@@ -12,15 +12,12 @@ use Vkbd\Vk\Event;
 
 final class RejectUnsupportedEvents
 {
-    /** @var Event[] */
-    private array $supportedEvents;
-
     /**
      * @param Event[] $supportedEvents
      */
-    public function __construct(array $supportedEvents)
-    {
-        $this->supportedEvents = $supportedEvents;
+    public function __construct(
+        private array $supportedEvents
+    ) {
     }
 
     /**
@@ -30,7 +27,7 @@ final class RejectUnsupportedEvents
      *
      * @return ResponseInterface|PromiseInterface
      */
-    public function __invoke(ServerRequestInterface $request, callable $next)
+    public function __invoke(ServerRequestInterface $request, callable $next): ResponseInterface|PromiseInterface
     {
         /** @var array $body */
         $body = $request->getParsedBody();

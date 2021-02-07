@@ -11,12 +11,11 @@ final class AlphanumericVkId
 {
     private string $id;
 
-    /** @noinspection BadExceptionsProcessingInspection */
     public function __construct(string $id)
     {
         try {
             Assert::alnum($id);
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException) {
             throw new InvalidAlphanumericVkId('VK id must be an alphanumeric string');
         }
 

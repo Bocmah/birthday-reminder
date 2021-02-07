@@ -1,4 +1,4 @@
-FROM php:7.4
+FROM php:8
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils \

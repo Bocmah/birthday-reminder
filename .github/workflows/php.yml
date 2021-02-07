@@ -11,13 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
 
-    strategy:
-      matrix:
-        php-versions: ['7.4', '8.0']
-        include:
-          - php-version: '8.0'
-            experimental: true
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,7 +18,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: '8.0'
           extensions: mysqli, pdo_mysql, pcntl
           coverage: pcov
 

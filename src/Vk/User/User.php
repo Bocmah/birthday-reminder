@@ -9,14 +9,10 @@ use Vkbd\Vk\User\Id\NumericVkId;
 
 final class User
 {
-    private NumericVkId $id;
-
-    private FullName $fullName;
-
-    public function __construct(NumericVkId $id, FullName $fullName)
-    {
-        $this->id = $id;
-        $this->fullName = $fullName;
+    public function __construct(
+        private NumericVkId $id,
+        private FullName $fullName
+    ) {
     }
 
     public function id(): NumericVkId

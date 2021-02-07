@@ -16,11 +16,8 @@ use function React\Promise\resolve;
 
 class ObserverStorage
 {
-    private ConnectionInterface $connection;
-
-    public function __construct(ConnectionInterface $connection)
+    public function __construct(private ConnectionInterface $connection)
     {
-        $this->connection = $connection;
     }
 
     /**
