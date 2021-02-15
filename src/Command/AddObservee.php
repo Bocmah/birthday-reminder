@@ -31,11 +31,7 @@ use function React\Promise\resolve;
 
 final class AddObservee extends Command
 {
-    private const DATE_FORMAT = 'd.m.Y|';
-
     private const DATE_USER_FORMAT = 'DD.MM.YYYY';
-
-    private const DATE_SEPARATOR = '.';
 
     private const COMMAND_FORMAT = 'add id DD.MM.YYYY';
 
@@ -188,40 +184,8 @@ final class AddObservee extends Command
         }
 
         return [
-            'id' => $this->extractId($messageParts[1]),
-            'birthdate' => $this->extractDate($messageParts[2]),
+            'id' => extract_id($messageParts[1]),
+            'birthdate' => extract_date($messageParts[2]),
         ];
-    }
-
-    private function extractId(string $rawId): NumericVkId|AlphanumericVkId
-    {
-        if (is_numeric($rawId)) {
-            return new NumericVkId((int) $rawId);
-        }
-
-        return new AlphanumericVkId($rawId);
-    }
-
-    private function extractDate(string $rawDate): DateTimeImmutable
-    {
-        $splitDate = explode(self::DATE_SEPARATOR, $rawDate);
-
-        if (\count($splitDate) !== 3) {
-            throw new InvalidDateFormat();
-        }
-
-        [$day, $month, $year] = $splitDate;
-
-        if (!checkdate((int) $month, (int) $day, (int) $year)) {
-            throw new InvalidDateFormat();
-        }
-
-        $date = DateTimeImmutable::createFromFormat(self::DATE_FORMAT, $rawDate);
-
-        if ($date === false) {
-            throw new InvalidDateFormat();
-        }
-
-        return $date;
     }
 }
