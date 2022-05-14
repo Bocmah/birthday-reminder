@@ -26,7 +26,6 @@
             "ignore": [
                 "Vkbd\\Observer\\Observer",
                 "Vkbd\\Person\\FullName",
-                "Vkbd\\Command\\Definition",
                 "Vkbd\\Observee\\Observee"
             ]
         }

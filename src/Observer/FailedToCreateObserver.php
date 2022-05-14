@@ -10,6 +10,6 @@ final class FailedToCreateObserver extends RuntimeException
 {
     public static function because(string $reason): self
     {
-        return new self("Failed top create observer. Reason: $reason");
+        return new self("Failed to create observer. Reason: $reason");
     }
 }
