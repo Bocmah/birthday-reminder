@@ -15,4 +15,4 @@ RUN chown -R www-data:www-data .
 
 USER www-data
 
-CMD ["/usr/bin/rr", "serve", "-d", "-c", ".rr.yaml"]
+CMD ["/usr/bin/rr", "serve", "-d", "-c", ".rr.dev.yaml"]

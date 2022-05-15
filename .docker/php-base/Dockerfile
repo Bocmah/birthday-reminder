@@ -24,7 +24,7 @@ RUN setup-timezone -z "Europe/Moscow"
 # Reset all configs
 RUN rm $PHP_INI_DIR/conf.d/*
 
-COPY .docker/base/conf.d/ $PHP_INI_DIR/conf.d/
+COPY .docker/php-base/conf.d/ $PHP_INI_DIR/conf.d/
 
 # Composer section
 ENV COMPOSER_HOME /var/composer

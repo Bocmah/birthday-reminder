@@ -25,6 +25,15 @@ up: ## Start services
 down: ## Stop services
 	docker-compose down
 
+restart: ## Restart services
+	docker-compose down && docker-compose up -d
+
+ps: ## Dump running services
+	@docker-compose ps
+
+php-logs: ## Show PHP container logs
+	@docker-compose logs php
+
 shell: ## Jump to PHP service shell
 	@docker-compose exec $(PHP_SERVICE) bash
 

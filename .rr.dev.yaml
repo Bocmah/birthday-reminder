@@ -15,7 +15,7 @@ http:
     forbid: [ ".php", ".htaccess" ]
 
 logs:
-  mode: production
+  mode: development
   channels:
     http:
       level: debug # Log all http requests, set to info to disable
@@ -23,4 +23,13 @@ logs:
       level: info # Everything written to worker stderr is logged
       mode: raw
     metrics:
-      level: error
+      level: debug
+
+reload:
+  enabled: true
+  interval: 1s
+  patterns: [".php", ".yaml"]
+  services:
+    http:
+      dirs: ["."]
+      recursive: true
