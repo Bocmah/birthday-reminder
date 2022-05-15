@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [[ -z $1 ]]
+then
+    echo "Please specify file name"
+    exit 1
+fi
+
+if [[ ! -e $1 ]]
+then
+    echo "File or directory $1 doesn't exist"
+    exit 2
+fi
+
+git log -n 1 --oneline $1 | cut -c 1-7

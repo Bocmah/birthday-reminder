@@ -1,0 +1,29 @@
+version: "2.7"
+
+server:
+  command: "php ./bin/worker"
+
+logs:
+  mode: raw
+  err_output: stdout
+  encoding: console
+  output: stdout
+  channels:
+    http:
+      mode: development
+      level: debug
+
+reload:
+  interval: 1s
+  patterns: [ ".php", ".yaml", ".yml", ".env" ]
+  services:
+    http:
+      recursive: true
+      ignore: [ "vendor" ]
+      dirs: [ "." ]
+
+http:
+  address: 0.0.0.0:8080
+  max_request_size: 10
+  pool:
+    debug: true

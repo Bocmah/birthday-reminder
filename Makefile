@@ -1,3 +1,15 @@
+PROJECT_NAME     ?= vkbd
+PROJECT_ROOT_DIR := $(realpath $(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
+
+# Image version and current commit hash:
+export VERSION   ?= $(shell git describe --all --dirty --always | sed -E 's/[a-z]+\///' | sed -E 's/\//-/')
+export GIT_SHA   := $(shell git rev-parse HEAD)
+export TIMESTAMP := $(shell date +"%Y%m%d%H%M%S")
+
+export DOCKER_BUILDKIT := 1
+
+include .docker/Makefile
+
 .DEFAULT_GOAL := help
 PHP_SERVICE = php
 
