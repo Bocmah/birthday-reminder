@@ -59,4 +59,4 @@ migrate-generate: ## Generate template migration
 	@docker-compose exec $(PHP_SERVICE) composer migrate-generate
 
 migrate: ## Run migrations
-	@docker-compose exec $(PHP_SERVICE) composer migrate
+	docker-compose exec $(PHP_SERVICE) composer migrate

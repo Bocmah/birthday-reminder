@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Migrations;
+namespace VkbdMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -16,19 +16,17 @@ final class Version20201224192904 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $sql = <<<'SQL'
+        $this->addSql(<<<SQL
             CREATE TABLE observees (
-              id INT UNSIGNED AUTO_INCREMENT NOT NULL,
-              first_name VARCHAR (255) NOT NULL,
+              first_name VARCHAR(255) NOT NULL,
               last_name VARCHAR(255) NOT NULL,
-              vk_id BIGINT UNSIGNED UNIQUE NOT NULL,
+              vk_id BIGINT NOT NULL,
               birthdate DATE NOT NULL,
-              observer_id INT UNSIGNED NOT NULL,
-              PRIMARY KEY(id),
-              FOREIGN KEY (observer_id) REFERENCES observers(id) ON DELETE CASCADE
+              observer_id BIGINT NOT NULL,
+              PRIMARY KEY(observer_id, vk_id),
+              FOREIGN KEY (observer_id) REFERENCES observers(vk_id) ON DELETE CASCADE
             )
-            SQL;
-        $this->addSql($sql);
+        SQL);
     }
 
     public function down(Schema $schema): void

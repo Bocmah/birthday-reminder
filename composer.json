@@ -13,7 +13,9 @@
         "php": "^8.1",
         "ext-json": "*",
         "baldinof/roadrunner-bundle": "^2.2",
-        "doctrine/migrations": "^3.0",
+        "doctrine/doctrine-bundle": "^2.6",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.12",
         "nyholm/psr7": "^1.5",
         "spiral/roadrunner": "^2.9",
         "symfony/dependency-injection": "^6.0",
@@ -60,7 +62,7 @@
         "infection": "@php vendor/bin/infection --min-msi=20 --threads=4",
         "psalm": "@php vendor/bin/psalm --show-info=true --threads=4",
         "psalm-ci": "@php vendor/bin/psalm --show-info=true --output-format=github --threads=4 --shepherd",
-        "migrate-generate": "@php vendor/bin/doctrine-migrations generate",
-        "migrate": "@php vendor/bin/doctrine-migrations migrate"
+        "migrate-generate": "@php bin/console doctrine:migrations:generate",
+        "migrate": "php bin/console doctrine:migrations:migrate"
     }
 }

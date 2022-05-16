@@ -1,0 +1,6 @@
+doctrine:
+  dbal:
+    url: '%env(resolve:DATABASE_URL)%'
+    server_version: 14
+  orm:
+    auto_generate_proxy_classes: true
