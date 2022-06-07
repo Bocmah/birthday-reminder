@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Vkbd\Person;
 
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Embeddable;
 use Webmozart\Assert\Assert;
 
+#[Embeddable]
 final class FullName
 {
-    private string $firstName;
+    #[Column]
+    private readonly string $firstName;
 
-    private string $lastName;
+    #[Column]
+    private readonly string $lastName;
 
     public function __construct(string $firstName, string $lastName)
     {
@@ -19,15 +24,5 @@ final class FullName
 
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-    }
-
-    public function firstName(): string
-    {
-        return $this->firstName;
-    }
-
-    public function lastName(): string
-    {
-        return $this->lastName;
     }
 }

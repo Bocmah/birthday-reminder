@@ -23,6 +23,11 @@ final class NumericVkId implements Stringable
         $this->id = $id;
     }
 
+    public function equals(NumericVkId $other): bool
+    {
+        return $this->id === $other->id;
+    }
+
     public function value(): int
     {
         return $this->id;

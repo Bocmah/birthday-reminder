@@ -13,8 +13,7 @@ RUN apk add --no-cache --update \
        libgcc \
        make \
        alpine-sdk \
-    && docker-php-ext-install pdo_pgsql \
-    && docker-php-ext-install sockets \
+    && docker-php-ext-install pdo_pgsql sockets \
     && apk del .build-deps
 
 WORKDIR ${WORKDIR}
