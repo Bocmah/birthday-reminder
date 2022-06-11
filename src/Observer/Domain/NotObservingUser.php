@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Observer;
+namespace Vkbd\Observer\Domain;
 
 use Vkbd\Vk\User\Id\NumericVkId;
 

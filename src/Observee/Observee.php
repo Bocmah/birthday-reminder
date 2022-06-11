@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Vkbd\Observer\Observer;
+use Vkbd\Observer\Domain\Observer;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\User\Id\NumericVkId;
 

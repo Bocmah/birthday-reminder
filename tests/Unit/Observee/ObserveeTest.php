@@ -6,7 +6,7 @@ namespace Tests\Unit\Observee;
 
 use PHPUnit\Framework\TestCase;
 use Vkbd\Observee\Observee;
-use Vkbd\Observer\Observer;
+use Vkbd\Observer\Domain\Observer;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\User\Id\NumericVkId;
 

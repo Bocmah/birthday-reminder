@@ -6,13 +6,13 @@ namespace Tests\Unit\Observer;
 
 use PHPUnit\Framework\TestCase;
 use Vkbd\Observee\Observee;
-use Vkbd\Observer\NotObservingUser;
-use Vkbd\Observer\Observer;
+use Vkbd\Observer\Domain\NotObservingUser;
+use Vkbd\Observer\Domain\Observer;
 use Vkbd\Person\FullName;
 use Vkbd\Vk\User\Id\NumericVkId;
 
 /**
- * @covers \Vkbd\Observer\Observer
+ * @covers \Vkbd\Observer\Domain\Observer
  */
 final class ObserverTest extends TestCase
 {
