@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Translation;
+namespace BirthdayReminder\Translation;
 
 use RuntimeException;
 use Symfony\Component\Translation\TranslatableMessage;

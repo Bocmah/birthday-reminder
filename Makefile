@@ -1,4 +1,4 @@
-PROJECT_NAME     ?= vkbd
+PROJECT_NAME     ?= birthday-reminder
 PROJECT_ROOT_DIR := $(realpath $(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
 
 # Image version and current commit hash:
@@ -15,9 +15,6 @@ PHP_SERVICE = php
 
 help: ## Show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-
-up-build: ## Build and start services
-	docker-compose up -d --build
 
 up: ## Start services
 	docker-compose up -d
@@ -36,9 +33,6 @@ php-logs: ## Show PHP container logs
 
 shell: ## Jump to PHP service shell
 	@docker-compose exec $(PHP_SERVICE) bash
-
-composer-update: ## Update all composer dependencies
-	@docker-compose exec $(PHP_SERVICE) composer update
 
 phpunit: ## Run tests
 	@docker-compose exec -T $(PHP_SERVICE) composer phpunit

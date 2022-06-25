@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Observer\Domain;
+namespace BirthdayReminder\Observer\Domain;
 
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Platform\PlatformUserId;
 
 final class NotObservingUser extends \RuntimeException
 {
-    public static function withId(NumericVkId $id): self
+    public static function withId(PlatformUserId $id): self
     {
         return new self(sprintf('Not observing user with id %s', $id));
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Vk;
+namespace BirthdayReminder\Vk;
 
 use InvalidArgumentException;
 use Stringable;

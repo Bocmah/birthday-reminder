@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Observer;
 
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use Vkbd\Observee\Observee;
-use Vkbd\Observer\Domain\NotObservingUser;
-use Vkbd\Observer\Domain\Observer;
-use Vkbd\Person\FullName;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Observee\Observee;
+use BirthdayReminder\Observer\Domain\NotObservingUser;
+use BirthdayReminder\Observer\Domain\Observer;
+use BirthdayReminder\Person\FullName;
+use BirthdayReminder\Platform\PlatformUserId;
 
 /**
- * @covers \Vkbd\Observer\Domain\Observer
+ * @covers \BirthdayReminder\Observer\Domain\Observer
  */
 final class ObserverTest extends TestCase
 {
-    private readonly NumericVkId $observeeId;
+    private readonly PlatformUserId $observeeId;
 
     private readonly FullName $observeeFullName;
 
-    private readonly \DateTimeImmutable $observeeBirthdate;
+    private readonly DateTimeImmutable $observeeBirthdate;
 
     /**
      * @test
@@ -77,13 +78,13 @@ final class ObserverTest extends TestCase
 
         $observer->startObserving($this->observeeId,$this->observeeFullName, $this->observeeBirthdate);
 
-        $newBirthdate = new \DateTimeImmutable('25.10.1990');
+        $newBirthdate = new DateTimeImmutable('25.10.1990');
 
         $observer->changeObserveeBirthdate($this->observeeId, $newBirthdate);
 
         $observees = array_filter(
             $observer->observees(),
-            fn (Observee $observee) => $observee->vkId->equals($this->observeeId),
+            fn (Observee $observee) => $observee->platformUserId->equals($this->observeeId),
         );
 
         $this->assertCount(1, $observees);
@@ -103,7 +104,7 @@ final class ObserverTest extends TestCase
         $this->expectException(NotObservingUser::class);
         $this->expectExceptionMessage(sprintf('Not observing user with id %s', $this->observeeId));
 
-        $observer->changeObserveeBirthdate($this->observeeId, new \DateTimeImmutable('12.12.2012'));
+        $observer->changeObserveeBirthdate($this->observeeId, new DateTimeImmutable('12.12.2012'));
     }
 
     /**
@@ -134,15 +135,15 @@ final class ObserverTest extends TestCase
     {
         parent::setUp();
 
-        $this->observeeId = new NumericVkId(333);
+        $this->observeeId = new PlatformUserId('333');
         $this->observeeFullName = new FullName('James', 'Dean');
-        $this->observeeBirthdate = new \DateTimeImmutable('10.12.1996');
+        $this->observeeBirthdate = new DateTimeImmutable('10.12.1996');
     }
 
     private function createObserver(): Observer
     {
         return new Observer(
-            new NumericVkId(123),
+            new PlatformUserId('123'),
             new FullName('John', 'Doe'),
         );
     }

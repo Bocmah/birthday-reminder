@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Vk\Message;
+namespace BirthdayReminder\Vk\Message;
 
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 final class OutgoingMessage
 {

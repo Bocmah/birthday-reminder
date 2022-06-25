@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Vk\Error;
+use BirthdayReminder\Vk\Error;
 
 final class ErrorTest extends TestCase
 {

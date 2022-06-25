@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Person;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Person\FullName;
+use BirthdayReminder\Person\FullName;
 
 final class FullNameTest extends TestCase
 {

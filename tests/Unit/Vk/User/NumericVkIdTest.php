@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk\User;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 final class NumericVkIdTest extends TestCase
 {

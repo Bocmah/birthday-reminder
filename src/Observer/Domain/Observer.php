@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Observer\Domain;
+namespace BirthdayReminder\Observer\Domain;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,15 +11,15 @@ use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
-use Vkbd\Observee\Observee;
-use Vkbd\Person\FullName;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Observee\Observee;
+use BirthdayReminder\Person\FullName;
+use BirthdayReminder\Platform\PlatformUserId;
 
 #[Entity]
 class Observer
 {
-    #[Id, Column(type: 'vk_id')]
-    private readonly NumericVkId $vkId;
+    #[Id, Column(type: 'platform_user_id')]
+    private readonly PlatformUserId $id;
 
     #[Embedded]
     private readonly FullName $fullName;
@@ -34,10 +34,10 @@ class Observer
     private bool $shouldAlwaysBeNotified = true;
 
     public function __construct(
-        NumericVkId $vkId,
+        PlatformUserId $id,
         FullName $fullName,
     ) {
-        $this->vkId = $vkId;
+        $this->id = $id;
         $this->fullName = $fullName;
         $this->observees = new ArrayCollection();
     }
@@ -55,33 +55,33 @@ class Observer
         return $this->shouldAlwaysBeNotified;
     }
 
-    public function startObserving(NumericVkId $vkId, FullName $fullName, \DateTimeImmutable $birthdate): void
+    public function startObserving(PlatformUserId $userId, FullName $fullName, \DateTimeImmutable $birthdate): void
     {
-        $this->observees->add(new Observee($this, $vkId, $fullName, $birthdate));
+        $this->observees->add(new Observee($this, $userId, $fullName, $birthdate));
     }
 
-    public function stopObserving(NumericVkId $vkId): void
+    public function stopObserving(PlatformUserId $userId): void
     {
         foreach ($this->observees as $key => $observee) {
-            if ($observee->vkId->equals($vkId)) {
+            if ($observee->platformUserId->equals($userId)) {
                 $this->observees->remove($key);
                 return;
             }
         }
 
-        throw NotObservingUser::withId($vkId);
+        throw NotObservingUser::withId($userId);
     }
 
-    public function changeObserveeBirthdate(NumericVkId $vkId, \DateTimeImmutable $newBirthdate): void
+    public function changeObserveeBirthdate(PlatformUserId $userId, \DateTimeImmutable $newBirthdate): void
     {
         foreach ($this->observees as $observee) {
-            if ($observee->vkId->equals($vkId)) {
+            if ($observee->platformUserId->equals($userId)) {
                 $observee->changeBirthdate($newBirthdate);
                 return;
             }
         }
 
-        throw NotObservingUser::withId($vkId);
+        throw NotObservingUser::withId($userId);
     }
 
     public function toggleNotifiability(): void

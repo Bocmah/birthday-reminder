@@ -1,6 +1,6 @@
 {
-    "name": "bocmah/vkbd",
-    "description": "Bot for vk.com which will help you to never forget about your friends birthdays again",
+    "name": "bocmah/birthday-reminder",
+    "description": "Birthday reminder",
     "type": "project",
     "authors": [
         {
@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Vkbd\\": "src"
+            "BirthdayReminder\\": "src"
         },
         "files": [
             "src/helpers.php"

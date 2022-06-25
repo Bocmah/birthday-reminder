@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Observer;
+namespace BirthdayReminder\Observer;
 
 use RuntimeException;
 use Throwable;

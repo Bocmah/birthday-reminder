@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Vk\Api;
+namespace BirthdayReminder\Vk\Api;
 
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;

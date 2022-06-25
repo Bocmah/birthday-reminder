@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Vk\User;
+namespace BirthdayReminder\Vk\User;
 
 use Throwable;
 

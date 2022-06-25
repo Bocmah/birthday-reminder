@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Date;
+namespace BirthdayReminder\Date;
 
 use RuntimeException;
 use Throwable;

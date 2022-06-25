@@ -1,3 +1,3 @@
 doctrine_migrations:
   migrations_paths:
-    'VkbdMigrations': '%kernel.project_dir%/migrations'
+    'BirthdayReminderMigrations': '%kernel.project_dir%/migrations'

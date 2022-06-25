@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Observee;
+namespace BirthdayReminder\Observee;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
@@ -10,9 +10,9 @@ use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Vkbd\Observer\Domain\Observer;
-use Vkbd\Person\FullName;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Observer\Domain\Observer;
+use BirthdayReminder\Person\FullName;
+use BirthdayReminder\Platform\PlatformUserId;
 
 #[Entity]
 final class Observee
@@ -20,8 +20,8 @@ final class Observee
     public function __construct(
         #[Id, ManyToOne(targetEntity: Observer::class, inversedBy: 'observees')]
         private readonly Observer $observer,
-        #[Id, Column(type: 'vk_id')]
-        public readonly NumericVkId $vkId,
+        #[Id, Column(type: 'platform_user_id')]
+        public readonly PlatformUserId $platformUserId,
         #[Embedded]
         private readonly FullName $fullName,
         #[Column(type: 'date')]

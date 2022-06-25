@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Vk\User;
+namespace BirthdayReminder\Vk\User;
 
-use Vkbd\Person\FullName;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Person\FullName;
+use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 final class User
 {

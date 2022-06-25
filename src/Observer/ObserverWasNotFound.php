@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Observer;
+namespace BirthdayReminder\Observer;
 
 use RuntimeException;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 final class ObserverWasNotFound extends RuntimeException
 {

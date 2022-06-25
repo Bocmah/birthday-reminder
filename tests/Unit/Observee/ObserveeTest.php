@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Observee;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Observee\Observee;
-use Vkbd\Observer\Domain\Observer;
-use Vkbd\Person\FullName;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Observee\Observee;
+use BirthdayReminder\Observer\Domain\Observer;
+use BirthdayReminder\Person\FullName;
+use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 /**
- * @covers \Vkbd\Observee\Observee
+ * @covers \BirthdayReminder\Observee\Observee
  */
 final class ObserveeTest extends TestCase
 {

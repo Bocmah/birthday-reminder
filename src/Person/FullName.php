@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Person;
+namespace BirthdayReminder\Person;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embeddable;

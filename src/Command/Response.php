@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vkbd\Command;
+namespace BirthdayReminder\Command;
 
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatableInterface;

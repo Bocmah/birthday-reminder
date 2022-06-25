@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Vkbd\Date\InvalidDateFormat;
-use Vkbd\Vk\User\Id\AlphanumericVkId;
-use Vkbd\Vk\User\Id\NumericVkId;
+use BirthdayReminder\Date\InvalidDateFormat;
+use BirthdayReminder\Vk\User\Id\AlphanumericVkId;
+use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 if (!function_exists('extract_date')) {
     function extract_date(string $rawDate, string $dateFormat = 'd.m.Y|', string $dateSeparator = '.'): DateTimeImmutable

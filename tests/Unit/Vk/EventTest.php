@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Vk\Event;
+use BirthdayReminder\Vk\Event;
 
 final class EventTest extends TestCase
 {
