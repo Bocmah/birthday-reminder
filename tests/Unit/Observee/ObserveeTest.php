@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Observee;
 
+use BirthdayReminder\Platform\PlatformUserId;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use BirthdayReminder\Observee\Observee;
 use BirthdayReminder\Observer\Domain\Observer;
 use BirthdayReminder\Person\FullName;
-use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 /**
  * @covers \BirthdayReminder\Observee\Observee
@@ -22,12 +23,12 @@ final class ObserveeTest extends TestCase
     {
         $observee = new Observee(
             $this->createMock(Observer::class),
-            new NumericVkId(123),
+            new PlatformUserId('123'),
             new FullName('James', 'Dean'),
-            new \DateTimeImmutable('10.10.1996'),
+            new DateTimeImmutable('10.10.1996'),
         );
 
-        $newBirthdate = new \DateTimeImmutable('12.10.1999');
+        $newBirthdate = new DateTimeImmutable('12.10.1999');
 
         $observee->changeBirthdate($newBirthdate);
 

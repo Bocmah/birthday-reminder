@@ -3,6 +3,6 @@ doctrine:
     url: '%env(resolve:DATABASE_URL)%'
     server_version: 14
     types:
-      vk_id: BirthdayReminder\Doctrine\Type\NumericVkId
+      platform_user_id: BirthdayReminder\Doctrine\Type\PlatformUserId
   orm:
     auto_generate_proxy_classes: true
