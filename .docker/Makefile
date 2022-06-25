@@ -13,7 +13,7 @@ build-php-base: ## Build PHP base image
 		-f $(DOCKER_ROOT_DIR)/php-base/Dockerfile \
 		$(PROJECT_ROOT_DIR)
 
-build-php-dev: ## Build PHP dev image
+build-php-dev: build-php-base ## Build PHP dev image
 	docker build \
 		--build-arg PHP_BASE_IMAGE=$(PROJECT_NAME)/php-base:$(PHP_BASE_IMAGE_SHA) \
 		-t $(PROJECT_NAME)/php-dev:$(PHP_DEV_IMAGE_SHA) \
