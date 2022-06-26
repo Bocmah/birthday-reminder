@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Platform;
+namespace Tests\Unit\Domain\User;
 
 use BirthdayReminder\Domain\User\UserId;
 use InvalidArgumentException;
@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \BirthdayReminder\Domain\User\UserId
  */
-final class PlatformUserIdTest extends TestCase
+final class UserIdTest extends TestCase
 {
     /**
      * @test

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Observee;
+namespace Tests\Unit\Domain\Observee;
 
 use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;

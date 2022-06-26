@@ -2,19 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Person;
+namespace Tests\Unit\Domain;
 
 use BirthdayReminder\Domain\FullName;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \BirthdayReminder\Domain\FullName
+ */
 final class FullNameTest extends TestCase
 {
     /**
+     * @test
      * @dataProvider invalidNames
-     *
-     * @param string $name
      */
-    public function test_it_can_not_be_created_with_invalid_first_name(string $name): void
+    public function canNotBeCreatedWithInvalidFirstName(string $name): void
     {
         $this->expectExceptionMessage('First name can only contain letters');
 
@@ -22,11 +24,10 @@ final class FullNameTest extends TestCase
     }
 
     /**
+     * @test
      * @dataProvider invalidNames
-     *
-     * @param string $name
      */
-    public function test_it_can_not_be_created_with_invalid_last_name(string $name): void
+    public function canNotBeCreatedWithInvalidLastName(string $name): void
     {
         $this->expectExceptionMessage('Last name can only contain letters');
 
