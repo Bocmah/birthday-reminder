@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Platform;
 
+use BirthdayReminder\Domain\User\UserId;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use BirthdayReminder\Platform\PlatformUserId;
 
 /**
- * @covers \BirthdayReminder\Platform\PlatformUserId
+ * @covers \BirthdayReminder\Domain\User\UserId
  */
 final class PlatformUserIdTest extends TestCase
 {
@@ -19,7 +19,7 @@ final class PlatformUserIdTest extends TestCase
      */
     public function successfulCreation(string $id): void
     {
-        $platformUserId = new PlatformUserId($id);
+        $platformUserId = new UserId($id);
 
         $this->assertSame($id, (string) $platformUserId);
     }
@@ -50,7 +50,7 @@ final class PlatformUserIdTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        new PlatformUserId($id);
+        new UserId($id);
     }
 
     /**

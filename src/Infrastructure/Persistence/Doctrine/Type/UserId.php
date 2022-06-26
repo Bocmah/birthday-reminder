@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Doctrine\Type;
+namespace BirthdayReminder\Infrastructure\Persistence\Doctrine\Type;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -12,15 +12,15 @@ final class PlatformUserId extends StringType
 {
     private const NAME = 'platform_user_id';
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): \BirthdayReminder\Platform\PlatformUserId
+    public function convertToPHPValue($value, AbstractPlatform $platform): \BirthdayReminder\Domain\Platform\UserId
     {
         $value = parent::convertToPHPValue($value, $platform);
 
-        return new \BirthdayReminder\Platform\PlatformUserId($value);
+        return new \BirthdayReminder\Domain\Platform\UserId($value);
     }
 
     /**
-     * @param \BirthdayReminder\Platform\PlatformUserId $value
+     * @param \BirthdayReminder\Domain\Platform\UserId $value
      * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): int

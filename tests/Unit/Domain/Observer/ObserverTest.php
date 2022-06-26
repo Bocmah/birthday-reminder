@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Observer;
 
+use BirthdayReminder\Domain\FullName;
+use BirthdayReminder\Domain\Observee\Observee;
+use BirthdayReminder\Domain\Observer\NotObservingUser;
+use BirthdayReminder\Domain\Observer\Observer;
+use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use BirthdayReminder\Observee\Observee;
-use BirthdayReminder\Observer\Domain\NotObservingUser;
-use BirthdayReminder\Observer\Domain\Observer;
-use BirthdayReminder\Person\FullName;
-use BirthdayReminder\Platform\PlatformUserId;
 
 /**
- * @covers \BirthdayReminder\Observer\Domain\Observer
+ * @covers \BirthdayReminder\Domain\Observer\Observer
  */
 final class ObserverTest extends TestCase
 {
-    private readonly PlatformUserId $observeeId;
+    private readonly UserId $observeeId;
 
     private readonly FullName $observeeFullName;
 
@@ -135,7 +135,7 @@ final class ObserverTest extends TestCase
     {
         parent::setUp();
 
-        $this->observeeId = new PlatformUserId('333');
+        $this->observeeId = new UserId('333');
         $this->observeeFullName = new FullName('James', 'Dean');
         $this->observeeBirthdate = new DateTimeImmutable('10.12.1996');
     }
@@ -143,7 +143,7 @@ final class ObserverTest extends TestCase
     private function createObserver(): Observer
     {
         return new Observer(
-            new PlatformUserId('123'),
+            new UserId('123'),
             new FullName('John', 'Doe'),
         );
     }

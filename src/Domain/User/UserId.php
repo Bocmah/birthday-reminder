@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Platform;
+namespace BirthdayReminder\Domain\Platform;
 
 use Stringable;
 use Webmozart\Assert\Assert;
 
-final class PlatformUserId implements Stringable
+final class UserId implements Stringable
 {
     private readonly string $id;
 
@@ -18,7 +18,7 @@ final class PlatformUserId implements Stringable
         $this->id = $id;
     }
 
-    public function equals(PlatformUserId $other): bool
+    public function equals(UserId $other): bool
     {
         return $this->id === $other->id;
     }

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Observee;
 
-use BirthdayReminder\Platform\PlatformUserId;
+use BirthdayReminder\Domain\FullName;
+use BirthdayReminder\Domain\Observee\Observee;
+use BirthdayReminder\Domain\Observer\Observer;
+use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
-use BirthdayReminder\Observee\Observee;
-use BirthdayReminder\Observer\Domain\Observer;
-use BirthdayReminder\Person\FullName;
 
 /**
- * @covers \BirthdayReminder\Observee\Observee
+ * @covers \BirthdayReminder\Domain\Observee\Observee
  */
 final class ObserveeTest extends TestCase
 {
@@ -23,7 +23,7 @@ final class ObserveeTest extends TestCase
     {
         $observee = new Observee(
             $this->createMock(Observer::class),
-            new PlatformUserId('123'),
+            new UserId('123'),
             new FullName('James', 'Dean'),
             new DateTimeImmutable('10.10.1996'),
         );
