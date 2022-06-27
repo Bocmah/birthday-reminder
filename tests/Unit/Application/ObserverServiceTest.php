@@ -9,6 +9,7 @@ use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observer\Observer;
+use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\User\User;
 use BirthdayReminder\Domain\User\UserId;
@@ -78,7 +79,7 @@ final class ObserverServiceTest extends TestCase
     /**
      * @test
      */
-    public function exceptionIsThrownWhenObserverWasNotFoundOnThePlatform(): void
+    public function canNotStartObservingBecauseObserverWasNotFoundOnThePlatform(): void
     {
         $this->expectException(ObserverWasNotFoundOnThePlatform::class);
         $this->expectExceptionMessage('Observer with user id non-existent-observer was not found on the platform');
@@ -93,7 +94,7 @@ final class ObserverServiceTest extends TestCase
     /**
      * @test
      */
-    public function exceptionIsThrownWhenObserveeWasNotFoundOnThePlatform(): void
+    public function canNotStartObservingBecauseObserveeWasNotFoundOnThePlatform(): void
     {
         $observer = ObserverMother::createObserverWithoutObservees();
 
@@ -106,6 +107,38 @@ final class ObserverServiceTest extends TestCase
             $observer->id,
             new UserId('non-existent-observee'),
             new DateTimeImmutable('05.05.1990'),
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function observerCanStopObserving(): void
+    {
+        $observer = ObserverMother::createObserverWithOneObservee();
+
+        $this->givenObserverExists($observer);
+
+        $observee = $observer->observees()[0];
+
+        $observer->stopObserving($observee->userId);
+
+        $observer = $this->observerRepository->findByUserId($observer->id);
+
+        $this->assertCount(0, $observer->observees());
+    }
+
+    /**
+     * @test
+     */
+    public function canNotStopObservingBecauseObserverWasNotFoundInTheSystem(): void
+    {
+        $this->expectException(ObserverWasNotFoundInTheSystem::class);
+        $this->expectExceptionMessage('Observer with user id non-existent-observer was not found in the system');
+
+        $this->observerService->stopObserving(
+            new UserId('non-existent-observer'),
+            new UserId('observee-id'),
         );
     }
 
