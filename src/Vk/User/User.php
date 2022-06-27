@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Vk\User;
 
-use BirthdayReminder\Person\FullName;
+use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Vk\User\Id\NumericVkId;
 
 final class User

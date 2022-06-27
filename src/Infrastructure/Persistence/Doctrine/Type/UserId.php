@@ -8,19 +8,19 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\StringType;
 
-final class PlatformUserId extends StringType
+final class UserId extends StringType
 {
-    private const NAME = 'platform_user_id';
+    private const NAME = 'user_id';
 
-    public function convertToPHPValue($value, AbstractPlatform $platform): \BirthdayReminder\Domain\Platform\UserId
+    public function convertToPHPValue($value, AbstractPlatform $platform): \BirthdayReminder\Domain\User\UserId
     {
         $value = parent::convertToPHPValue($value, $platform);
 
-        return new \BirthdayReminder\Domain\Platform\UserId($value);
+        return new \BirthdayReminder\Domain\User\UserId($value);
     }
 
     /**
-     * @param \BirthdayReminder\Domain\Platform\UserId $value
+     * @param \BirthdayReminder\Domain\User\UserId $value
      * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): int

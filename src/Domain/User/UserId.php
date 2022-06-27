@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Domain\Platform;
+namespace BirthdayReminder\Domain\User;
 
 use Stringable;
 use Webmozart\Assert\Assert;

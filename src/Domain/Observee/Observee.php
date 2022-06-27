@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Observee;
+namespace BirthdayReminder\Domain\Observee;
 
+use BirthdayReminder\Domain\FullName;
+use BirthdayReminder\Domain\Observer\Observer;
+use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Embedded;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
-use BirthdayReminder\Observer\Domain\Observer;
-use BirthdayReminder\Person\FullName;
-use BirthdayReminder\Platform\PlatformUserId;
 
 #[Entity]
 final class Observee
@@ -20,10 +20,10 @@ final class Observee
     public function __construct(
         #[Id, ManyToOne(targetEntity: Observer::class, inversedBy: 'observees')]
         private readonly Observer $observer,
-        #[Id, Column(type: 'platform_user_id')]
-        public readonly PlatformUserId $platformUserId,
+        #[Id, Column(type: 'user_id')]
+        public readonly UserId    $userId,
         #[Embedded]
-        private readonly FullName $fullName,
+        public readonly FullName $fullName,
         #[Column(type: 'date')]
         private DateTimeImmutable $birthdate,
     ) {

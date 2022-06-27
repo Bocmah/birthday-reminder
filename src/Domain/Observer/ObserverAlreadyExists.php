@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Observer;
+namespace BirthdayReminder\Domain\Observer;
 
 use RuntimeException;
 use Throwable;
