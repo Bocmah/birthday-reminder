@@ -6,8 +6,8 @@ namespace Tests\Unit\Domain\Observer;
 
 use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
+use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
-use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +28,7 @@ final class ObserverTest extends TestCase
      */
     public function startObserving(): void
     {
-        $observer = $this->createObserver();
+        $observer = ObserverMother::createObserverWithoutObservees();
 
         $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
 
@@ -41,9 +41,24 @@ final class ObserverTest extends TestCase
     /**
      * @test
      */
+    public function canNotStartObservingIfAlreadyObserving(): void
+    {
+        $observer = ObserverMother::createObserverWithoutObservees();
+
+        $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
+
+        $this->expectException(AlreadyObservingUser::class);
+        $this->expectExceptionMessage(sprintf('Already observing user with id %s', $this->observeeId));
+
+        $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
+    }
+
+    /**
+     * @test
+     */
     public function stopObserving(): void
     {
-        $observer = $this->createObserver();
+        $observer = ObserverMother::createObserverWithoutObservees();
 
         $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
 
@@ -61,7 +76,7 @@ final class ObserverTest extends TestCase
      */
     public function canNotStopObservingNonExistentObservee(): void
     {
-        $observer = $this->createObserver();
+        $observer = ObserverMother::createObserverWithoutObservees();
 
         $this->expectException(NotObservingUser::class);
         $this->expectExceptionMessage(sprintf('Not observing user with id %s', $this->observeeId));
@@ -74,7 +89,7 @@ final class ObserverTest extends TestCase
      */
     public function changeObserveeBirthdate(): void
     {
-        $observer = $this->createObserver();
+        $observer = ObserverMother::createObserverWithoutObservees();
 
         $observer->startObserving($this->observeeId,$this->observeeFullName, $this->observeeBirthdate);
 
@@ -84,7 +99,7 @@ final class ObserverTest extends TestCase
 
         $observees = array_filter(
             $observer->observees(),
-            fn (Observee $observee) => $observee->platformUserId->equals($this->observeeId),
+            fn (Observee $observee) => $observee->userId->equals($this->observeeId),
         );
 
         $this->assertCount(1, $observees);
@@ -99,7 +114,7 @@ final class ObserverTest extends TestCase
      */
     public function canNotChangeNonExistentObserveeBirthdate(): void
     {
-        $observer = $this->createObserver();
+        $observer = ObserverMother::createObserverWithoutObservees();
 
         $this->expectException(NotObservingUser::class);
         $this->expectExceptionMessage(sprintf('Not observing user with id %s', $this->observeeId));
@@ -112,7 +127,7 @@ final class ObserverTest extends TestCase
      */
     public function observerShouldAlwaysBeNotifiedByDefault(): void
     {
-        $observer = $this->createObserver();
+        $observer = ObserverMother::createObserverWithoutObservees();
 
         $this->assertTrue($observer->shouldAlwaysBeNotified());
     }
@@ -122,7 +137,7 @@ final class ObserverTest extends TestCase
      */
     public function toggleNotifiability(): void
     {
-        $observer = $this->createObserver();
+        $observer = ObserverMother::createObserverWithoutObservees();
 
         $this->assertTrue($observer->shouldAlwaysBeNotified());
 
@@ -138,13 +153,5 @@ final class ObserverTest extends TestCase
         $this->observeeId = new UserId('333');
         $this->observeeFullName = new FullName('James', 'Dean');
         $this->observeeBirthdate = new DateTimeImmutable('10.12.1996');
-    }
-
-    private function createObserver(): Observer
-    {
-        return new Observer(
-            new UserId('123'),
-            new FullName('John', 'Doe'),
-        );
     }
 }
