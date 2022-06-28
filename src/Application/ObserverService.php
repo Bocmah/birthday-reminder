@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application;
 
+use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\Observer\ObserverRepository;
@@ -20,6 +21,14 @@ final class ObserverService
         private readonly ObserverRepository $observerRepository,
         private readonly UserFinder         $userFinder,
     ) {
+    }
+
+    /**
+     * @return Observee[]
+     */
+    public function getObservees(UserId $observerId): array
+    {
+        return $this->findObserverInTheSystem($observerId)->observees();
     }
 
     public function startObserving(UserId $observerId, UserId $observeeId, DateTimeImmutable $observeeBirthdate): void

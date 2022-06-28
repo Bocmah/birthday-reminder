@@ -33,6 +33,31 @@ final class ObserverServiceTest extends TestCase
     /**
      * @test
      */
+    public function observeesOfObserverCanBeRetrieved(): void
+    {
+        $observer = ObserverMother::createObserverWithOneObservee();
+
+        $this->givenObserverExists($observer);
+
+        $observees = $this->observerService->getObservees($observer->id);
+
+        $this->assertEquals($observer->observees(), $observees);
+    }
+
+    /**
+     * @test
+     */
+    public function canNotRetrieveObserveesOfObserverIfObserverDoesNotExistInTheSystem(): void
+    {
+        $this->expectException(ObserverWasNotFoundInTheSystem::class);
+        $this->expectExceptionMessage('Observer with user id non-existent-observer was not found in the system');
+
+        $this->observerService->getObservees(new UserId('non-existent-observer'));
+    }
+
+    /**
+     * @test
+     */
     public function newObserverCanStartObserving(): void
     {
         $newObserver = ObserverMother::createObserverWithOneObservee();
