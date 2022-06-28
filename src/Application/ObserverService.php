@@ -51,6 +51,15 @@ final class ObserverService
         $this->observerRepository->save($observer);
     }
 
+    public function toggleNotifiability(UserId $observerId): void
+    {
+        $observer = $this->findObserverInTheSystem($observerId);
+
+        $observer->toggleNotifiability();
+
+        $this->observerRepository->save($observer);
+    }
+
     private function findObserverInTheSystemOrOnThePlatform(UserId $id): Observer
     {
         $observer = $this->observerRepository->findByUserId($id);
