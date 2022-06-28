@@ -7,6 +7,7 @@ namespace BirthdayReminder\Domain\Observer;
 use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\User\UserId;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -55,7 +56,7 @@ class Observer
         return $this->shouldAlwaysBeNotified;
     }
 
-    public function startObserving(UserId $userId, FullName $fullName, \DateTimeImmutable $birthdate): void
+    public function startObserving(UserId $userId, FullName $fullName, DateTimeImmutable $birthdate): void
     {
         if ($this->observeeExists($userId)) {
             throw AlreadyObservingUser::withId($userId);
@@ -75,7 +76,7 @@ class Observer
         $this->observees->removeElement($observee);
     }
 
-    public function changeObserveeBirthdate(UserId $userId, \DateTimeImmutable $newBirthdate): void
+    public function changeObserveeBirthdate(UserId $userId, DateTimeImmutable $newBirthdate): void
     {
         $observee = $this->observeeWithId($userId);
 

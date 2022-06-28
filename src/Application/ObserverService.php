@@ -24,13 +24,7 @@ final class ObserverService
 
     public function startObserving(UserId $observerId, UserId $observeeId, DateTimeImmutable $observeeBirthdate): void
     {
-        $observer = $this->observerRepository->findByUserId($observerId);
-
-        if ($observer === null) {
-            $user = $this->findObserverOnThePlatform($observerId);
-
-            $observer = new Observer($user->id, $user->fullName);
-        }
+        $observer = $this->findObserverInTheSystemOrOnThePlatform($observerId);
 
         $user = $this->findObserveeOnThePlatform($observeeId);
 
@@ -41,15 +35,44 @@ final class ObserverService
 
     public function stopObserving(UserId $observerId, UserId $observeeId): void
     {
-        $observer = $this->observerRepository->findByUserId($observerId);
-
-        if ($observer === null) {
-            throw ObserverWasNotFoundInTheSystem::withUserId($observerId);
-        }
+        $observer = $this->findObserverInTheSystem($observerId);
 
         $observer->stopObserving($observeeId);
 
         $this->observerRepository->save($observer);
+    }
+
+    public function changeObserveeBirthdate(UserId $observerId, UserId $observeeId, DateTimeImmutable $newBirthdate): void
+    {
+        $observer = $this->findObserverInTheSystem($observerId);
+
+        $observer->changeObserveeBirthdate($observeeId, $newBirthdate);
+
+        $this->observerRepository->save($observer);
+    }
+
+    private function findObserverInTheSystemOrOnThePlatform(UserId $id): Observer
+    {
+        $observer = $this->observerRepository->findByUserId($id);
+
+        if ($observer === null) {
+            $user = $this->findObserverOnThePlatform($id);
+
+            $observer = new Observer($user->id, $user->fullName);
+        }
+
+        return $observer;
+    }
+
+    private function findObserverInTheSystem(UserId $id): Observer
+    {
+        $observer = $this->observerRepository->findByUserId($id);
+
+        if ($observer === null) {
+            throw ObserverWasNotFoundInTheSystem::withUserId($id);
+        }
+
+        return $observer;
     }
 
     private function findObserverOnThePlatform(UserId $id): User

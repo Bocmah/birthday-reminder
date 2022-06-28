@@ -19,6 +19,9 @@ use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Domain\Observer\ObserverMother;
 
+/**
+ * @covers \BirthdayReminder\Application\ObserverService
+ */
 final class ObserverServiceTest extends TestCase
 {
     private readonly ObserverService $observerService;
@@ -139,6 +142,41 @@ final class ObserverServiceTest extends TestCase
         $this->observerService->stopObserving(
             new UserId('non-existent-observer'),
             new UserId('observee-id'),
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function observerCanChangeObserveeBirthdate(): void
+    {
+        $observer = ObserverMother::createObserverWithOneObservee();
+
+        $this->givenObserverExists($observer);
+
+        $observee = $observer->observees()[0];
+
+        $newBirthdate = new DateTimeImmutable('15.10.1964');
+
+        $this->observerService->changeObserveeBirthdate($observer->id, $observee->userId, $newBirthdate);
+
+        $observer = $this->observerRepository->findByUserId($observer->id);
+
+        $this->assertEquals($newBirthdate, $observer->observees()[0]->birthdate());
+    }
+
+    /**
+     * @test
+     */
+    public function canNotChangeObserveeBirthdateBecauseObserverWasNotFoundInTheSystem(): void
+    {
+        $this->expectException(ObserverWasNotFoundInTheSystem::class);
+        $this->expectExceptionMessage('Observer with user id non-existent-observer was not found in the system');
+
+        $this->observerService->changeObserveeBirthdate(
+            new UserId('non-existent-observer'),
+            new UserId('non-existent-observee'),
+            new DateTimeImmutable('10.10.1990'),
         );
     }
 
