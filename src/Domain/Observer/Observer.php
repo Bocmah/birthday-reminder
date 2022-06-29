@@ -43,19 +43,6 @@ class Observer
         $this->observees = new ArrayCollection();
     }
 
-    /**
-     * @return Observee[]
-     */
-    public function observees(): array
-    {
-        return $this->observees->toArray();
-    }
-
-    public function shouldAlwaysBeNotified(): bool
-    {
-        return $this->shouldAlwaysBeNotified;
-    }
-
     public function startObserving(UserId $userId, FullName $fullName, DateTimeImmutable $birthdate): void
     {
         if ($this->observeeExists($userId)) {
@@ -90,6 +77,31 @@ class Observer
     public function toggleNotifiability(): void
     {
         $this->shouldAlwaysBeNotified = !$this->shouldAlwaysBeNotified;
+    }
+
+    /**
+     * @return Observee[]
+     */
+    public function observees(): array
+    {
+        return array_values($this->observees->toArray());
+    }
+
+    /**
+     * @return Observer[]
+     */
+    public function birthdaysOnDate(DateTimeImmutable $date): array
+    {
+        return array_values(
+            $this->observees
+            ->filter(fn (Observee $observee): bool => $date->format('Y-m-d') === $observee->birthdate()->format('Y-m-d'))
+            ->toArray()
+        );
+    }
+
+    public function shouldAlwaysBeNotified(): bool
+    {
+        return $this->shouldAlwaysBeNotified;
     }
 
     private function observeeExists(UserId $id): bool

@@ -8,6 +8,7 @@ use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
+use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +23,50 @@ final class ObserverTest extends TestCase
     private readonly FullName $observeeFullName;
 
     private readonly DateTimeImmutable $observeeBirthdate;
+
+    /**
+     * @test
+     * @dataProvider birthdaysOnDateProvider
+     *
+     * @var Observee[] $birthdays
+     */
+    public function birthdaysOnDate(Observer $observer, DateTimeImmutable $date, array $birthdays): void
+    {
+        $this->assertEquals($birthdays, $observer->birthdaysOnDate($date));
+    }
+
+    public function birthdaysOnDateProvider(): iterable
+    {
+        $observer = ObserverMother::createObserverWithoutObservees();
+
+        $observee1 = ObserverMother::attachObservee($observer, id: new UserId('111'), birthdate: new DateTimeImmutable('17.10.1996'));
+        $observee2 = ObserverMother::attachObservee($observer, id: new UserId('222'), birthdate: new DateTimeImmutable('05.04.2000'));
+        $observee3 = ObserverMother::attachObservee($observer, id: new UserId('333'), birthdate: new DateTimeImmutable('05.04.2000'));
+
+        yield 'one birthday on date' => [
+            $observer,
+            $observee1->birthdate(),
+            [$observee1],
+        ];
+
+        yield 'two birthdays on date' => [
+            $observer,
+            $observee2->birthdate(),
+            [$observee2, $observee3],
+        ];
+
+        yield 'no birthdays on date' => [
+            $observer,
+            new DateTimeImmutable('01.01.1971'),
+            [],
+        ];
+
+        yield 'time should be ignored' => [
+            $observer,
+            new DateTimeImmutable('17.10.1996 23:58'),
+            [$observee1],
+        ];
+    }
 
     /**
      * @test
