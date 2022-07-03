@@ -34,13 +34,21 @@ final class FullNameTest extends TestCase
         new FullName('John', $name);
     }
 
+
+    /**
+     * @see canNotBeCreatedWithInvalidFirstName()
+     * @see canNotBeCreatedWithInvalidLastName()
+     *
+     * @return iterable<string, array{0: string}>
+     */
     public function invalidNames(): iterable
     {
-        return [
-            ['12345'],
-            [''],
-            ['John15'],
-            [','],
-        ];
+        yield 'name containing only numbers' => ['12345'];
+
+        yield 'blank name' => [''];
+
+        yield 'name containing numbers and letters' => ['John15'];
+
+        yield 'name containing punctuation' => [','];
     }
 }

@@ -15,7 +15,7 @@ final class UserIdTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider successfulCreationData
+     * @dataProvider successfulCreationProvider
      */
     public function successfulCreation(string $id): void
     {
@@ -25,9 +25,11 @@ final class UserIdTest extends TestCase
     }
 
     /**
+     * @see successfulCreation()
+     *
      * @return iterable<string, array{0: string}>
      */
-    private function successfulCreationData(): iterable
+    public function successfulCreationProvider(): iterable
     {
         yield 'lowercase string' => ['lowercasestring'];
 
@@ -44,7 +46,7 @@ final class UserIdTest extends TestCase
 
     /**
      * @test
-     * @dataProvider unsuccessfulCreationData
+     * @dataProvider unsuccessfulCreationProvider
      */
     public function unsuccessfulCreation(string $id): void
     {
@@ -54,9 +56,11 @@ final class UserIdTest extends TestCase
     }
 
     /**
+     * @see unsuccessfulCreation()
+     *
      * @return iterable<string, array{0: string}>
      */
-    private function unsuccessfulCreationData(): iterable
+    public function unsuccessfulCreationProvider(): iterable
     {
         yield 'blank string' => [''];
     }

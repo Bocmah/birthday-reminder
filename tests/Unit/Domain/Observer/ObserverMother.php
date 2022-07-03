@@ -38,4 +38,9 @@ final class ObserverMother
 
         return $observer->observees()[count($observer->observees()) - 1];
     }
+
+    public static function detachObservee(Observer $observer, UserId $id): void
+    {
+        $observer->stopObserving($id);
+    }
 }

@@ -26,50 +26,6 @@ final class ObserverTest extends TestCase
 
     /**
      * @test
-     * @dataProvider birthdaysOnDateProvider
-     *
-     * @var Observee[] $birthdays
-     */
-    public function birthdaysOnDate(Observer $observer, DateTimeImmutable $date, array $birthdays): void
-    {
-        $this->assertEquals($birthdays, $observer->birthdaysOnDate($date));
-    }
-
-    public function birthdaysOnDateProvider(): iterable
-    {
-        $observer = ObserverMother::createObserverWithoutObservees();
-
-        $observee1 = ObserverMother::attachObservee($observer, id: new UserId('111'), birthdate: new DateTimeImmutable('17.10.1996'));
-        $observee2 = ObserverMother::attachObservee($observer, id: new UserId('222'), birthdate: new DateTimeImmutable('05.04.2000'));
-        $observee3 = ObserverMother::attachObservee($observer, id: new UserId('333'), birthdate: new DateTimeImmutable('05.04.2000'));
-
-        yield 'one birthday on date' => [
-            $observer,
-            $observee1->birthdate(),
-            [$observee1],
-        ];
-
-        yield 'two birthdays on date' => [
-            $observer,
-            $observee2->birthdate(),
-            [$observee2, $observee3],
-        ];
-
-        yield 'no birthdays on date' => [
-            $observer,
-            new DateTimeImmutable('01.01.1971'),
-            [],
-        ];
-
-        yield 'time should be ignored' => [
-            $observer,
-            new DateTimeImmutable('17.10.1996 23:58'),
-            [$observee1],
-        ];
-    }
-
-    /**
-     * @test
      */
     public function startObserving(): void
     {
@@ -165,6 +121,59 @@ final class ObserverTest extends TestCase
         $this->expectExceptionMessage(sprintf('Not observing user with id %s', $this->observeeId));
 
         $observer->changeObserveeBirthdate($this->observeeId, new DateTimeImmutable('12.12.2012'));
+    }
+
+    /**
+     * @test
+     * @dataProvider upcomingBirthdaysProvider
+     *
+     * @param Observee[] $birthdays
+     */
+    public function upcomingBirthdays(Observer $observer, array $birthdays): void
+    {
+        $this->assertEquals($birthdays, $observer->upcomingBirthdays());
+    }
+
+    /**
+     * @see upcomingBirthdays()
+     *
+     * @return iterable<string, array{observer: Observer, birthdays: Observee[]}>
+     */
+    public function upcomingBirthdaysProvider(): iterable
+    {
+        $observer = ObserverMother::createObserverWithoutObservees();
+
+        $observeeWithBirthdayToday = ObserverMother::attachObservee($observer, id: new UserId('111'), birthdate: new DateTimeImmutable('today'));
+
+        yield 'upcoming birthday today' => [
+            'observer'  => $observer,
+            'birthdays' => [$observeeWithBirthdayToday],
+        ];
+
+        $observer = ObserverMother::createObserverWithoutObservees();
+        $observeeWithBirthdayToday = ObserverMother::attachObservee($observer, id: new UserId('111'), birthdate: new DateTimeImmutable('today'));
+        $observeeWithBirthdayTomorrow = ObserverMother::attachObservee($observer, id: new UserId('222'), birthdate: new DateTimeImmutable('tomorrow'));
+
+        yield 'upcoming birthdays today and tomorrow' => [
+            'observer'  => $observer,
+            'birthdays' => [$observeeWithBirthdayToday, $observeeWithBirthdayTomorrow],
+        ];
+
+        $observer = ObserverMother::createObserverWithoutObservees();
+        $observeeWithBirthdayTomorrow = ObserverMother::attachObservee($observer, id: new UserId('222'), birthdate: new DateTimeImmutable('tomorrow'));
+
+        yield 'upcoming birthday tomorrow' => [
+            'observer'  => $observer,
+            'birthdays' => [$observeeWithBirthdayTomorrow],
+        ];
+
+        $observer = ObserverMother::createObserverWithoutObservees();
+        ObserverMother::attachObservee($observer, id: new UserId('333'), birthdate: new DateTimeImmutable('tomorrow +2days'));
+
+        yield 'no upcoming birthdays' => [
+            'observer'  => $observer,
+            'birthdays' => [],
+        ];
     }
 
     /**

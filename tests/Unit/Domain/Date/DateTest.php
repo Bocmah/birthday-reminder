@@ -23,22 +23,22 @@ final class DateTest extends TestCase
     }
 
     /**
-     * @dataProvider
+     * @see isSameDay()
      *
-     * @return iterable<string, array{0: DateTimeImmutable, 1: DateTimeImmutable, 3: bool}
+     * @return iterable<string, array{dateA: DateTimeImmutable, dateB: DateTimeImmutable, result: bool}
      */
-    private function dates(): iterable
+    public function dates(): iterable
     {
         yield 'same day' => [
-            new DateTimeImmutable('10.11.1996'),
-            new DateTimeImmutable('10.11.2005'),
-            true,
+            'dateA'  => new DateTimeImmutable('10.11.1996'),
+            'dateB'  => new DateTimeImmutable('10.11.2005'),
+            'result' => true,
         ];
 
         yield 'not same day' => [
-            new DateTimeImmutable('10.11.1996'),
-            new DateTimeImmutable('11.11.1996'),
-            false,
+            'dateA'  => new DateTimeImmutable('10.11.1996'),
+            'dateB'  => new DateTimeImmutable('11.11.1996'),
+            'result' => false,
         ];
     }
 }

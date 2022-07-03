@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Domain\Observer;
 
+use BirthdayReminder\Domain\Date\Date;
 use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\User\UserId;
@@ -74,6 +75,21 @@ class Observer
         $observee->changeBirthdate($newBirthdate);
     }
 
+    /**
+     * @return Observee[]
+     */
+    public function upcomingBirthdays(): array
+    {
+        return array_values(
+            $this->observees
+            ->filter(static function (Observee $observee): bool {
+                return Date::isSameDay($observee->birthdate(), Date::today())
+                    || Date::isSameDay($observee->birthdate(), Date::tomorrow());
+            })
+            ->toArray(),
+        );
+    }
+
     public function toggleNotifiability(): void
     {
         $this->shouldAlwaysBeNotified = !$this->shouldAlwaysBeNotified;
@@ -85,18 +101,6 @@ class Observer
     public function observees(): array
     {
         return array_values($this->observees->toArray());
-    }
-
-    /**
-     * @return Observer[]
-     */
-    public function birthdaysOnDate(DateTimeImmutable $date): array
-    {
-        return array_values(
-            $this->observees
-            ->filter(fn (Observee $observee): bool => $date->format('Y-m-d') === $observee->birthdate()->format('Y-m-d'))
-            ->toArray()
-        );
     }
 
     public function shouldAlwaysBeNotified(): bool
