@@ -32,7 +32,7 @@ php-logs: ## Show PHP container logs
 	@docker-compose logs php
 
 shell: ## Jump to PHP service shell
-	@docker-compose exec $(PHP_SERVICE) bash
+	@docker-compose exec $(PHP_SERVICE) sh
 
 phpunit: ## Run tests
 	@docker-compose exec -T $(PHP_SERVICE) composer phpunit
