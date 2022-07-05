@@ -11,7 +11,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "ext-json": "*",
         "baldinof/roadrunner-bundle": "^2.2",
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -26,7 +25,9 @@
         "symfony/routing": "^6.0",
         "symfony/runtime": "^6.0",
         "symfony/translation": "^6.0",
-        "webmozart/assert": "^1.10"
+        "webmozart/assert": "^1.10",
+        "ext-json": "*",
+        "ext-intl": "*"
     },
     "autoload": {
         "psr-4": {

@@ -1,10 +1,10 @@
 #syntax=docker/dockerfile:1.4
 
-FROM spiralscout/roadrunner:2.9.4 as rr
-FROM php:8.1.6-cli-alpine3.15
+FROM spiralscout/roadrunner:2.10.5 as rr
+FROM php:8.1.7-cli-alpine3.16
 
 RUN apk add --no-cache --update \
-    libzip-dev curl-dev libxml2-dev icu-dev oniguruma-dev autoconf postgresql-dev alpine-conf \
+    libzip-dev curl-dev libxml2-dev icu-dev icu-data-full oniguruma-dev autoconf postgresql-dev alpine-conf \
     && \
     apk add --update --no-cache --virtual .build-deps \
        g++ \
@@ -13,7 +13,8 @@ RUN apk add --no-cache --update \
        libgcc \
        make \
        alpine-sdk \
-    && docker-php-ext-install pdo_pgsql sockets \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl pdo_pgsql sockets \
     && apk del .build-deps
 
 WORKDIR ${WORKDIR}
@@ -30,7 +31,7 @@ ENV COMPOSER_HOME /var/composer
 ENV PHP_MEMORY_LIMIT 512
 ENV PHP_MAX_EXECUTION_TIME 300
 
-COPY --from=composer:2.3.5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.3.7 /usr/bin/composer /usr/bin/composer
 
 RUN mkdir -p /var/composer/cache && chmod 0777 /var/composer/cache
 RUN chown -R www-data:www-data /var/composer/cache
