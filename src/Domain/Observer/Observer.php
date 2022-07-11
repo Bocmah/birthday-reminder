@@ -76,17 +76,14 @@ class Observer
     }
 
     /**
-     * @return Observee[]
+     * @return Observer[]
      */
-    public function upcomingBirthdays(): array
+    public function birthdaysOnDate(DateTimeImmutable $date): array
     {
         return array_values(
             $this->observees
-            ->filter(static function (Observee $observee): bool {
-                return Date::isSameDay($observee->birthdate(), Date::today())
-                    || Date::isSameDay($observee->birthdate(), Date::tomorrow());
-            })
-            ->toArray(),
+                ->filter(fn (Observee $observee): bool => Date::isSameDay($date, $observee->birthdate()))
+                ->toArray()
         );
     }
 
