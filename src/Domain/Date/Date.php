@@ -22,4 +22,9 @@ final class Date
     {
         return $dateA->format('d-m') === $dateB->format('d-m');
     }
+
+    public static function asDayOfMonth(DateTimeImmutable $date): string
+    {
+        return $date->format('d-m');
+    }
 }
