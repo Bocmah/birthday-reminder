@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Date;
+namespace BirthdayReminder\Domain\Date;
 
 use DateTimeImmutable;
 

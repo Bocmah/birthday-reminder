@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Infrastructure\Date;
 
-use BirthdayReminder\Date\Calendar;
+use BirthdayReminder\Domain\Date\Calendar;
 use BirthdayReminder\Domain\Date\Date;
 use BirthdayReminder\Domain\Date\DateFormatter;
-use IntlDateFormatter as StdlibIntlDateFormatter;
 use DateTimeImmutable;
+use IntlDateFormatter as StdlibIntlDateFormatter;
 
 final class IntlDateFormatter implements DateFormatter
 {

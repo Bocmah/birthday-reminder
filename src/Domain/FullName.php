@@ -12,10 +12,10 @@ use Webmozart\Assert\Assert;
 final class FullName
 {
     #[Column]
-    private readonly string $firstName;
+    public readonly string $firstName;
 
     #[Column]
-    private readonly string $lastName;
+    public readonly string $lastName;
 
     public function __construct(string $firstName, string $lastName)
     {

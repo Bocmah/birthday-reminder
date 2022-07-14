@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Infrastructure\Date;
 
-use BirthdayReminder\Date\Calendar;
+use BirthdayReminder\Domain\Date\Calendar;
 use DateTimeImmutable;
 
 final class SystemCalendar implements Calendar

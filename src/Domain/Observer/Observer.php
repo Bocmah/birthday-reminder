@@ -76,7 +76,7 @@ class Observer
     }
 
     /**
-     * @return Observer[]
+     * @return Observee[]
      */
     public function birthdaysOnDate(DateTimeImmutable $date): array
     {

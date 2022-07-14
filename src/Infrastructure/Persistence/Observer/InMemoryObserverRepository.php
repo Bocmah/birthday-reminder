@@ -24,4 +24,9 @@ final class InMemoryObserverRepository implements ObserverRepository
     {
         $this->observers[(string) $observer->id] = $observer;
     }
+
+    public function findAll(): array
+    {
+        return array_values($this->observers);
+    }
 }
