@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Domain\BirthdaysNotifier;
 
-use BirthdayReminder\Domain\BirthdaysNotifier\CanNotNotify;
 use BirthdayReminder\Domain\BirthdaysNotifier\UpcomingBirthdaysNotifier;
 use BirthdayReminder\Domain\Date\Calendar;
 use BirthdayReminder\Domain\Date\DateFormatter;
@@ -16,6 +15,7 @@ use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateInterval;
 use DateTimeImmutable;
+use InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -121,12 +121,11 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
     /**
      * @test
      */
-    public function canNotNotifyIfObserverDoesNotHaveUpcomingBirthdays(): void
+    public function canNotifyPrecondition(): void
     {
         $observer = ObserverMother::createObserverWithoutObservees();
 
-        $this->expectException(CanNotNotify::class);
-        $this->expectExceptionMessage('Can not notify observer because he does not have upcoming birthdays');
+        $this->expectException(InvalidArgumentException::class);
 
         $this->birthdaysNotifier->notify($observer);
     }

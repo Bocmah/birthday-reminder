@@ -10,10 +10,12 @@ use BirthdayReminder\Domain\Messenger\Messenger;
 use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\Observee\ObserveeFormatter;
 use BirthdayReminder\Domain\Observer\Observer;
+use BirthdayReminder\Domain\Observer\Specification\HasBirthdaysOnDate;
 use DateTimeImmutable;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Webmozart\Assert\Assert;
 
-final class UpcomingBirthdaysNotifier
+final class UpcomingBirthdaysNotifier implements BirthdaysNotifier
 {
     public function __construct(
         private readonly Calendar $calendar,
@@ -26,9 +28,7 @@ final class UpcomingBirthdaysNotifier
 
     public function notify(Observer $observer): void
     {
-        if (!$this->canNotify($observer)) {
-            throw CanNotNotify::becauseObserverDoesNotHaveUpcomingBirthdays();
-        }
+        Assert::true($this->canNotify($observer));
 
         $birthdays = array_map(
             fn (DateTimeImmutable $date): string => $this->composeNotification($date, $observer->birthdaysOnDate($date)),
@@ -40,8 +40,9 @@ final class UpcomingBirthdaysNotifier
 
     public function canNotify(Observer $observer): bool
     {
-        return $observer->birthdaysOnDate($this->calendar->today()) !== []
-            || $observer->birthdaysOnDate($this->calendar->tomorrow()) !== [];
+        return (new HasBirthdaysOnDate($this->calendar->today()))
+            ->or(new HasBirthdaysOnDate($this->calendar->tomorrow()))
+            ->isSatisfiedBy($observer);
     }
 
     /**
