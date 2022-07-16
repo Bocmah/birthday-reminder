@@ -11,6 +11,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-intl": "*",
+        "ext-json": "*",
         "baldinof/roadrunner-bundle": "^2.2",
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -25,10 +27,15 @@
         "symfony/routing": "^6.0",
         "symfony/runtime": "^6.0",
         "symfony/translation": "^6.0",
-        "webmozart/assert": "^1.10",
-        "ext-json": "*",
-        "ext-intl": "*"
+        "tanigami/specification": "dev-master",
+        "webmozart/assert": "^1.10"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Bocmah/specification-php"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "BirthdayReminder\\": "src"
