@@ -15,7 +15,7 @@ use BirthdayReminder\Domain\User\UserFinder;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 
-final class ObserverService
+class ObserverService
 {
     public function __construct(
         private readonly ObserverRepository $observerRepository,

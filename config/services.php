@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use BirthdayReminder\Infrastructure\Controller\MessageReceiver;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use BirthdayReminder\Controller\TestController;
 
 return static function (ContainerConfigurator $configurator) {
     $services = $configurator
@@ -12,5 +12,5 @@ return static function (ContainerConfigurator $configurator) {
           ->autowire()
           ->autoconfigure();
 
-    $services->set(TestController::class);
+    $services->set(MessageReceiver::class);
 };
