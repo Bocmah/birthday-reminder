@@ -23,7 +23,7 @@ abstract class Command
         return $matches;
     }
 
-    abstract public function execute(UserId $issuer, string $command): void;
+    abstract public function execute(UserId $observerId, string $command): void;
 
     abstract protected function pattern(): string;
 }

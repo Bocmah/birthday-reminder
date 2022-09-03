@@ -7,33 +7,22 @@ namespace Tests\Unit\Application\Command;
 use BirthdayReminder\Application\Command\ChangeBirthdate;
 use BirthdayReminder\Application\Command\InvalidCommandFormat;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Messenger\Messenger;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @covers \BirthdayReminder\Application\Command\ChangeBirthdate
  */
-final class ChangeBirthdateTest extends TestCase
+final class ChangeBirthdateTest extends CommandTestCase
 {
-    private const OBSERVER_ID = '123';
-
-    private const OBSERVEE_ID = '333';
-
     private const BIRTHDATE = '10.05.1990';
 
     private const VALID_COMMAND = 'update 333 10.05.1990';
 
     private MockObject|ObserverService $observerService;
-
-    private MockObject|Messenger $messenger;
-
-    private MockObject|TranslatorInterface $translator;
 
     private ChangeBirthdate $command;
 
@@ -54,7 +43,7 @@ final class ChangeBirthdateTest extends TestCase
             ->with('observee.birthday_changed', ['%id%' => self::OBSERVEE_ID])
             ->willReturn($message);
 
-        $this->expectMessage($message);
+        $this->expectMessageToObserver($message);
 
         $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
     }
@@ -62,7 +51,7 @@ final class ChangeBirthdateTest extends TestCase
     /**
      * @test
      */
-    public function informsIssuerAboutNotObservingObserveeWhenObserverWasNotFoundInTheSystem(): void
+    public function informsObserverAboutNotObservingObserveeWhenObserverWasNotFoundInTheSystem(): void
     {
         $this->observerService
             ->method('changeObserveeBirthdate')
@@ -76,7 +65,7 @@ final class ChangeBirthdateTest extends TestCase
             ->with('observee.not_observing', ['%id%' => self::OBSERVEE_ID])
             ->willReturn($message);
 
-        $this->expectMessage($message);
+        $this->expectMessageToObserver($message);
 
         $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
     }
@@ -84,7 +73,7 @@ final class ChangeBirthdateTest extends TestCase
     /**
      * @test
      */
-    public function informsIssuerWhenNotObservingUser(): void
+    public function informsObserverWhenNotObservingUser(): void
     {
         $this->observerService
             ->method('changeObserveeBirthdate')
@@ -98,7 +87,7 @@ final class ChangeBirthdateTest extends TestCase
             ->with('observee.not_observing', ['%id%' => self::OBSERVEE_ID])
             ->willReturn($message);
 
-        $this->expectMessage($message);
+        $this->expectMessageToObserver($message);
 
         $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
     }
@@ -140,21 +129,11 @@ final class ChangeBirthdateTest extends TestCase
         parent::setUp();
 
         $this->observerService = $this->createMock(ObserverService::class);
-        $this->messenger = $this->createMock(Messenger::class);
-        $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->command = new ChangeBirthdate(
             $this->observerService,
             $this->messenger,
             $this->translator,
         );
-    }
-
-    private function expectMessage(string $message): void
-    {
-        $this->messenger
-            ->expects($this->once())
-            ->method('sendMessage')
-            ->with(new UserId(self::OBSERVER_ID), $message);
     }
 }

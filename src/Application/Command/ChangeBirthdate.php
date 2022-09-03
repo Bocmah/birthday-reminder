@@ -21,7 +21,7 @@ final class ChangeBirthdate extends Command
     ) {
     }
 
-    public function execute(UserId $issuer, string $command): void
+    public function execute(UserId $observerId, string $command): void
     {
         $matches = $this->parse($command);
 
@@ -33,11 +33,11 @@ final class ChangeBirthdate extends Command
         $newBirthdate = new DateTimeImmutable($matches['date']);
 
         try {
-            $this->observerService->changeObserveeBirthdate($issuer, $observeeId, $newBirthdate);
+            $this->observerService->changeObserveeBirthdate($observerId, $observeeId, $newBirthdate);
 
-            $this->messenger->sendMessage($issuer, $this->translator->trans('observee.birthday_changed', ['%id%' => (string) $observeeId]));
+            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.birthday_changed', ['%id%' => (string) $observeeId]));
         } catch (ObserverWasNotFoundInTheSystem|NotObservingUser) {
-            $this->messenger->sendMessage($issuer, $this->translator->trans('observee.not_observing', ['%id%' => (string) $observeeId]));
+            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.not_observing', ['%id%' => (string) $observeeId]));
         }
     }
 

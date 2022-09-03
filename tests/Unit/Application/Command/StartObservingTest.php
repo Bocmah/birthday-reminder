@@ -7,34 +7,23 @@ namespace Tests\Unit\Application\Command;
 use BirthdayReminder\Application\Command\InvalidCommandFormat;
 use BirthdayReminder\Application\Command\StartObserving;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Messenger\Messenger;
 use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @covers \BirthdayReminder\Application\Command\StartObserving
  */
-final class StartObservingTest extends TestCase
+final class StartObservingTest extends CommandTestCase
 {
-    private const OBSERVER_ID = '123';
-
-    private const OBSERVEE_ID = '333';
-
     private const BIRTHDATE = '10.05.1990';
 
     private const VALID_COMMAND = 'add 333 10.05.1990';
 
     private MockObject|ObserverService $observerService;
-
-    private MockObject|Messenger $messenger;
-
-    private MockObject|TranslatorInterface $translator;
 
     private StartObserving $command;
 
@@ -55,7 +44,7 @@ final class StartObservingTest extends TestCase
             ->with('observee.started_observing', ['%id%' => self::OBSERVEE_ID])
             ->willReturn($message);
 
-        $this->expectMessage($message);
+        $this->expectMessageToObserver($message);
 
         $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
     }
@@ -63,7 +52,7 @@ final class StartObservingTest extends TestCase
     /**
      * @test
      */
-    public function informsIssuerWhenObserveeWasNotFoundOnThePlatform(): void
+    public function informsObserverWhenObserveeWasNotFoundOnThePlatform(): void
     {
         $this->observerService
             ->method('startObserving')
@@ -77,7 +66,7 @@ final class StartObservingTest extends TestCase
             ->with('user.not_found_on_the_platform', ['%id%' => self::OBSERVEE_ID])
             ->willReturn($message);
 
-        $this->expectMessage($message);
+        $this->expectMessageToObserver($message);
 
         $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
     }
@@ -85,7 +74,7 @@ final class StartObservingTest extends TestCase
     /**
      * @test
      */
-    public function informsIssuerWhenAlreadyObservingUser(): void
+    public function informsObserverWhenAlreadyObservingUser(): void
     {
         $this->observerService
             ->method('startObserving')
@@ -99,7 +88,7 @@ final class StartObservingTest extends TestCase
             ->with('observee.already_observing', ['%id%' => self::OBSERVEE_ID])
             ->willReturn($message);
 
-        $this->expectMessage($message);
+        $this->expectMessageToObserver($message);
 
         $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
     }
@@ -107,7 +96,7 @@ final class StartObservingTest extends TestCase
     /**
      * @test
      */
-    public function informsIssuerAboutUnexpectedErrorWhenObserverWasNotFoundOnThePlatform(): void
+    public function informsObserverAboutUnexpectedErrorWhenObserverWasNotFoundOnThePlatform(): void
     {
         $this->observerService
             ->method('startObserving')
@@ -121,7 +110,7 @@ final class StartObservingTest extends TestCase
             ->with('unexpected_error')
             ->willReturn($message);
 
-        $this->expectMessage($message);
+        $this->expectMessageToObserver($message);
 
         $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
     }
@@ -163,21 +152,11 @@ final class StartObservingTest extends TestCase
         parent::setUp();
 
         $this->observerService = $this->createMock(ObserverService::class);
-        $this->messenger = $this->createMock(Messenger::class);
-        $this->translator = $this->createMock(TranslatorInterface::class);
 
         $this->command = new StartObserving(
             $this->observerService,
             $this->messenger,
             $this->translator,
         );
-    }
-
-    private function expectMessage(string $message): void
-    {
-        $this->messenger
-            ->expects($this->once())
-            ->method('sendMessage')
-            ->with(new UserId(self::OBSERVER_ID), $message);
     }
 }

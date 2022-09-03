@@ -22,7 +22,7 @@ final class StartObserving extends Command
     ) {
     }
 
-    public function execute(UserId $issuer, string $command): void
+    public function execute(UserId $observerId, string $command): void
     {
         $matches = $this->parse($command);
 
@@ -34,15 +34,15 @@ final class StartObserving extends Command
         $birthdate = new DateTimeImmutable($matches['date']);
 
         try {
-            $this->observerService->startObserving($issuer, $observeeId, $birthdate);
+            $this->observerService->startObserving($observerId, $observeeId, $birthdate);
 
-            $this->messenger->sendMessage($issuer, $this->translator->trans('observee.started_observing', ['%id%' => (string) $observeeId]));
+            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.started_observing', ['%id%' => (string) $observeeId]));
         } catch (ObserveeWasNotFoundOnThePlatform) {
-            $this->messenger->sendMessage($issuer, $this->translator->trans('user.not_found_on_the_platform', ['%id%' => (string) $observeeId]));
+            $this->messenger->sendMessage($observerId, $this->translator->trans('user.not_found_on_the_platform', ['%id%' => (string) $observeeId]));
         } catch (AlreadyObservingUser) {
-            $this->messenger->sendMessage($issuer, $this->translator->trans('observee.already_observing', ['%id%' => (string) $observeeId]));
+            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.already_observing', ['%id%' => (string) $observeeId]));
         } catch (ObserverWasNotFoundOnThePlatform) {
-            $this->messenger->sendMessage($issuer, $this->translator->trans('unexpected_error'));
+            $this->messenger->sendMessage($observerId, $this->translator->trans('unexpected_error'));
         }
     }
 
