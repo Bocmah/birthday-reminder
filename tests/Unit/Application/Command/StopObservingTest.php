@@ -8,13 +8,15 @@ use BirthdayReminder\Application\Command\StopObserving;
 use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
-use BirthdayReminder\Domain\User\UserId;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Translation\TranslatableMessage;
+use Tests\Unit\Domain\Observer\ObserverMother;
 
 /**
  * @covers \BirthdayReminder\Application\Command\StopObserving
  */
-final class StopObservingTest extends CommandTestCase
+final class StopObservingTest extends TestCase
 {
     private const VALID_COMMAND = 'delete 333';
 
@@ -27,65 +29,53 @@ final class StopObservingTest extends CommandTestCase
      */
     public function stopObserving(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->expects($this->once())
             ->method('stopObserving')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID));
+            ->with($observerId, $observeeId);
 
-        $message = sprintf('Вы больше не следите за днем рождения пользователя с id %s.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.stopped_observing', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.stopped_observing', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
      * @test
      */
-    public function informsObserverAboutNotObservingObserveeWhenObserverWasNotFoundInTheSystem(): void
+    public function observerWasNotFoundInTheSystem(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->method('stopObserving')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID))
-            ->willThrowException(ObserverWasNotFoundInTheSystem::withUserId(new UserId(self::OBSERVER_ID)));
+            ->with($observerId, $observeeId)
+            ->willThrowException(ObserverWasNotFoundInTheSystem::withUserId($observerId));
 
-        $message = sprintf('Вы не следите за днем рождения пользователя с id %s.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.not_observing', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.not_observing', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+    );
     }
 
     /**
      * @test
      */
-    public function informsObserverWhenNotObservingUser(): void
+    public function notObservingUser(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->method('stopObserving')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID))
-            ->willThrowException(NotObservingUser::withId(new UserId(self::OBSERVER_ID)));
+            ->with($observerId, $observeeId)
+            ->willThrowException(NotObservingUser::withId($observerId));
 
-        $message = sprintf('Вы не следите за днем рождения пользователя с id %s.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.not_observing', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.not_observing', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     protected function setUp(): void
@@ -94,10 +84,6 @@ final class StopObservingTest extends CommandTestCase
 
         $this->observerService = $this->createMock(ObserverService::class);
 
-        $this->command = new StopObserving(
-            $this->observerService,
-            $this->messenger,
-            $this->translator,
-        );
+        $this->command = new StopObserving($this->observerService);
     }
 }

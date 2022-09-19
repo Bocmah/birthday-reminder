@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace Tests\Unit\Application\Command;
 
 use BirthdayReminder\Application\Command\ChangeBirthdate;
-use BirthdayReminder\Application\Command\InvalidCommandFormat;
+use BirthdayReminder\Application\Command\ErrorDuringCommandExecution;
 use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
-use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Translation\TranslatableMessage;
+use Tests\Unit\Domain\Observer\ObserverMother;
 
 /**
  * @covers \BirthdayReminder\Application\Command\ChangeBirthdate
  */
-final class ChangeBirthdateTest extends CommandTestCase
+final class ChangeBirthdateTest extends TestCase
 {
     private const BIRTHDATE = '10.05.1990';
 
@@ -31,65 +33,53 @@ final class ChangeBirthdateTest extends CommandTestCase
      */
     public function changeBirthdate(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->expects($this->once())
             ->method('changeObserveeBirthdate')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID), new DateTimeImmutable(self::BIRTHDATE));
+            ->with($observerId, $observeeId, new DateTimeImmutable(self::BIRTHDATE));
 
-        $message = sprintf('День рождения пользователя с id %s был измененен.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.birthday_changed', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.birthday_changed', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
      * @test
      */
-    public function informsObserverAboutNotObservingObserveeWhenObserverWasNotFoundInTheSystem(): void
+    public function observerWasNotFoundInTheSystem(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->method('changeObserveeBirthdate')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID), new DateTimeImmutable(self::BIRTHDATE))
-            ->willThrowException(ObserverWasNotFoundInTheSystem::withUserId(new UserId(self::OBSERVER_ID)));
+            ->with($observerId, $observeeId, new DateTimeImmutable(self::BIRTHDATE))
+            ->willThrowException(ObserverWasNotFoundInTheSystem::withUserId($observerId));
 
-        $message = sprintf('Вы не следите за днем рождения пользователя с id %s.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.not_observing', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.not_observing', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
      * @test
      */
-    public function informsObserverWhenNotObservingUser(): void
+    public function notObservingUser(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->method('changeObserveeBirthdate')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID), new DateTimeImmutable(self::BIRTHDATE))
-            ->willThrowException(NotObservingUser::withId(new UserId(self::OBSERVER_ID)));
+            ->with($observerId, $observeeId, new DateTimeImmutable(self::BIRTHDATE))
+            ->willThrowException(NotObservingUser::withId($observerId));
 
-        $message = sprintf('Вы не следите за днем рождения пользователя с id %s.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.not_observing', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.not_observing', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
@@ -99,9 +89,9 @@ final class ChangeBirthdateTest extends CommandTestCase
      */
     public function invalidCommandFormat(string $command): void
     {
-        $this->expectException(InvalidCommandFormat::class);
+        $this->expectException(ErrorDuringCommandExecution::class);
 
-        $this->command->execute(new UserId(self::OBSERVER_ID), $command);
+        $this->command->execute(ObserverMother::createObserverId(), $command);
     }
 
     /**
@@ -130,10 +120,6 @@ final class ChangeBirthdateTest extends CommandTestCase
 
         $this->observerService = $this->createMock(ObserverService::class);
 
-        $this->command = new ChangeBirthdate(
-            $this->observerService,
-            $this->messenger,
-            $this->translator,
-        );
+        $this->command = new ChangeBirthdate($this->observerService);
     }
 }

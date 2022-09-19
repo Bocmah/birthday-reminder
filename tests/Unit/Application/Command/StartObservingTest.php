@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Application\Command;
 
-use BirthdayReminder\Application\Command\InvalidCommandFormat;
+use BirthdayReminder\Application\Command\ErrorDuringCommandExecution;
 use BirthdayReminder\Application\Command\StartObserving;
 use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
-use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Translation\TranslatableMessage;
+use Tests\Unit\Domain\Observer\ObserverMother;
 
 /**
  * @covers \BirthdayReminder\Application\Command\StartObserving
  */
-final class StartObservingTest extends CommandTestCase
+final class StartObservingTest extends TestCase
 {
     private const BIRTHDATE = '10.05.1990';
 
@@ -32,87 +34,71 @@ final class StartObservingTest extends CommandTestCase
      */
     public function startObserving(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->expects($this->once())
             ->method('startObserving')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID), new DateTimeImmutable(self::BIRTHDATE));
+            ->with($observerId, $observeeId, new DateTimeImmutable(self::BIRTHDATE));
 
-        $message = sprintf('Теперь вы следите за днем рождения пользователя с id %s.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.started_observing', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.started_observing', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
      * @test
      */
-    public function informsObserverWhenObserveeWasNotFoundOnThePlatform(): void
+    public function observeeWasNotFoundOnThePlatform(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->method('startObserving')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID), new DateTimeImmutable(self::BIRTHDATE))
-            ->willThrowException(ObserveeWasNotFoundOnThePlatform::withUserId(new UserId(self::OBSERVEE_ID)));
+            ->with($observerId, $observeeId, new DateTimeImmutable(self::BIRTHDATE))
+            ->willThrowException(ObserveeWasNotFoundOnThePlatform::withUserId($observeeId));
 
-        $message = sprintf('Пользователь с id %s не найден.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('user.not_found_on_the_platform', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('user.not_found_on_the_platform', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
      * @test
      */
-    public function informsObserverWhenAlreadyObservingUser(): void
+    public function alreadyObserving(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->method('startObserving')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID), new DateTimeImmutable(self::BIRTHDATE))
-            ->willThrowException(AlreadyObservingUser::withId(new UserId(self::OBSERVEE_ID)));
+            ->with($observerId, $observeeId, new DateTimeImmutable(self::BIRTHDATE))
+            ->willThrowException(AlreadyObservingUser::withId($observeeId));
 
-        $message = sprintf('Вы уже следите за днем рождения пользователя с id %s.', self::OBSERVEE_ID);
-
-        $this->translator
-            ->method('trans')
-            ->with('observee.already_observing', ['%id%' => self::OBSERVEE_ID])
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('observee.already_observing', ['%id%' => (string) $observeeId]),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
      * @test
      */
-    public function informsObserverAboutUnexpectedErrorWhenObserverWasNotFoundOnThePlatform(): void
+    public function observerWasNotFoundOnThePlatform(): void
     {
+        [$observerId, $observeeId] = ObserverMother::createObserverIdAndObserveeId();
+
         $this->observerService
             ->method('startObserving')
-            ->with(new UserId(self::OBSERVER_ID), new UserId(self::OBSERVEE_ID), new DateTimeImmutable(self::BIRTHDATE))
-            ->willThrowException(ObserverWasNotFoundOnThePlatform::withUserId(new UserId(self::OBSERVER_ID)));
+            ->with($observerId, $observeeId, new DateTimeImmutable(self::BIRTHDATE))
+            ->willThrowException(ObserverWasNotFoundOnThePlatform::withUserId($observerId));
 
-        $message = 'Произошла непредвиденная ошибка.';
-
-        $this->translator
-            ->method('trans')
-            ->with('unexpected_error')
-            ->willReturn($message);
-
-        $this->expectMessageToObserver($message);
-
-        $this->command->execute(new UserId(self::OBSERVER_ID), self::VALID_COMMAND);
+        $this->assertEquals(
+            new TranslatableMessage('unexpected_error'),
+            $this->command->execute($observerId, self::VALID_COMMAND),
+        );
     }
 
     /**
@@ -122,9 +108,9 @@ final class StartObservingTest extends CommandTestCase
      */
     public function invalidCommandFormat(string $command): void
     {
-        $this->expectException(InvalidCommandFormat::class);
+        $this->expectException(ErrorDuringCommandExecution::class);
 
-        $this->command->execute(new UserId(self::OBSERVER_ID), $command);
+        $this->command->execute(ObserverMother::createObserverId(), $command);
     }
 
     /**
@@ -153,10 +139,6 @@ final class StartObservingTest extends CommandTestCase
 
         $this->observerService = $this->createMock(ObserverService::class);
 
-        $this->command = new StartObserving(
-            $this->observerService,
-            $this->messenger,
-            $this->translator,
-        );
+        $this->command = new StartObserving($this->observerService);
     }
 }

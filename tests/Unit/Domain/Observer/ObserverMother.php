@@ -12,8 +12,12 @@ use DateTimeImmutable;
 
 final class ObserverMother
 {
+    private const OBSERVER_ID = '123';
+
+    private const OBSERVEE_ID = '333';
+
     public static function createObserverWithoutObservees(
-        UserId $id = new UserId('123'),
+        UserId $id = new UserId(self::OBSERVER_ID),
         FullName $fullName = new FullName('John', 'Doe')
     ): Observer {
         return new Observer($id, $fullName);
@@ -30,7 +34,7 @@ final class ObserverMother
 
     public static function attachObservee(
         Observer $observer,
-        UserId $id = new UserId('333'),
+        UserId $id = new UserId(self::OBSERVEE_ID),
         FullName $fullName = new FullName('James', 'Dean'),
         DateTimeImmutable $birthdate = new DateTimeImmutable('11.10.1990'),
     ): Observee {
@@ -42,5 +46,18 @@ final class ObserverMother
     public static function detachObservee(Observer $observer, UserId $id): void
     {
         $observer->stopObserving($id);
+    }
+
+    public static function createObserverId(): UserId
+    {
+        return new UserId(self::OBSERVER_ID);
+    }
+
+    /**
+     * @return array{0: UserId, 1: UserId}
+     */
+    public static function createObserverIdAndObserveeId(): array
+    {
+        return [self::createObserverId(), new UserId(self::OBSERVEE_ID)];
     }
 }

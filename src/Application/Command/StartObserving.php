@@ -4,46 +4,36 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application\Command;
 
+use BirthdayReminder\Application\Message\Message;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Messenger\Messenger;
 use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class StartObserving extends Command
 {
-    public function __construct(
-        private readonly ObserverService $observerService,
-        private readonly Messenger $messenger,
-        private readonly TranslatorInterface $translator,
-    ) {
+    public function __construct(private readonly ObserverService $observerService) {
     }
 
-    public function execute(UserId $observerId, string $command): void
+    protected function executedParsed(UserId $observerId, ParseResult $parseResult): TranslatableMessage
     {
-        $matches = $this->parse($command);
-
-        if (!isset($matches['id'], $matches['date'])) {
-            throw new InvalidCommandFormat();
-        }
-
-        $observeeId = new UserId($matches['id']);
-        $birthdate = new DateTimeImmutable($matches['date']);
+        $observeeId = new UserId($parseResult->get('id'));
+        $birthdate = new DateTimeImmutable($parseResult->get('date'));
 
         try {
             $this->observerService->startObserving($observerId, $observeeId, $birthdate);
-
-            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.started_observing', ['%id%' => (string) $observeeId]));
         } catch (ObserveeWasNotFoundOnThePlatform) {
-            $this->messenger->sendMessage($observerId, $this->translator->trans('user.not_found_on_the_platform', ['%id%' => (string) $observeeId]));
+            return Message::userNotFoundOnThePlatform($observeeId);
         } catch (AlreadyObservingUser) {
-            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.already_observing', ['%id%' => (string) $observeeId]));
+            return Message::alreadyObserving($observeeId);
         } catch (ObserverWasNotFoundOnThePlatform) {
-            $this->messenger->sendMessage($observerId, $this->translator->trans('unexpected_error'));
+            return Message::unexpectedError();
         }
+
+        return Message::startedObserving($observeeId);
     }
 
     protected function pattern(): string

@@ -5,38 +5,27 @@ declare(strict_types=1);
 namespace BirthdayReminder\Application\Command;
 
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Messenger\Messenger;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\User\UserId;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class StopObserving extends Command
 {
-    public function __construct(
-        private readonly ObserverService $observerService,
-        private readonly Messenger $messenger,
-        private readonly TranslatorInterface $translator,
-    ) {
+    public function __construct(private readonly ObserverService $observerService) {
     }
 
-    public function execute(UserId $observerId, string $command): void
+    protected function executedParsed(UserId $observerId, ParseResult $parseResult): TranslatableMessage
     {
-        $matches = $this->parse($command);
-
-        if (!isset($matches['id'])) {
-            throw new InvalidCommandFormat();
-        }
-
-        $observeeId = new UserId($matches['id']);
+        $observeeId = new UserId($parseResult->get('id'));
 
         try {
             $this->observerService->stopObserving($observerId, $observeeId);
-
-            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.stopped_observing', ['%id%' => (string) $observeeId]));
         } catch (ObserverWasNotFoundInTheSystem|NotObservingUser) {
-            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.not_observing', ['%id%' => (string) $observeeId]));
+            return new TranslatableMessage('observee.not_observing', ['%id%' => (string) $observeeId]);
         }
+
+        return new TranslatableMessage('observee.stopped_observing', ['%id%' => (string) $observeeId]);
     }
 
     protected function pattern(): string

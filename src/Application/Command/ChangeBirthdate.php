@@ -4,41 +4,31 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application\Command;
 
+use BirthdayReminder\Application\Message\Message;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Messenger\Messenger;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class ChangeBirthdate extends Command
 {
-    public function __construct(
-        private readonly ObserverService $observerService,
-        private readonly Messenger $messenger,
-        private readonly TranslatorInterface $translator,
-    ) {
+    public function __construct(private readonly ObserverService $observerService) {
     }
 
-    public function execute(UserId $observerId, string $command): void
+    protected function executedParsed(UserId $observerId, ParseResult $parseResult): TranslatableMessage
     {
-        $matches = $this->parse($command);
-
-        if (!isset($matches['id'], $matches['date'])) {
-            throw new InvalidCommandFormat();
-        }
-
-        $observeeId = new UserId($matches['id']);
-        $newBirthdate = new DateTimeImmutable($matches['date']);
+        $observeeId = new UserId($parseResult->get('id'));
+        $newBirthdate = new DateTimeImmutable($parseResult->get('date'));
 
         try {
             $this->observerService->changeObserveeBirthdate($observerId, $observeeId, $newBirthdate);
-
-            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.birthday_changed', ['%id%' => (string) $observeeId]));
         } catch (ObserverWasNotFoundInTheSystem|NotObservingUser) {
-            $this->messenger->sendMessage($observerId, $this->translator->trans('observee.not_observing', ['%id%' => (string) $observeeId]));
+            return Message::notObserving($observeeId);
         }
+
+        return Message::birthdayChanged($observeeId);
     }
 
     protected function pattern(): string
