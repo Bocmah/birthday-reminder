@@ -54,3 +54,6 @@ migrate-generate: ## Generate template migration
 
 migrate: ## Run migrations
 	docker-compose exec $(PHP_SERVICE) composer migrate
+
+composer-update:
+	@docker-compose exec $(PHP_SERVICE) composer update
