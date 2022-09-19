@@ -66,7 +66,7 @@ final class BirthdaysNotifierSelectorTest extends TestCase
     /**
      * @test
      */
-    public function failsWhenNoNotifierWasFound(): void
+    public function failsWhenNotifierWasNotFound(): void
     {
         $observer = ObserverMother::createObserverWithOneObservee();
 
