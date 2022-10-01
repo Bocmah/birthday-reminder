@@ -19,6 +19,7 @@
         "doctrine/orm": "^2.12",
         "nyholm/psr7": "^1.5",
         "php-http/httplug": "^2.3",
+        "php-http/httplug-bundle": "^1.27",
         "spiral/roadrunner": "^2.9",
         "symfony/dependency-injection": "^6.0",
         "symfony/dotenv": "^6.0",
