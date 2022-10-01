@@ -18,9 +18,11 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "nyholm/psr7": "^1.5",
+        "php-http/httplug": "^2.3",
         "spiral/roadrunner": "^2.9",
         "symfony/dependency-injection": "^6.0",
         "symfony/dotenv": "^6.0",
+        "symfony/flex": "^2.2",
         "symfony/framework-bundle": "^6.0",
         "symfony/http-kernel": "^6.0",
         "symfony/monolog-bundle": "^3.8",
@@ -61,7 +63,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "infection/extension-installer": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "symfony/flex": true
         }
     },
     "scripts": {
@@ -72,6 +75,10 @@
         "psalm": "@php vendor/bin/psalm --show-info=true --threads=4",
         "psalm-ci": "@php vendor/bin/psalm --show-info=true --output-format=github --threads=4 --shepherd",
         "migrate-generate": "@php bin/console doctrine:migrations:generate",
-        "migrate": "php bin/console doctrine:migrations:migrate"
+        "migrate": "php bin/console doctrine:migrations:migrate",
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        }
     }
 }

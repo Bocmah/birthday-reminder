@@ -1,17 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
-use Baldinof\RoadRunnerBundle\BaldinofRoadRunnerBundle;
-use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Symfony\Bundle\MonologBundle\MonologBundle;
-
 return [
-    FrameworkBundle::class => ['all' => true],
-    BaldinofRoadRunnerBundle::class => ['all' => true],
-    DoctrineBundle::class => ['all' => true],
-    DoctrineMigrationsBundle::class => ['all' => true],
-    MonologBundle::class => ['all' => true],
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Baldinof\RoadRunnerBundle\BaldinofRoadRunnerBundle::class => ['all' => true],
+    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
+    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+    Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
 ];
