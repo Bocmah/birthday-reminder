@@ -39,7 +39,19 @@
       <code>$value</code>
     </MoreSpecificImplementedParamType>
   </file>
+  <file src="tests/Unit/Application/BirthdaysNotifierServiceTest.php">
+    <InaccessibleProperty occurrences="3">
+      <code>$this-&gt;notifierSelector</code>
+      <code>$this-&gt;notifierService</code>
+      <code>$this-&gt;observerRepository</code>
+    </InaccessibleProperty>
+  </file>
   <file src="tests/Unit/Application/ObserverServiceTest.php">
+    <InaccessibleProperty occurrences="3">
+      <code>$this-&gt;observerRepository</code>
+      <code>$this-&gt;observerService</code>
+      <code>$this-&gt;userFinder</code>
+    </InaccessibleProperty>
     <PossiblyNullReference occurrences="3">
       <code>observees</code>
       <code>observees</code>
@@ -47,12 +59,28 @@
     </PossiblyNullReference>
   </file>
   <file src="tests/Unit/Domain/BirthdaysNotifier/NoUpcomingBirthdaysNotifierTest.php">
+    <InaccessibleProperty occurrences="5">
+      <code>$this-&gt;birthdaysNotifier</code>
+      <code>$this-&gt;messenger</code>
+      <code>$this-&gt;today</code>
+      <code>$this-&gt;tomorrow</code>
+      <code>$this-&gt;translator</code>
+    </InaccessibleProperty>
     <UnusedClosureParam occurrences="2">
       <code>$today</code>
       <code>$today</code>
     </UnusedClosureParam>
   </file>
   <file src="tests/Unit/Domain/BirthdaysNotifier/UpcomingBirthdaysNotifierTest.php">
+    <InaccessibleProperty occurrences="7">
+      <code>$this-&gt;birthdaysNotifier</code>
+      <code>$this-&gt;dateFormatter</code>
+      <code>$this-&gt;messenger</code>
+      <code>$this-&gt;observeeFormatter</code>
+      <code>$this-&gt;today</code>
+      <code>$this-&gt;tomorrow</code>
+      <code>$this-&gt;translator</code>
+    </InaccessibleProperty>
     <MixedArgument occurrences="1">
       <code>$parameters['%date%']</code>
     </MixedArgument>
@@ -62,5 +90,40 @@
       <code>$today</code>
       <code>$today</code>
     </UnusedClosureParam>
+  </file>
+  <file src="tests/Unit/Domain/Observer/ObserverTest.php">
+    <InaccessibleProperty occurrences="3">
+      <code>$this-&gt;observeeBirthdate</code>
+      <code>$this-&gt;observeeFullName</code>
+      <code>$this-&gt;observeeId</code>
+    </InaccessibleProperty>
+    <MixedInferredReturnType occurrences="1">
+      <code>iterable</code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="tests/Unit/Domain/Observer/Specification/DoesntHaveBirthdaysOnDateTest.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>iterable&lt;array{createObserver: callable():Observer, date: DateTimeImmutable, result: bool}&gt;</code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="tests/Unit/Domain/Observer/Specification/HasBirthdaysOnDateTest.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>iterable&lt;array{createObserver: callable():Observer, date: DateTimeImmutable, result: bool}&gt;</code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="tests/Unit/Domain/Observer/Specification/HasObserveesTest.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>iterable&lt;array{0: Observer, 1: bool}&gt;</code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="tests/Unit/Domain/Observer/Specification/ShouldAlwaysBeNotifiedTest.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>iterable&lt;array{0: Observer, 1: bool}&gt;</code>
+    </MixedInferredReturnType>
+  </file>
+  <file src="tests/Unit/Infrastructure/Date/IntlDateFormatterTest.php">
+    <InaccessibleProperty occurrences="1">
+      <code>$this-&gt;formatter</code>
+    </InaccessibleProperty>
   </file>
 </files>
