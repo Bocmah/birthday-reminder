@@ -8,13 +8,14 @@ use BirthdayReminder\Domain\Date\Calendar;
 use BirthdayReminder\Domain\Date\Date;
 use BirthdayReminder\Domain\Date\DateFormatter;
 use DateTimeImmutable;
+use DateTimeZone;
 use IntlDateFormatter as StdlibIntlDateFormatter;
 
 final class IntlDateFormatter implements DateFormatter
 {
     public function __construct(
         private readonly string $locale,
-        private readonly string $timezone,
+        private readonly DateTimeZone $timezone,
         private readonly Calendar $calendar,
     ) {
     }
