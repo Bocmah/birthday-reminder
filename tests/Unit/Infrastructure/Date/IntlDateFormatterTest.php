@@ -33,11 +33,11 @@ final class IntlDateFormatterTest extends TestCase
      */
     public function dates(): iterable
     {
-        yield 'today should be displayed as a word' => [new DateTimeImmutable('today', new DateTimeZone('Europe/Moscow')), 'сегодня'];
+        yield 'today should be displayed as a word' => [new DateTimeImmutable('today'), 'сегодня'];
 
-        yield 'tomorrow should be displayed as a word' => [new DateTimeImmutable('tomorrow', new DateTimeZone('Europe/Moscow')), 'завтра'];
+        yield 'tomorrow should be displayed as a word' => [new DateTimeImmutable('tomorrow'), 'завтра'];
 
-        yield 'other dates should be displayed as day and month' => [new DateTimeImmutable('16.10.1996', new DateTimeZone('Europe/Moscow')), '16 октября'];
+        yield 'other dates should be displayed as day and month' => [new DateTimeImmutable('16.10.1996'), '16 октября'];
     }
 
     protected function setUp(): void
