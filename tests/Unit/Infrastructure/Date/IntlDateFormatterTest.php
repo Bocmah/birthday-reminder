@@ -13,8 +13,6 @@ use PHPUnit\Framework\TestCase;
 
 final class IntlDateFormatterTest extends TestCase
 {
-    private readonly DateTimeZone $timezone;
-
     private readonly IntlDateFormatter $formatter;
 
     /**
@@ -35,18 +33,17 @@ final class IntlDateFormatterTest extends TestCase
      */
     public function dates(): iterable
     {
-        yield 'today should be displayed as a word' => [new DateTimeImmutable('today', $this->timezone), 'сегодня'];
+        yield 'today should be displayed as a word' => [new DateTimeImmutable('today', new DateTimeZone('Europe/Moscow')), 'сегодня'];
 
-        yield 'tomorrow should be displayed as a word' => [new DateTimeImmutable('tomorrow', $this->timezone), 'завтра'];
+        yield 'tomorrow should be displayed as a word' => [new DateTimeImmutable('tomorrow', new DateTimeZone('Europe/Moscow')), 'завтра'];
 
-        yield 'other dates should be displayed as day and month' => [new DateTimeImmutable('16.10.1996', $this->timezone), '16 октября'];
+        yield 'other dates should be displayed as day and month' => [new DateTimeImmutable('16.10.1996', new DateTimeZone('Europe/Moscow')), '16 октября'];
     }
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->timezone = new DateTimeZone('Europe/Moscow');
-        $this->formatter = new IntlDateFormatter('ru_RU', $this->timezone, new SystemCalendar());
+        $this->formatter = new IntlDateFormatter('ru_RU', new DateTimeZone('Europe/Moscow'), new SystemCalendar());
     }
 }
