@@ -20,6 +20,7 @@ jobs:
           php-version: '8.1'
           extensions: mysqli, pdo_mysql, pcntl
           coverage: pcov
+          ini-values: date.timezone=Europe/Moscow
 
       - name: Validate composer.json and composer.lock
         run: composer validate
