@@ -111,7 +111,7 @@ final class NoUpcomingBirthdaysNotifierTest extends TestCase
         ];
 
         yield 'observer with birthdays tomorrow' => [
-            'createObserver' => static function (DateTimeImmutable $today, DateTimeImmutable $tomorrow): Observer {
+            'createObserver' => static function (DateTimeImmutable $_today, DateTimeImmutable $tomorrow): Observer {
                 $observer = ObserverMother::createObserverWithoutObservees();
                 ObserverMother::attachObservee($observer, birthdate: $tomorrow);
 
@@ -121,7 +121,7 @@ final class NoUpcomingBirthdaysNotifierTest extends TestCase
         ];
 
         yield 'notifiable observer with birthdays after tomorrow' => [
-            'createObserver' => static function (DateTimeImmutable $today, DateTimeImmutable $tomorrow): Observer {
+            'createObserver' => static function (DateTimeImmutable $_today, DateTimeImmutable $tomorrow): Observer {
                 $observer = ObserverMother::createObserverWithoutObservees();
                 ObserverMother::attachObservee($observer, birthdate: $tomorrow->add(DateInterval::createFromDateString('1 day')));
 

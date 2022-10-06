@@ -62,7 +62,7 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
 
         $this->translator
             ->method('trans')
-            ->willReturnCallback(static function (string $id, array $parameters): string {
+            ->willReturnCallback(static function (string $_id, array $parameters): string {
                 return sprintf('%s дни рождения у этих людей:', $parameters['%date%']);
             });
 
@@ -111,7 +111,7 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
         ];
 
         yield 'observer with birthdays tomorrow' => [
-            'createObserver' => static function (DateTimeImmutable $today, DateTimeImmutable $tomorrow): Observer {
+            'createObserver' => static function (DateTimeImmutable $_today, DateTimeImmutable $tomorrow): Observer {
                 $observer = ObserverMother::createObserverWithoutObservees();
                 ObserverMother::attachObservee($observer, new UserId('111'), new FullName('John', 'Doe'), $tomorrow);
                 ObserverMother::attachObservee($observer, new UserId('222'), new FullName('James', 'Dean'), $tomorrow);
@@ -177,7 +177,7 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
         ];
 
         yield 'observer with birthdays tomorrow' => [
-            'createObserver' => static function (DateTimeImmutable $today, DateTimeImmutable $tomorrow): Observer {
+            'createObserver' => static function (DateTimeImmutable $_today, DateTimeImmutable $tomorrow): Observer {
                 $observer = ObserverMother::createObserverWithoutObservees();
                 ObserverMother::attachObservee($observer, birthdate: $tomorrow);
 
@@ -187,7 +187,7 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
         ];
 
         yield 'observer with birthdays after tomorrow' => [
-            'createObserver' => static function (DateTimeImmutable $today, DateTimeImmutable $tomorrow): Observer {
+            'createObserver' => static function (DateTimeImmutable $_today, DateTimeImmutable $tomorrow): Observer {
                 $observer = ObserverMother::createObserverWithoutObservees();
                 ObserverMother::attachObservee($observer, birthdate: $tomorrow->add(DateInterval::createFromDateString('1 day')));
 

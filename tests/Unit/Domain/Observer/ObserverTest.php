@@ -158,6 +158,9 @@ final class ObserverTest extends TestCase
         $this->assertEquals($birthdays, $observer->birthdaysOnDate($date));
     }
 
+    /**
+     * @return iterable<string, array{0: Observer, 1: DateTimeImmutable, 2: list<Observee>}>
+     */
     public function birthdaysOnDateProvider(): iterable
     {
         $observer = ObserverMother::createObserverWithoutObservees();

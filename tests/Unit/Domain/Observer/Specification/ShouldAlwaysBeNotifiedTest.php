@@ -26,7 +26,7 @@ final class ShouldAlwaysBeNotifiedTest extends TestCase
     /**
      * @see isSatisfiedBy()
      *
-     * @return iterable<array{0: Observer, 1: bool}>
+     * @return iterable<int, array{0: Observer, 1: bool}>
      */
     public function isSatisfiedByProvider(): iterable
     {

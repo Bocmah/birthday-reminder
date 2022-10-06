@@ -66,10 +66,6 @@
       <code>$this-&gt;tomorrow</code>
       <code>$this-&gt;translator</code>
     </InaccessibleProperty>
-    <UnusedClosureParam occurrences="2">
-      <code>$today</code>
-      <code>$today</code>
-    </UnusedClosureParam>
   </file>
   <file src="tests/Unit/Domain/BirthdaysNotifier/UpcomingBirthdaysNotifierTest.php">
     <InaccessibleProperty occurrences="7">
@@ -84,12 +80,6 @@
     <MixedArgument occurrences="1">
       <code>$parameters['%date%']</code>
     </MixedArgument>
-    <UnusedClosureParam occurrences="4">
-      <code>$id</code>
-      <code>$today</code>
-      <code>$today</code>
-      <code>$today</code>
-    </UnusedClosureParam>
   </file>
   <file src="tests/Unit/Domain/Observer/ObserverTest.php">
     <InaccessibleProperty occurrences="3">
@@ -97,29 +87,6 @@
       <code>$this-&gt;observeeFullName</code>
       <code>$this-&gt;observeeId</code>
     </InaccessibleProperty>
-    <MixedInferredReturnType occurrences="1">
-      <code>iterable</code>
-    </MixedInferredReturnType>
-  </file>
-  <file src="tests/Unit/Domain/Observer/Specification/DoesntHaveBirthdaysOnDateTest.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>iterable&lt;array{createObserver: callable():Observer, date: DateTimeImmutable, result: bool}&gt;</code>
-    </MixedInferredReturnType>
-  </file>
-  <file src="tests/Unit/Domain/Observer/Specification/HasBirthdaysOnDateTest.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>iterable&lt;array{createObserver: callable():Observer, date: DateTimeImmutable, result: bool}&gt;</code>
-    </MixedInferredReturnType>
-  </file>
-  <file src="tests/Unit/Domain/Observer/Specification/HasObserveesTest.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>iterable&lt;array{0: Observer, 1: bool}&gt;</code>
-    </MixedInferredReturnType>
-  </file>
-  <file src="tests/Unit/Domain/Observer/Specification/ShouldAlwaysBeNotifiedTest.php">
-    <MixedInferredReturnType occurrences="1">
-      <code>iterable&lt;array{0: Observer, 1: bool}&gt;</code>
-    </MixedInferredReturnType>
   </file>
   <file src="tests/Unit/Infrastructure/Date/IntlDateFormatterTest.php">
     <InaccessibleProperty occurrences="1">
