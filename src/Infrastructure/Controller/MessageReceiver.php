@@ -31,9 +31,7 @@ final class MessageReceiver extends AbstractController
         $command = $this->commandSelector->select($message->text);
 
         try {
-            $response = $command->execute($message->from, $message->text);
-
-            $this->messenger->sendMessage($message->from, $response->trans($this->translator));
+            $commandResponse = $command->execute($message->from, $message->text);
         } catch (ErrorDuringCommandExecution $e) {
             $this->logger->error(
                 'Error during command execution',
@@ -45,8 +43,10 @@ final class MessageReceiver extends AbstractController
                 ],
             );
 
-            $this->messenger->sendMessage($message->from, Message::unexpectedError()->trans($this->translator));
+            $commandResponse = Message::unexpectedError();
         }
+
+        $this->messenger->sendMessage($message->from, $commandResponse->trans($this->translator));
 
         return new Response('ok');
     }
