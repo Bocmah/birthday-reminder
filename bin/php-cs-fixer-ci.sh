@@ -11,4 +11,4 @@ else
     EXTRA_ARGS='';
 fi
 
-composer php-cs-fixer -- --config=.php_cs.dist -v --dry-run --stop-on-violation --using-cache=no ${EXTRA_ARGS}
+composer php-cs-fixer -- --config=.php-cs-fixer.dist.php -v --dry-run --stop-on-violation --using-cache=no ${EXTRA_ARGS}
