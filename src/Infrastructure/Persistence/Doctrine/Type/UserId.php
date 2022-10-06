@@ -16,7 +16,7 @@ final class UserId extends StringType
     {
         $value = parent::convertToPHPValue($value, $platform);
 
-        return new \BirthdayReminder\Domain\User\UserId($value);
+        return new \BirthdayReminder\Domain\User\UserId((string) $value);
     }
 
     /**

@@ -11,6 +11,6 @@ final class AlreadyObservingUser extends RuntimeException
 {
     public static function withId(UserId $id): self
     {
-        return new self(sprintf('Already observing user with id %s', $id));
+        return new self(sprintf('Already observing user with id %s', (string) $id));
     }
 }

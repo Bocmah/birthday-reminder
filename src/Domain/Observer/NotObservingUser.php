@@ -11,6 +11,6 @@ final class NotObservingUser extends RuntimeException
 {
     public static function withId(UserId $id): self
     {
-        return new self(sprintf('Not observing user with id %s', $id));
+        return new self(sprintf('Not observing user with id %s', (string) $id));
     }
 }

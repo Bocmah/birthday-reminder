@@ -10,6 +10,6 @@ final class UserWasNotFound extends RuntimeException
 {
     public static function withId(UserId $id): self
     {
-        return new self(sprintf('User with id %s was not found', $id));
+        return new self(sprintf('User with id %s was not found', (string) $id));
     }
 }

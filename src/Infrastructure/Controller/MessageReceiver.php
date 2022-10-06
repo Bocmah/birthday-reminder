@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class MessageReceiver extends AbstractController
 {
     public function __construct(

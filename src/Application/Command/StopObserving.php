@@ -17,7 +17,7 @@ final class StopObserving extends Command
 
     protected function executedParsed(UserId $observerId, ParseResult $parseResult): TranslatableMessage
     {
-        $observeeId = new UserId($parseResult->get('id'));
+        $observeeId = new UserId((string) $parseResult->get('id'));
 
         try {
             $this->observerService->stopObserving($observerId, $observeeId);
