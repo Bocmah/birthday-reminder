@@ -24,7 +24,8 @@ final class ChangeBirthdateTest extends TestCase
 
     private const VALID_COMMAND = 'update 333 10.05.1990';
 
-    private MockObject|ObserverService $observerService;
+    /** @var MockObject&ObserverService */
+    private MockObject $observerService;
 
     private ChangeBirthdate $command;
 

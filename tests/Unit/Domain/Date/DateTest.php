@@ -25,7 +25,7 @@ final class DateTest extends TestCase
     /**
      * @see isSameDay()
      *
-     * @return iterable<string, array{dateA: DateTimeImmutable, dateB: DateTimeImmutable, result: bool}
+     * @return iterable<string, array{dateA: DateTimeImmutable, dateB: DateTimeImmutable, result: bool}>
      */
     public function dates(): iterable
     {

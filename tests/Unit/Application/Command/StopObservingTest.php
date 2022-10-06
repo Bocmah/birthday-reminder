@@ -20,7 +20,8 @@ final class StopObservingTest extends TestCase
 {
     private const VALID_COMMAND = 'delete 333';
 
-    private MockObject|ObserverService $observerService;
+    /** @var MockObject&ObserverService */
+    private MockObject $observerService;
 
     private StopObserving $command;
 

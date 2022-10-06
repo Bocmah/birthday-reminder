@@ -25,7 +25,8 @@ final class StartObservingTest extends TestCase
 
     private const VALID_COMMAND = 'add 333 10.05.1990';
 
-    private MockObject|ObserverService $observerService;
+    /** @var MockObject&ObserverService */
+    private MockObject $observerService;
 
     private StartObserving $command;
 

@@ -29,7 +29,7 @@ final class DoesntHaveBirthdaysOnDateTest extends TestCase
     /**
      * @see isSatisfiedBy()
      *
-     * @return iterable<array{0: callable():Observer, 1: DateTimeImmutable, 2: bool}>
+     * @return iterable<array{createObserver: callable():Observer, date: DateTimeImmutable, result: bool}>
      */
     public function isSatisfiedByProvider(): iterable
     {

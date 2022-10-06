@@ -19,9 +19,11 @@ final class BirthdaysNotifierServiceTest extends TestCase
 {
     private readonly BirthdaysNotifierService $notifierService;
 
-    private readonly MockObject|ObserverRepository $observerRepository;
+    /** @var MockObject&ObserverRepository */
+    private readonly MockObject $observerRepository;
 
-    private readonly MockObject|BirthdaysNotifierSelector $notifierSelector;
+    /** @var MockObject&BirthdaysNotifierSelector */
+    private readonly MockObject $notifierSelector;
 
     /**
      * @test

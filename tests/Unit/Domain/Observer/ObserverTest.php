@@ -49,7 +49,7 @@ final class ObserverTest extends TestCase
         $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
 
         $this->expectException(AlreadyObservingUser::class);
-        $this->expectExceptionMessage(sprintf('Already observing user with id %s', $this->observeeId));
+        $this->expectExceptionMessage(sprintf('Already observing user with id %s', (string) $this->observeeId));
 
         $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
     }
@@ -80,7 +80,7 @@ final class ObserverTest extends TestCase
         $observer = ObserverMother::createObserverWithoutObservees();
 
         $this->expectException(NotObservingUser::class);
-        $this->expectExceptionMessage(sprintf('Not observing user with id %s', $this->observeeId));
+        $this->expectExceptionMessage(sprintf('Not observing user with id %s', (string) $this->observeeId));
 
         $observer->stopObserving($this->observeeId);
     }
@@ -118,7 +118,7 @@ final class ObserverTest extends TestCase
         $observer = ObserverMother::createObserverWithoutObservees();
 
         $this->expectException(NotObservingUser::class);
-        $this->expectExceptionMessage(sprintf('Not observing user with id %s', $this->observeeId));
+        $this->expectExceptionMessage(sprintf('Not observing user with id %s', (string) $this->observeeId));
 
         $observer->changeObserveeBirthdate($this->observeeId, new DateTimeImmutable('12.12.2012'));
     }

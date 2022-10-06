@@ -24,9 +24,15 @@ final class NoUpcomingBirthdaysNotifierTest extends TestCase
 {
     private readonly NoUpcomingBirthdaysNotifier $birthdaysNotifier;
 
-    private readonly MockObject|TranslatorInterface $translator;
+    private readonly DateTimeImmutable $today;
 
-    private readonly MockObject|Messenger $messenger;
+    private readonly DateTimeImmutable $tomorrow;
+
+    /** @var MockObject&TranslatorInterface */
+    private readonly MockObject $translator;
+
+    /** @var MockObject&Messenger */
+    private readonly MockObject $messenger;
 
     /**
      * @test
@@ -79,7 +85,7 @@ final class NoUpcomingBirthdaysNotifierTest extends TestCase
     /**
      * @see canNotify()
      *
-     * @return iterable<string, array{0: callable(DateTimeImmutable,DateTimeImmutable):Observer, 1: bool}>
+     * @return iterable<string, array{createObserver: callable(DateTimeImmutable,DateTimeImmutable):Observer, canNotify: bool}>
      */
     public function canNotifyProvider(): iterable
     {

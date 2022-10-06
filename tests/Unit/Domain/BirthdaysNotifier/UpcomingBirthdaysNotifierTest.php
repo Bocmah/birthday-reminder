@@ -28,17 +28,21 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
 {
     private readonly UpcomingBirthdaysNotifier $birthdaysNotifier;
 
-    private readonly MockObject|TranslatorInterface $translator;
-
-    private readonly MockObject|DateFormatter $dateFormatter;
-
-    private readonly MockObject|ObserveeFormatter $observeeFormatter;
-
-    private readonly MockObject|Messenger $messenger;
-
     private readonly DateTimeImmutable $today;
 
     private readonly DateTimeImmutable $tomorrow;
+
+    /** @var MockObject&TranslatorInterface */
+    private readonly MockObject $translator;
+
+    /** @var MockObject&DateFormatter */
+    private readonly MockObject $dateFormatter;
+
+    /** @var MockObject&ObserveeFormatter */
+    private readonly MockObject $observeeFormatter;
+
+    /** @var MockObject&Messenger */
+    private readonly MockObject $messenger;
 
     /**
      * @test
@@ -79,7 +83,7 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
     /**
      * @see notify()
      *
-     * @return iterable<string, array{0: callable(DateTimeImmutable,DateTimeImmutable):Observer, 1: string}>
+     * @return iterable<string, array{createObserver: callable(DateTimeImmutable,DateTimeImmutable):Observer, message: string}>
      */
     public function notifyProvider(): iterable
     {
@@ -147,7 +151,7 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
     /**
      * @see canNotify()
      *
-     * @return iterable<string, array{0: callable(DateTimeImmutable,DateTimeImmutable):Observer, 1: bool}>
+     * @return iterable<string, array{createObserver: callable(DateTimeImmutable,DateTimeImmutable):Observer, canNotify: bool}>
      */
     public function canNotifyProvider(): iterable
     {
