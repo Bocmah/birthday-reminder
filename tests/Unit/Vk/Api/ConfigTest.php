@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Vk\Api;
 
 use PHPUnit\Framework\TestCase;
-use Vkbd\Vk\Api\Config;
+use BirthdayReminder\Vk\Api\Config;
 
 final class ConfigTest extends TestCase
 {

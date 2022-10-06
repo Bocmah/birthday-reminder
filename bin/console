@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use BirthdayReminder\Kernel;
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+/**
+ * @var array{APP_ENV: string, APP_DEBUG: bool|int|string} $context
+ */
+return static function (array $context): Application {
+    $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+
+    return new Application($kernel);
+};

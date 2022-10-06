@@ -1,27 +1,38 @@
-.PHONY: help docker-up-build docker-up docker-down \
-		docker-shell composer-update phpunit phpcs \
-		php-cs-fixer infection psalm migrate-generate \
-		migrate
+PROJECT_NAME     ?= birthday-reminder
+PROJECT_ROOT_DIR := $(realpath $(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
+
+# Image version and current commit hash:
+export VERSION   ?= $(shell git describe --all --dirty --always | sed -E 's/[a-z]+\///' | sed -E 's/\//-/')
+export GIT_SHA   := $(shell git rev-parse HEAD)
+export TIMESTAMP := $(shell date +"%Y%m%d%H%M%S")
+
+export DOCKER_BUILDKIT := 1
+
+include .docker/Makefile
+
 .DEFAULT_GOAL := help
 PHP_SERVICE = php
 
 help: ## Show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-docker-up-build: ## Build and start services
-	docker-compose up -d --build
-
-docker-up: ## Start services
+up: ## Start services
 	docker-compose up -d
 
-docker-down: ## Stop services
+down: ## Stop services
 	docker-compose down
 
-docker-shell: ## Jump to PHP service shell
-	@docker-compose exec $(PHP_SERVICE) bash
+restart: ## Restart services
+	docker-compose down && docker-compose up -d
 
-composer-update: ## Update all composer dependencies
-	@docker-compose exec $(PHP_SERVICE) composer update
+ps: ## Dump running services
+	@docker-compose ps
+
+php-logs: ## Show PHP container logs
+	@docker-compose logs php
+
+shell: ## Jump to PHP service shell
+	@docker-compose exec $(PHP_SERVICE) sh
 
 phpunit: ## Run tests
 	@docker-compose exec -T $(PHP_SERVICE) composer phpunit
@@ -42,4 +53,7 @@ migrate-generate: ## Generate template migration
 	@docker-compose exec $(PHP_SERVICE) composer migrate-generate
 
 migrate: ## Run migrations
-	@docker-compose exec $(PHP_SERVICE) composer migrate
+	docker-compose exec $(PHP_SERVICE) composer migrate
+
+composer-update:
+	@docker-compose exec $(PHP_SERVICE) composer update

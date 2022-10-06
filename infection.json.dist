@@ -24,10 +24,9 @@
         },
         "PublicVisibility": {
             "ignore": [
-                "Vkbd\\Observer\\Observer",
-                "Vkbd\\Person\\FullName",
-                "Vkbd\\Command\\Definition",
-                "Vkbd\\Observee\\Observee"
+                "BirthdayReminder\\Observer\\Observer",
+                "BirthdayReminder\\Person\\FullName",
+                "BirthdayReminder\\Observee\\Observee"
             ]
         }
     }

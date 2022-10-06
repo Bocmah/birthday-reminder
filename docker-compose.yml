@@ -1,30 +1,23 @@
-version: '3.7'
+version: '3.9'
 
 services:
   php:
-    build:
-      context: .
-      dockerfile: ./.docker/php/Dockerfile
+    image: birthday-reminder/php-dev:${PROJECT_VERSION:-latest}
     ports:
-      - "8000:8000"
-    restart: on-failure
+      - "8080:8080"
     volumes:
-      - ./:/var/www:cached
-      - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
-    tty: true
+      - ./:/app
+    depends_on:
+      - postgres
 
-  mysql:
+  postgres:
+    image: postgres:14
     ports:
-      - '3306:3306'
-    restart: always
-    image: mysql:8.0
+      - "5432:5432"
     volumes:
-      - vkbd-data:/var/lib/mysql
+      - pgdata:/var/lib/postgresql/data
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      - POSTGRES_PASSWORD=postgres
 
 volumes:
-    vkbd-data:
+  pgdata:
