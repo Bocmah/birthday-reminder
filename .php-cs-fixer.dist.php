@@ -5,7 +5,7 @@ $finder = PhpCsFixer\Finder::create()
     ->notPath('*')
     ->in(__DIR__);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
