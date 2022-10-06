@@ -6,3 +6,9 @@
 Work in progress.
 
 This bot will help you to never forget about your friends' birthdays.
+
+## Local development
+
+Execute the following command in CLI:
+
+```make up```
