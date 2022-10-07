@@ -153,6 +153,8 @@ final class ObserverServiceTest extends TestCase
 
         $observer = $this->observerRepository->findByUserId($observer->id);
 
+        $this->assertNotNull($observer);
+
         $this->assertCount(0, $observer->observees());
     }
 
@@ -187,6 +189,8 @@ final class ObserverServiceTest extends TestCase
 
         $observer = $this->observerRepository->findByUserId($observer->id);
 
+        $this->assertNotNull($observer);
+
         $this->assertEquals($newBirthdate, $observer->observees()[0]->birthdate());
     }
 
@@ -219,6 +223,8 @@ final class ObserverServiceTest extends TestCase
         $this->observerService->toggleNotifiability($observer->id);
 
         $observer = $this->observerRepository->findByUserId($observer->id);
+
+        $this->assertNotNull($observer);
 
         $this->assertFalse($observer->shouldAlwaysBeNotified());
     }

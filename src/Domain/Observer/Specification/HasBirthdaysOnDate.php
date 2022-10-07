@@ -8,6 +8,9 @@ use BirthdayReminder\Domain\Observer\Observer;
 use DateTimeImmutable;
 use Tanigami\Specification\Specification;
 
+/**
+ * @extends Specification<Observer>
+ */
 final class HasBirthdaysOnDate extends Specification
 {
     public function __construct(private readonly DateTimeImmutable $date)

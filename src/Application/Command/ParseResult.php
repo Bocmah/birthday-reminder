@@ -7,13 +7,13 @@ namespace BirthdayReminder\Application\Command;
 final class ParseResult
 {
     /**
-     * @param array<string, mixed> $matches
+     * @param array<mixed, string> $matches
      */
     public function __construct(private readonly array $matches)
     {
     }
 
-    public function get(string $key): mixed
+    public function get(string $key): string
     {
         return $this->matches[$key] ?? throw new InvalidCommandFormat();
     }

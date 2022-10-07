@@ -62,15 +62,15 @@ final class UpcomingBirthdaysNotifierTest extends TestCase
 
         $this->translator
             ->method('trans')
-            ->willReturnCallback(static function (string $_id, array $parameters): string {
-                return sprintf('%s дни рождения у этих людей:', $parameters['%date%']);
-            });
+            ->willReturnCallback(
+                static fn (string $_id, array $parameters): string => sprintf('%s дни рождения у этих людей:', (string) $parameters['%date%']),
+            );
 
         $this->observeeFormatter
             ->method('format')
-            ->willReturnCallback(static function (Observee $observee): string {
-                return sprintf('%s %s', $observee->fullName->firstName, $observee->fullName->lastName);
-            });
+            ->willReturnCallback(
+                static fn (Observee $observee): string => sprintf('%s %s', $observee->fullName->firstName, $observee->fullName->lastName),
+            );
 
         $this->messenger
             ->expects($this->once())

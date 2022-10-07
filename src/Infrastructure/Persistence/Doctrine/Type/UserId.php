@@ -14,16 +14,16 @@ final class UserId extends StringType
 
     public function convertToPHPValue($value, AbstractPlatform $platform): \BirthdayReminder\Domain\User\UserId
     {
+        /** @var int|string $value */
         $value = parent::convertToPHPValue($value, $platform);
 
         return new \BirthdayReminder\Domain\User\UserId((string) $value);
     }
 
     /**
-     * @param \BirthdayReminder\Domain\User\UserId $value
      * @throws ConversionException
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): int
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return parent::convertToDatabaseValue((string) $value, $platform);
     }

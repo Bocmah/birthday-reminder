@@ -9,6 +9,7 @@ use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
+use LogicException;
 
 final class ObserverMother
 {
@@ -40,7 +41,13 @@ final class ObserverMother
     ): Observee {
         $observer->startObserving($id, $fullName, $birthdate);
 
-        return $observer->observees()[count($observer->observees()) - 1];
+        $last = array_key_last($observer->observees());
+
+        if ($last === null) {
+            throw new LogicException('Observees list is empty after adding an observee');
+        }
+
+        return $observer->observees()[$last];
     }
 
     public static function detachObservee(Observer $observer, UserId $id): void

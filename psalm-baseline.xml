@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.27.0@faf106e717c37b8c81721845dba9de3d8deed8ff">
+<files psalm-version="4.28.0@52e96bea381e6cb07a672aefec791a5817694a26">
   <file src="src/Application/Command/Command.php">
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$matches</code>
     </MixedArgumentTypeCoercion>
-  </file>
-  <file src="src/Domain/Observer/Specification/DoesntHaveBirthdaysOnDate.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$object</code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="src/Domain/Observer/Specification/HasBirthdaysOnDate.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$object</code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="src/Domain/Observer/Specification/HasObservees.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$object</code>
-    </MoreSpecificImplementedParamType>
-  </file>
-  <file src="src/Domain/Observer/Specification/ShouldAlwaysBeNotified.php">
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$object</code>
-    </MoreSpecificImplementedParamType>
   </file>
   <file src="src/Infrastructure/Persistence/Doctrine/Type/UserId.php">
     <MixedAssignment occurrences="1">
@@ -39,58 +19,16 @@
       <code>$value</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="tests/Unit/Application/BirthdaysNotifierServiceTest.php">
-    <InaccessibleProperty occurrences="3">
-      <code>$this-&gt;notifierSelector</code>
-      <code>$this-&gt;notifierService</code>
-      <code>$this-&gt;observerRepository</code>
-    </InaccessibleProperty>
-  </file>
   <file src="tests/Unit/Application/ObserverServiceTest.php">
-    <InaccessibleProperty occurrences="3">
-      <code>$this-&gt;observerRepository</code>
-      <code>$this-&gt;observerService</code>
-      <code>$this-&gt;userFinder</code>
-    </InaccessibleProperty>
     <PossiblyNullReference occurrences="3">
       <code>observees</code>
       <code>observees</code>
       <code>shouldAlwaysBeNotified</code>
     </PossiblyNullReference>
   </file>
-  <file src="tests/Unit/Domain/BirthdaysNotifier/NoUpcomingBirthdaysNotifierTest.php">
-    <InaccessibleProperty occurrences="5">
-      <code>$this-&gt;birthdaysNotifier</code>
-      <code>$this-&gt;messenger</code>
-      <code>$this-&gt;today</code>
-      <code>$this-&gt;tomorrow</code>
-      <code>$this-&gt;translator</code>
-    </InaccessibleProperty>
-  </file>
   <file src="tests/Unit/Domain/BirthdaysNotifier/UpcomingBirthdaysNotifierTest.php">
-    <InaccessibleProperty occurrences="7">
-      <code>$this-&gt;birthdaysNotifier</code>
-      <code>$this-&gt;dateFormatter</code>
-      <code>$this-&gt;messenger</code>
-      <code>$this-&gt;observeeFormatter</code>
-      <code>$this-&gt;today</code>
-      <code>$this-&gt;tomorrow</code>
-      <code>$this-&gt;translator</code>
-    </InaccessibleProperty>
     <MixedArgument occurrences="1">
       <code>$parameters['%date%']</code>
     </MixedArgument>
-  </file>
-  <file src="tests/Unit/Domain/Observer/ObserverTest.php">
-    <InaccessibleProperty occurrences="3">
-      <code>$this-&gt;observeeBirthdate</code>
-      <code>$this-&gt;observeeFullName</code>
-      <code>$this-&gt;observeeId</code>
-    </InaccessibleProperty>
-  </file>
-  <file src="tests/Unit/Infrastructure/Date/IntlDateFormatterTest.php">
-    <InaccessibleProperty occurrences="1">
-      <code>$this-&gt;formatter</code>
-    </InaccessibleProperty>
   </file>
 </files>

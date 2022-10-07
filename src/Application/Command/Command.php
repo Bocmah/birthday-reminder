@@ -26,7 +26,6 @@ abstract class Command
 
     protected function parse(string $command): ParseResult
     {
-        /** @var array<string, mixed> $matches */
         preg_match($this->pattern(), $command, $matches);
 
         return new ParseResult($matches);

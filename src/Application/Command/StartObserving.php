@@ -20,8 +20,8 @@ final class StartObserving extends Command
 
     protected function executedParsed(UserId $observerId, ParseResult $parseResult): TranslatableMessage
     {
-        $observeeId = new UserId((string) $parseResult->get('id'));
-        $birthdate = new DateTimeImmutable((string) $parseResult->get('date'));
+        $observeeId = new UserId($parseResult->get('id'));
+        $birthdate = new DateTimeImmutable($parseResult->get('date'));
 
         try {
             $this->observerService->startObserving($observerId, $observeeId, $birthdate);
