@@ -42,6 +42,8 @@ final class UserIdTest extends TestCase
         yield 'string with spaces' => ['string with spaces'];
 
         yield 'string with special symbols' => ['string_with-special.symbols'];
+
+        yield 'id with only one character' => ['1'];
     }
 
     /**
