@@ -11,7 +11,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use RuntimeException;
 
-final class VkApi
+class VkApi
 {
     public function __construct(
         private readonly ClientInterface $httpClient,

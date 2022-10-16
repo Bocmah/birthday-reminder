@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Infrastructure\Api;
+namespace Tests\Unit\Infrastructure\Api\Vk;
 
 use BirthdayReminder\Infrastructure\Api\Vk\VkApi;
 use BirthdayReminder\Infrastructure\Api\Vk\VkApiMethod;
