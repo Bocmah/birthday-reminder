@@ -12,10 +12,11 @@ use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\User\User;
+use BirthdayReminder\Domain\User\UserFinder;
 use BirthdayReminder\Domain\User\UserId;
-use BirthdayReminder\Infrastructure\Api\User\InMemoryUserFinder;
 use BirthdayReminder\Infrastructure\Persistence\Observer\InMemoryObserverRepository;
 use DateTimeImmutable;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Domain\Observer\ObserverMother;
 
@@ -28,7 +29,8 @@ final class ObserverServiceTest extends TestCase
 
     private readonly InMemoryObserverRepository $observerRepository;
 
-    private readonly InMemoryUserFinder $userFinder;
+    /** @var MockObject&UserFinder */
+    private readonly MockObject $userFinder;
 
     /**
      * @test
@@ -63,8 +65,10 @@ final class ObserverServiceTest extends TestCase
         $newObserver = ObserverMother::createObserverWithOneObservee();
         $newObservee = $newObserver->observees()[0];
 
-        $this->givenUserExists(new User($newObserver->id, $newObserver->fullName));
-        $this->givenUserExists(new User($newObservee->userId, $newObservee->fullName));
+        $this->givenUsersExist(
+            new User($newObserver->id, $newObserver->fullName),
+            new User($newObservee->userId, $newObservee->fullName)
+        );
 
         $this->observerService->startObserving(
             $newObserver->id,
@@ -93,7 +97,7 @@ final class ObserverServiceTest extends TestCase
             new DateTimeImmutable('05.10.1977'),
         );
 
-        $this->givenUserExists(new User($newObservee->userId, $newObservee->fullName));
+        $this->givenUsersExist(new User($newObservee->userId, $newObservee->fullName));
 
         $this->observerService->startObserving($existingObserver->id, $newObservee->userId, $newObservee->birthdate());
 
@@ -126,7 +130,7 @@ final class ObserverServiceTest extends TestCase
     {
         $observer = ObserverMother::createObserverWithoutObservees();
 
-        $this->givenUserExists(new User($observer->id, $observer->fullName));
+        $this->givenUsersExist(new User($observer->id, $observer->fullName));
 
         $this->expectExceptionMessage(ObserveeWasNotFoundOnThePlatform::class);
         $this->expectExceptionMessage('Observee with user id non-existent-observee was not found on the platform');
@@ -245,14 +249,22 @@ final class ObserverServiceTest extends TestCase
         parent::setUp();
 
         $this->observerRepository = new InMemoryObserverRepository();
-        $this->userFinder = new InMemoryUserFinder();
+        $this->userFinder = $this->createMock(UserFinder::class);
 
         $this->observerService = new ObserverService($this->observerRepository, $this->userFinder);
     }
 
-    private function givenUserExists(User $user): void
+    private function givenUsersExist(User ...$users): void
     {
-        $this->userFinder->addUser($user);
+        $calls = [];
+
+        foreach ($users as $user) {
+            $calls[] = [$user->id, $user];
+        }
+
+        $this->userFinder
+            ->method('findById')
+            ->willReturnMap($calls);
     }
 
     private function givenObserverExists(Observer $observer): void
