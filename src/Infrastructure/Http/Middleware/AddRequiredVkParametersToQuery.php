@@ -9,6 +9,9 @@ use Psr\Http\Message\RequestInterface;
 
 final class AddRequiredVkParametersToQuery
 {
+    /**
+     * @return callable(callable(RequestInterface,array):Promise):callable(RequestInterface,array):Promise
+     */
     public function __invoke(string $vkApiVersion, string $accessToken): callable
     {
         return fn (callable $next): callable => (

@@ -19,7 +19,7 @@ final class VkUserFinder implements UserFinder
 
     public function findById(UserId $id): ?User
     {
-        /** @var list<array{id: int, first_name: string, last_name: string}>|null $response */
+        /** @var list<array{id: int, first_name: string, last_name: string}>|null $users */
         $users = $this->vkApi->callMethod(VkApiMethod::GetUser, ['user_ids' => (string) $id]);
 
         if (!is_array($users) || count($users) === 0) {

@@ -20,7 +20,7 @@ abstract class Command
         try {
             return $this->executedParsed($observerId, $this->parse($command));
         } catch (Throwable $e) {
-            throw new ErrorDuringCommandExecution($e->getMessage(), $e->getCode(), $e);
+            throw new ErrorDuringCommandExecution($e->getMessage(), (int) $e->getCode(), $e);
         }
     }
 

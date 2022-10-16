@@ -19,6 +19,9 @@ final class ThrowExceptionOnResponseWithInappropriateHttpStatusCode
         Assert::minCount($this->allowedStatusCodes, 1, 'At least 1 allowed status code must be provided');
     }
 
+    /**
+     * @return callable(callable(RequestInterface,array):Promise):callable(RequestInterface,array):Promise
+     */
     public function __invoke(): callable
     {
         return fn (callable $next): callable => (
