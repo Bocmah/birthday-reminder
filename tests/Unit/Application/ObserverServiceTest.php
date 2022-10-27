@@ -9,12 +9,12 @@ use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observer\Observer;
+use BirthdayReminder\Domain\Observer\ObserverRepository;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\User\User;
 use BirthdayReminder\Domain\User\UserFinder;
 use BirthdayReminder\Domain\User\UserId;
-use BirthdayReminder\Infrastructure\Persistence\Observer\InMemoryObserverRepository;
 use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -27,7 +27,8 @@ final class ObserverServiceTest extends TestCase
 {
     private readonly ObserverService $observerService;
 
-    private readonly InMemoryObserverRepository $observerRepository;
+    /** @var MockObject&ObserverRepository */
+    private readonly MockObject $observerRepository;
 
     /** @var MockObject&UserFinder */
     private readonly MockObject $userFinder;
@@ -70,15 +71,16 @@ final class ObserverServiceTest extends TestCase
             new User($newObservee->userId, $newObservee->fullName)
         );
 
+        $this->observerRepository
+            ->expects($this->once())
+            ->method('save')
+            ->with($newObserver);
+
         $this->observerService->startObserving(
             $newObserver->id,
             $newObservee->userId,
             $newObservee->birthdate(),
         );
-
-        $observer = $this->observerRepository->findByUserId($newObserver->id);
-
-        $this->assertEquals($newObserver, $observer);
     }
 
     /**
@@ -248,7 +250,7 @@ final class ObserverServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->observerRepository = new InMemoryObserverRepository();
+        $this->observerRepository = $this->createMock(ObserverRepository::class);
         $this->userFinder = $this->createMock(UserFinder::class);
 
         $this->observerService = new ObserverService($this->observerRepository, $this->userFinder);
@@ -269,6 +271,9 @@ final class ObserverServiceTest extends TestCase
 
     private function givenObserverExists(Observer $observer): void
     {
-        $this->observerRepository->save($observer);
+        $this->observerRepository
+            ->method('findByUserId')
+            ->with($observer->id)
+            ->willReturn($observer);
     }
 }

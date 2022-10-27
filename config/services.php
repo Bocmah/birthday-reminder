@@ -23,7 +23,7 @@ use BirthdayReminder\Infrastructure\Api\User\VkUserFinder;
 use BirthdayReminder\Infrastructure\Api\Vk\VkApi;
 use BirthdayReminder\Infrastructure\Controller\MessageReceiver;
 use BirthdayReminder\Infrastructure\Date\SystemCalendar;
-use BirthdayReminder\Infrastructure\Persistence\Observer\InMemoryObserverRepository;
+use BirthdayReminder\Infrastructure\Persistence\Observer\DoctrineMongoDBObserverRepository;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -58,9 +58,9 @@ return static function (ContainerConfigurator $configurator) {
 
     $services->set(ObserverService::class);
 
-    $services->set(InMemoryObserverRepository::class);
+    $services->set(DoctrineMongoDBObserverRepository::class);
 
-    $services->alias(ObserverRepository::class, InMemoryObserverRepository::class);
+    $services->alias(ObserverRepository::class, DoctrineMongoDBObserverRepository::class);
 
     $services->set(VkApi::class);
     $services->set(VkUserFinder::class);

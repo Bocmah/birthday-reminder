@@ -7,26 +7,23 @@ namespace BirthdayReminder\Infrastructure\Persistence\Observer;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\Observer\ObserverRepository;
 use BirthdayReminder\Domain\User\UserId;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
-final class InMemoryObserverRepository implements ObserverRepository
+/**
+ * @extends DocumentRepository<Observer>
+ */
+final class DoctrineMongoDBObserverRepository extends DocumentRepository implements ObserverRepository
 {
-    /**
-     * @var array<string, Observer>
-     */
-    private array $observers = [];
-
     public function findByUserId(UserId $userId): ?Observer
     {
-        return $this->observers[(string) $userId] ?? null;
+        return $this->find($userId);
     }
 
     public function save(Observer $observer): void
     {
-        $this->observers[(string) $observer->id] = $observer;
-    }
+        $dm = $this->getDocumentManager();
 
-    public function findAll(): array
-    {
-        return array_values($this->observers);
+        $dm->persist($observer);
+        $dm->flush();
     }
 }
