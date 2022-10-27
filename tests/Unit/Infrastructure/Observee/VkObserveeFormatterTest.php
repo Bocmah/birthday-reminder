@@ -10,6 +10,9 @@ use BirthdayReminder\Infrastructure\Observee\VkObserveeFormatter;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Domain\Observer\ObserverMother;
 
+/**
+ * @covers \BirthdayReminder\Infrastructure\Observee\VkObserveeFormatter
+ */
 final class VkObserveeFormatterTest extends TestCase
 {
     /**
