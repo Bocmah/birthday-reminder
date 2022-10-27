@@ -1,8 +1,0 @@
-doctrine:
-  dbal:
-    url: '%env(resolve:DATABASE_URL)%'
-    server_version: 14
-    types:
-      platform_user_id: BirthdayReminder\Doctrine\Type\PlatformUserId
-  orm:
-    auto_generate_proxy_classes: true

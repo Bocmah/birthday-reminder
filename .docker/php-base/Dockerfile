@@ -4,7 +4,7 @@ FROM spiralscout/roadrunner:2.10.5 as rr
 FROM php:8.1.7-cli-alpine3.16
 
 RUN apk add --no-cache --update \
-    libzip-dev curl-dev libxml2-dev icu-dev icu-data-full oniguruma-dev autoconf postgresql-dev alpine-conf \
+    libzip-dev curl-dev libxml2-dev icu-dev icu-data-full oniguruma-dev autoconf alpine-conf \
     && \
     apk add --update --no-cache --virtual .build-deps \
        g++ \
@@ -14,7 +14,9 @@ RUN apk add --no-cache --update \
        make \
        alpine-sdk \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl pdo_pgsql sockets \
+    && docker-php-ext-install intl sockets \
+    && pecl install mongodb \
+    && docker-php-ext-enable mongodb \
     && apk del .build-deps
 
 WORKDIR ${WORKDIR}

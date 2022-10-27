@@ -8,16 +8,17 @@ services:
     volumes:
       - ./:/app
     depends_on:
-      - postgres
+      - mongo
 
-  postgres:
-    image: postgres:14
+  mongo:
+    image: mongo:6.0.2
     ports:
-      - "5432:5432"
+      - "27017:27017"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - mongodata:/data/db
     environment:
-      - POSTGRES_PASSWORD=postgres
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
 
 volumes:
-  pgdata:
+  mongodata:

@@ -8,23 +8,23 @@ use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Embedded;
-use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\Document;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedOne;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceOne;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\ManyToOne;
 
-#[Entity]
+#[Document]
 final class Observee
 {
     public function __construct(
-        #[Id, ManyToOne(targetEntity: Observer::class, inversedBy: 'observees')]
+        #[Id, ReferenceOne(targetDocument: Observer::class, inversedBy: 'observees')]
         private readonly Observer $observer,
-        #[Id, Column(type: 'user_id')]
+        #[Id, Field(type: 'user_id')]
         public readonly UserId    $userId,
-        #[Embedded]
+        #[EmbedOne(targetDocument: FullName::class)]
         public readonly FullName $fullName,
-        #[Column(type: 'date')]
+        #[Field(type: 'date')]
         private DateTimeImmutable $birthdate,
     ) {
     }

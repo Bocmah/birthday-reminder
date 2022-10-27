@@ -11,28 +11,28 @@ use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Embedded;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\Document;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedOne;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\Id;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany;
 
-#[Entity]
+#[Document]
 class Observer
 {
-    #[Id, Column(type: 'user_id')]
+    #[Id(type: 'user_id', strategy: 'NONE')]
     public readonly UserId $id;
 
-    #[Embedded]
+    #[EmbedOne(targetDocument: FullName::class)]
     public readonly FullName $fullName;
 
     /**
      * @var Collection<int, Observee>
      */
-    #[OneToMany(mappedBy: 'observer', targetEntity: Observee::class, cascade: ["persist"], orphanRemoval: true)]
+    #[ReferenceMany(targetDocument: Observee::class, cascade: ['persist'], orphanRemoval: true, mappedBy: 'observer')]
     private Collection $observees;
 
-    #[Column]
+    #[Field(type: 'bool')]
     private bool $shouldAlwaysBeNotified = true;
 
     public function __construct(

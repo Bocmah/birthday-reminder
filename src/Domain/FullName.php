@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Domain;
 
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Embeddable;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\EmbeddedDocument;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;
 use Webmozart\Assert\Assert;
 
-#[Embeddable]
+#[EmbeddedDocument]
 final class FullName
 {
-    #[Column]
+    #[Field(type: 'string')]
     public readonly string $firstName;
 
-    #[Column]
+    #[Field(type: 'string')]
     public readonly string $lastName;
 
     public function __construct(string $firstName, string $lastName)
