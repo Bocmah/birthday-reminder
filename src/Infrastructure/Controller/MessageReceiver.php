@@ -13,6 +13,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -28,7 +29,7 @@ final class MessageReceiver extends AbstractController
     ) {
     }
 
-    #[Route('/message', methods: ['POST'])]
+    #[Route('/api/v1/message', methods: ['POST'])]
     public function receive(IncomingMessage $message): Response
     {
         $command = $this->commandSelector->select($message->text);
@@ -49,8 +50,17 @@ final class MessageReceiver extends AbstractController
             $commandResponse = Message::unexpectedError();
         }
 
-        $this->messenger->sendMessage($message->from, $commandResponse->trans($this->translator));
+        $this->messenger->sendMessage($message->from, $this->translateIfApplicable($commandResponse));
 
         return new Response('ok');
+    }
+
+    private function translateIfApplicable(string|TranslatableInterface $commandResponse): string
+    {
+        if ($commandResponse instanceof TranslatableInterface) {
+            return $commandResponse->trans($this->translator);
+        }
+
+        return $commandResponse;
     }
 }

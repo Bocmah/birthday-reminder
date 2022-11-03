@@ -16,12 +16,9 @@
         "ext-mongodb": "^1.5",
         "ext-sockets": "*",
         "baldinof/roadrunner-bundle": "^2.2",
-        "doctrine/doctrine-bundle": "^2.6",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/mongodb-odm-bundle": "^4.5",
-        "doctrine/orm": "^2.12",
         "guzzlehttp/guzzle": "^7.0",
-        "php-http/promise": "^1.1",
+        "sensio/framework-extra-bundle": "^6.2",
         "spiral/roadrunner": "^2.9",
         "symfony/dependency-injection": "^6.0",
         "symfony/dotenv": "^6.0",
@@ -35,10 +32,27 @@
         "tanigami/specification": "dev-master",
         "webmozart/assert": "^1.10"
     },
+    "require-dev": {
+        "codeception/codeception": "^5.0",
+        "codeception/module-mongodb": "^3.0",
+        "codeception/module-phpbrowser": "^3.0",
+        "codeception/module-rest": "^3.3",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "infection/infection": "^0.26.10",
+        "mcustiel/codeception-wiremock-extension": "dev-master",
+        "phpunit/phpunit": "^9",
+        "psalm/plugin-phpunit": "^0.17.0",
+        "roave/security-advisories": "dev-latest",
+        "vimeo/psalm": "^4.2"
+    },
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/Bocmah/specification-php"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/Bocmah/codeception-wiremock-extension"
         }
     ],
     "autoload": {
@@ -50,14 +64,6 @@
         "psr-4": {
             "Tests\\": "tests/"
         }
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.8",
-        "infection/infection": "^0.26.10",
-        "phpunit/phpunit": "^9",
-        "psalm/plugin-phpunit": "^0.17.0",
-        "roave/security-advisories": "dev-latest",
-        "vimeo/psalm": "^4.2"
     },
     "config": {
         "sort-packages": true,

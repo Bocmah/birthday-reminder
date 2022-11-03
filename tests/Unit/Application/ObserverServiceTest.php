@@ -93,7 +93,6 @@ final class ObserverServiceTest extends TestCase
         $this->givenObserverExists($existingObserver);
 
         $newObservee = new Observee(
-            $existingObserver,
             new UserId('777'),
             new FullName('Jane', 'Watts'),
             new DateTimeImmutable('05.10.1977'),

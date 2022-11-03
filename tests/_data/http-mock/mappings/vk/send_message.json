@@ -1,0 +1,9 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPattern": "/method/messages.send.*"
+    },
+    "response": {
+        "status": 200
+    }
+}

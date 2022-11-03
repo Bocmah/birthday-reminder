@@ -11,6 +11,7 @@
         <directory name="tests"/>
         <ignoreFiles>
             <directory name="vendor"/>
+            <directory name="tests/_support/_generated"/>
         </ignoreFiles>
     </projectFiles>
 
@@ -20,6 +21,16 @@
                 <directory name="tests"/>
             </errorLevel>
         </InaccessibleProperty>
+        <UndefinedMagicMethod>
+            <errorLevel type="suppress">
+                <directory name="tests/Api"/>
+            </errorLevel>
+        </UndefinedMagicMethod>
+        <UndefinedTrait>
+            <errorLevel type="suppress">
+                <file name="tests/_support/ApiTester.php"/>
+            </errorLevel>
+        </UndefinedTrait>
     </issueHandlers>
 
     <plugins>

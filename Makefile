@@ -31,7 +31,7 @@ ps: ## Dump running services
 php-logs: ## Show PHP container logs
 	@docker-compose logs php
 
-shell: ## Jump to PHP service shell
+cli: ## Jump to PHP service shell
 	@docker-compose exec $(PHP_SERVICE) sh
 
 phpunit: ## Run tests
@@ -57,3 +57,6 @@ migrate: ## Run migrations
 
 composer-update:
 	@docker-compose exec $(PHP_SERVICE) composer update
+
+composer: ## Run arbitrary composer command
+	@docker-composer exec $(PHP_SERVICE) composer $(COMPOSER_FLAGS)

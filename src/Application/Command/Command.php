@@ -15,7 +15,7 @@ abstract class Command
         return (bool) preg_match($this->pattern(), $command);
     }
 
-    public function execute(UserId $observerId, string $command): TranslatableMessage
+    public function execute(UserId $observerId, string $command): string|TranslatableMessage
     {
         try {
             return $this->executedParsed($observerId, $this->parse($command));
@@ -31,7 +31,7 @@ abstract class Command
         return new ParseResult($matches);
     }
 
-    abstract protected function executedParsed(UserId $observerId, ParseResult $parseResult): TranslatableMessage;
+    abstract protected function executedParsed(UserId $observerId, ParseResult $parseResult): string|TranslatableMessage;
 
     abstract protected function pattern(): string;
 }

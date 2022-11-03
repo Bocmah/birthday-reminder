@@ -27,8 +27,7 @@ class VkApi
         $request = $this->requestFactory->createRequest('GET', $this->buildUri($method, $params));
 
         try {
-            /** @var array{response: mixed} $response */
-            $response = Json::decode($this->httpClient->sendRequest($request)->getBody()->getContents());
+            $rawResponse = $this->httpClient->sendRequest($request)->getBody()->getContents();
         } catch (ClientExceptionInterface $exception) {
             throw new RuntimeException('Error while processing request to VK API', $exception->getCode(), $exception);
         } catch (ReceivedInappropriateHttpStatusCode $exception) {
@@ -39,7 +38,11 @@ class VkApi
             );
         }
 
-        return $response['response'] ?? null;
+        if ($rawResponse === '') {
+            return null;
+        }
+
+        return $this->decodeResponse($rawResponse);
     }
 
     /**
@@ -48,5 +51,13 @@ class VkApi
     private function buildUri(VkApiMethod $method, array $params): string
     {
         return $method->value . '?' . http_build_query($params);
+    }
+
+    private function decodeResponse(string $rawResponse): mixed
+    {
+        /** @var array{response: mixed} $response */
+        $response = Json::decode($rawResponse);
+
+        return $response['response'] ?? null;
     }
 }

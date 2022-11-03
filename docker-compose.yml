@@ -9,6 +9,7 @@ services:
       - ./:/app
     depends_on:
       - mongo
+      - wiremock
 
   mongo:
     image: mongo:6.0.2
@@ -19,6 +20,14 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: mongo
+
+  wiremock:
+    image: wiremock/wiremock:2.35.0
+    ports:
+      - "8082:8082"
+    command: "--port=8082 --local-response-templating --root-dir=/home/storage"
+    volumes:
+      - ./tests/_data/http-mock:/home/storage
 
 volumes:
   mongodata:

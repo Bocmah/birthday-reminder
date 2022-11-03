@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application\Command;
 
+use BirthdayReminder\Application\Message\Message;
 use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\Observer\NotObservingUser;
 use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
@@ -22,10 +23,10 @@ final class StopObserving extends Command
         try {
             $this->observerService->stopObserving($observerId, $observeeId);
         } catch (ObserverWasNotFoundInTheSystem|NotObservingUser) {
-            return new TranslatableMessage('observee.not_observing', ['%id%' => (string) $observeeId]);
+            return Message::notObserving($observeeId);
         }
 
-        return new TranslatableMessage('observee.stopped_observing', ['%id%' => (string) $observeeId]);
+        return Message::stoppedObserving($observeeId);
     }
 
     protected function pattern(): string

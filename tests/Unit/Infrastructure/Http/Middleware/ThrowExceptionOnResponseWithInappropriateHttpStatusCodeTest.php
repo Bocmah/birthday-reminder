@@ -6,7 +6,7 @@ namespace Tests\Unit\Infrastructure\Http\Middleware;
 
 use BirthdayReminder\Infrastructure\Http\Middleware\ReceivedInappropriateHttpStatusCode;
 use BirthdayReminder\Infrastructure\Http\Middleware\ThrowExceptionOnResponseWithInappropriateHttpStatusCode;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
@@ -27,12 +27,12 @@ final class ThrowExceptionOnResponseWithInappropriateHttpStatusCodeTest extends 
         $response = $this->createMock(ResponseInterface::class);
         $response->method('getStatusCode')->willReturn(500);
 
-        $next = function () use ($response): Promise {
-            $promise = $this->createMock(Promise::class);
+        $next = function () use ($response): PromiseInterface {
+            $promise = $this->createMock(PromiseInterface::class);
             $promise->method('then')->willReturnCallback(function (callable $onFulfilled) use ($response) {
                 $onFulfilled($response);
 
-                return $this->createMock(Promise::class);
+                return $this->createMock(PromiseInterface::class);
             });
 
             return $promise;
@@ -53,12 +53,12 @@ final class ThrowExceptionOnResponseWithInappropriateHttpStatusCodeTest extends 
         $response = $this->createMock(ResponseInterface::class);
         $response->method('getStatusCode')->willReturn(200);
 
-        $next = function () use ($response): Promise {
-            $promise = $this->createMock(Promise::class);
+        $next = function () use ($response): PromiseInterface {
+            $promise = $this->createMock(PromiseInterface::class);
             $promise->method('then')->willReturnCallback(function (callable $onFulfilled) use ($response) {
                 $onFulfilled($response);
 
-                return $this->createMock(Promise::class);
+                return $this->createMock(PromiseInterface::class);
             });
 
             return $promise;

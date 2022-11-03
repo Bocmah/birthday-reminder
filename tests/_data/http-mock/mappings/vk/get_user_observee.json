@@ -1,0 +1,15 @@
+{
+    "request": {
+        "method": "GET",
+        "urlPath": "/method/users.get",
+        "queryParameters": {
+            "user_ids": {
+                "equalTo": "333"
+            }
+        }
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "vk/observee_user.json"
+    }
+}

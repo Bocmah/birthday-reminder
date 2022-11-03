@@ -7,6 +7,7 @@ namespace BirthdayReminder\Infrastructure\Persistence\Observer;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\Observer\ObserverRepository;
 use BirthdayReminder\Domain\User\UserId;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
 /**
@@ -14,6 +15,11 @@ use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
  */
 final class DoctrineMongoDBObserverRepository extends DocumentRepository implements ObserverRepository
 {
+    public function __construct(DocumentManager $dm)
+    {
+        parent::__construct($dm, $dm->getUnitOfWork(), $dm->getClassMetadata(Observer::class));
+    }
+
     public function findByUserId(UserId $userId): ?Observer
     {
         return $this->find($userId);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Infrastructure\Http\Middleware;
 
 use BirthdayReminder\Infrastructure\Http\Middleware\AddRequiredVkParametersToQuery;
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
@@ -53,10 +53,10 @@ final class AddRequiredVkParametersToQueryTest extends TestCase
 
         $handler = ($this->middleware)(self::VK_API_VERSION, self::VK_ACCESS_TOKEN);
 
-        $checker = function (RequestInterface $request) use ($expected): Promise {
+        $checker = function (RequestInterface $request) use ($expected): PromiseInterface {
             $this->assertEquals($expected, $request->getUri()->getQuery());
 
-            return $this->createMock(Promise::class);
+            return $this->createMock(PromiseInterface::class);
         };
 
         $handler($checker)($request, []);

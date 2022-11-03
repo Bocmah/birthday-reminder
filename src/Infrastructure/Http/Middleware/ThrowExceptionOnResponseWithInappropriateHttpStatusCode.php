@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Infrastructure\Http\Middleware;
 
-use Http\Promise\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Webmozart\Assert\Assert;
@@ -20,12 +20,12 @@ final class ThrowExceptionOnResponseWithInappropriateHttpStatusCode
     }
 
     /**
-     * @return callable(callable(RequestInterface,array):Promise):callable(RequestInterface,array):Promise
+     * @return callable(callable(RequestInterface,array):PromiseInterface):callable(RequestInterface,array):PromiseInterface
      */
     public function __invoke(): callable
     {
         return fn (callable $next): callable => (
-            function (RequestInterface $request, array $options) use ($next): Promise {
+            function (RequestInterface $request, array $options) use ($next): PromiseInterface {
                 return $next($request, $options)->then(function (ResponseInterface $response): ResponseInterface {
                     $this->ensureAppropriateStatusCode($response);
 
