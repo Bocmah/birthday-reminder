@@ -7,7 +7,7 @@ namespace Tests\Helper;
 use Codeception\Module;
 use WireMock\Client\WireMock;
 
-final class MessengerHelper extends Module
+final class Messenger extends Module
 {
     public function seeMessageToUserWasSent(string $message, string $userId): void
     {

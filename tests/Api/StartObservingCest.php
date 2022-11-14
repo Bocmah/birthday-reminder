@@ -30,9 +30,4 @@ final class StartObservingCest
 
         $I->seeMessageToUserWasSent('*id333 (James Dean) - 15.10.1996', (string) self::OBSERVER_ID);
     }
-
-    public function _after(ApiTester $I): void
-    {
-        $I->cleanAllPreviousRequestsToWireMock();
-    }
 }

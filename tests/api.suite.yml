@@ -11,4 +11,5 @@ modules:
         port: '%WIREMOCK_PORT%'
     - MongoDb:
         dsn: '%DATABASE_URL%'
-    - \Tests\Helper\MessengerHelper
+    - \Tests\Helper\Messenger
+    - \Tests\Helper\WireMockRequestJournalCleaner
