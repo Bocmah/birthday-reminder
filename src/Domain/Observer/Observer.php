@@ -12,12 +12,12 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Document;
+use Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedMany;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\EmbedOne;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Field;
 use Doctrine\ODM\MongoDB\Mapping\Annotations\Id;
-use Doctrine\ODM\MongoDB\Mapping\Annotations\ReferenceMany;
 
-#[Document]
+#[Document(db: 'birthday-reminder')]
 class Observer
 {
     #[Id(type: 'user_id', strategy: 'NONE')]
@@ -29,7 +29,7 @@ class Observer
     /**
      * @var Collection<int, Observee>
      */
-    #[ReferenceMany(targetDocument: Observee::class, cascade: ['persist'], orphanRemoval: true, mappedBy: 'observer')]
+    #[EmbedMany(targetDocument: Observee::class)]
     private Collection $observees;
 
     #[Field(type: 'bool')]
@@ -50,7 +50,7 @@ class Observer
             throw AlreadyObservingUser::withId($userId);
         }
 
-        $this->observees->add(new Observee($this, $userId, $fullName, $birthdate));
+        $this->observees->add(new Observee($userId, $fullName, $birthdate));
     }
 
     public function stopObserving(UserId $userId): void

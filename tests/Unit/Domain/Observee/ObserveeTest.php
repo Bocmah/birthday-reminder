@@ -6,7 +6,6 @@ namespace Tests\Unit\Domain\Observee;
 
 use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
-use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +21,6 @@ final class ObserveeTest extends TestCase
     public function changeBirthdate(): void
     {
         $observee = new Observee(
-            $this->createMock(Observer::class),
             new UserId('123'),
             new FullName('James', 'Dean'),
             new DateTimeImmutable('10.10.1996'),

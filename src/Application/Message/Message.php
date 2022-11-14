@@ -43,4 +43,9 @@ final class Message
     {
         return new TranslatableMessage('observee.not_observing', ['%id%' => (string) $userId]);
     }
+
+    public static function notObservingAnyone(): TranslatableMessage
+    {
+        return new TranslatableMessage('observee.not_observing_anyone');
+    }
 }

@@ -6,6 +6,7 @@ use BirthdayReminder\Application\BirthdaysNotifierService;
 use BirthdayReminder\Application\Command\ChangeBirthdate;
 use BirthdayReminder\Application\Command\Command;
 use BirthdayReminder\Application\Command\CommandSelector;
+use BirthdayReminder\Application\Command\ListObservees;
 use BirthdayReminder\Application\Command\StartObserving;
 use BirthdayReminder\Application\Command\StopObserving;
 use BirthdayReminder\Application\ObserverService;
@@ -23,15 +24,27 @@ use BirthdayReminder\Infrastructure\Api\Messenger\VkMessenger;
 use BirthdayReminder\Infrastructure\Api\User\VkUserFinder;
 use BirthdayReminder\Infrastructure\Api\Vk\VkApi;
 use BirthdayReminder\Infrastructure\Controller\MessageReceiver;
+use BirthdayReminder\Infrastructure\Date\FixedFormatDateFormatter;
 use BirthdayReminder\Infrastructure\Date\SystemCalendar;
+use BirthdayReminder\Infrastructure\Http\Middleware\AddRequiredVkParametersToQuery;
+use BirthdayReminder\Infrastructure\Http\Middleware\ThrowExceptionOnResponseWithInappropriateHttpStatusCode;
 use BirthdayReminder\Infrastructure\Observee\VkObserveeFormatter;
 use BirthdayReminder\Infrastructure\Persistence\Observer\DoctrineMongoDBObserverRepository;
+use BirthdayReminder\Infrastructure\Request\ParamConverter\IncomingMessageParamConverter;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\HttpFactory;
+use GuzzleHttp\Client;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
-return static function (ContainerConfigurator $configurator) {
+return static function (ContainerConfigurator $configurator): void {
     $configurator
         ->parameters()
         ->set('vk.max_message_length', 4096);
@@ -47,10 +60,16 @@ return static function (ContainerConfigurator $configurator) {
     $services->set(StartObserving::class);
     $services->set(StopObserving::class);
     $services->set(ChangeBirthdate::class);
+    $services
+        ->set(ListObservees::class)
+        ->arg('$dateFormatter', inline_service(FixedFormatDateFormatter::class)->arg('$format', 'd.m.Y'));
 
     $services->set(CommandSelector::class)->args([tagged_iterator('command')]);
 
-    $services->set(UpcomingBirthdaysNotifier::class)->tag('birthdays_notifier');
+    $services
+        ->set(UpcomingBirthdaysNotifier::class)
+        ->arg('$dateFormatter', inline_service(\BirthdayReminder\Infrastructure\Date\IntlDateFormatter::class))
+        ->tag('birthdays_notifier');
     $services->set(NoUpcomingBirthdaysNotifier::class)->tag('birthdays_notifier');
     $services->set(NullBirthdaysNotifier::class)->tag('birthdays_notifier', ['priority' => -1]);
 
@@ -89,4 +108,45 @@ return static function (ContainerConfigurator $configurator) {
         ->set(BatchMessengerDecorator::class)
         ->decorate(VkMessenger::class)
         ->args([service('.inner'), param('vk.max_message_length')]);
+
+    $services->set(HttpFactory::class);
+
+    $services->set(AddRequiredVkParametersToQuery::class);
+
+    $services
+        ->set(ThrowExceptionOnResponseWithInappropriateHttpStatusCode::class)
+        ->arg('$allowedStatusCodes', [200]);
+
+    $services
+        ->set('vk.http.handler_stack', HandlerStack::class)
+        ->arg('$handler', inline_service(CurlHandler::class))
+        ->call(
+            'push',
+            [
+                inline_service()
+                    ->factory(service(AddRequiredVkParametersToQuery::class))
+                    ->arg('$vkApiVersion', env('VK_API_VERSION'))
+                    ->arg('$accessToken', env('VK_API_ACCESS_TOKEN')),
+            ],
+        )
+        ->call(
+            'push',
+            [
+                inline_service()->factory(service(ThrowExceptionOnResponseWithInappropriateHttpStatusCode::class)),
+            ],
+        );
+
+    $services->alias(RequestFactoryInterface::class, HttpFactory::class);
+
+    $services
+        ->set('vk.http.client', Client::class)
+        ->arg('$config', [
+            'base_uri' => env('VK_API_URL'),
+            'timeout'  => env('VK_API_TIMEOUT')->float(),
+            'handler'  => service('vk.http.handler_stack')
+        ]);
+
+    $services->alias(ClientInterface::class, 'vk.http.client');
+
+    $services->set(IncomingMessageParamConverter::class);
 };

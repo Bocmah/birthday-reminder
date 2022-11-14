@@ -8,6 +8,33 @@
             "ref": "cdd398712fbc03897c0550c856df05fb9ab2b36b"
         }
     },
+    "codeception/codeception": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.3",
+            "ref": "30798e46831f4fc641fca83c0423918518901cd7"
+        },
+        "files": [
+            "codeception.yml",
+            "tests/_data/.gitignore",
+            "tests/_output/.gitignore",
+            "tests/_support/AcceptanceTester.php",
+            "tests/_support/FunctionalTester.php",
+            "tests/_support/Helper/Acceptance.php",
+            "tests/_support/Helper/Functional.php",
+            "tests/_support/Helper/Unit.php",
+            "tests/_support/UnitTester.php",
+            "tests/_support/_generated/.gitignore",
+            "tests/acceptance.suite.yml",
+            "tests/acceptance/.gitignore",
+            "tests/functional.suite.yml",
+            "tests/functional/.gitignore",
+            "tests/unit.suite.yml",
+            "tests/unit/.gitignore"
+        ]
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -16,33 +43,6 @@
             "version": "1.10",
             "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
         }
-    },
-    "doctrine/doctrine-bundle": {
-        "version": "2.7",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "2.4",
-            "ref": "da713d006953b90d1c085c1be480ecdd6c4a95e0"
-        },
-        "files": [
-            "config/packages/doctrine.yaml",
-            "src/Entity/.gitignore",
-            "src/Repository/.gitignore"
-        ]
-    },
-    "doctrine/doctrine-migrations-bundle": {
-        "version": "3.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "3.1",
-            "ref": "1d01ec03c6ecbd67c3375c5478c9a423ae5d6a33"
-        },
-        "files": [
-            "config/packages/doctrine_migrations.yaml",
-            "migrations/.gitignore"
-        ]
     },
     "doctrine/mongodb-odm-bundle": {
         "version": "4.5",
@@ -81,6 +81,18 @@
             ".env.test",
             "phpunit.xml.dist",
             "tests/bootstrap.php"
+        ]
+    },
+    "sensio/framework-extra-bundle": {
+        "version": "6.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
+        },
+        "files": [
+            "config/packages/sensio_framework_extra.yaml"
         ]
     },
     "symfony/console": {

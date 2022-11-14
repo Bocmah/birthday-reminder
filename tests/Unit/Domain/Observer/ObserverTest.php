@@ -34,7 +34,7 @@ final class ObserverTest extends TestCase
         $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
 
         $this->assertContainsEquals(
-            new Observee($observer, $this->observeeId, $this->observeeFullName, $this->observeeBirthdate),
+            new Observee($this->observeeId, $this->observeeFullName, $this->observeeBirthdate),
             $observer->observees(),
         );
     }
@@ -63,7 +63,7 @@ final class ObserverTest extends TestCase
 
         $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
 
-        $observee = new Observee($observer, $this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
+        $observee = new Observee($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
 
         $this->assertContainsEquals($observee, $observer->observees());
 
