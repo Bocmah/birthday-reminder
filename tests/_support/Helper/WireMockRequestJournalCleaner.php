@@ -7,7 +7,7 @@ namespace Tests\Helper;
 use Codeception\Module;
 use Codeception\TestInterface;
 
-final class WireMockRequestJournalCleaner extends Module
+class WireMockRequestJournalCleaner extends Module
 {
     public function _before(TestInterface $test): void
     {

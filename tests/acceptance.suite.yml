@@ -1,5 +1,5 @@
-actor: ApiTester
-suite_namespace: Tests\Api
+actor: AcceptanceTester
+suite_namespace: Tests\Acceptance
 modules:
   enabled:
     - REST:
