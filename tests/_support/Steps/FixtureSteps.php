@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Helper\Steps;
+namespace Tests\Steps;
 
 use Codeception\Attribute\Given;
 use Tests\ObserverData;

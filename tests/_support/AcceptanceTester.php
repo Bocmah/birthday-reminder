@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests;
 
 use Codeception\Actor;
-use Tests\Helper\Steps\AcceptanceTesterSteps;
+use Tests\Steps\AcceptanceTesterSteps;
 
 /**
  * Inherited Methods
