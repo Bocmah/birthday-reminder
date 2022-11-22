@@ -21,14 +21,9 @@
                 <directory name="tests"/>
             </errorLevel>
         </InaccessibleProperty>
-        <UndefinedMagicMethod>
-            <errorLevel type="suppress">
-                <directory name="tests/Api"/>
-            </errorLevel>
-        </UndefinedMagicMethod>
         <UndefinedTrait>
             <errorLevel type="suppress">
-                <file name="tests/_support/ApiTester.php"/>
+                <file name="tests/_support/AcceptanceTester.php"/>
             </errorLevel>
         </UndefinedTrait>
     </issueHandlers>
