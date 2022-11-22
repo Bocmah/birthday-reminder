@@ -58,7 +58,7 @@ final class StopObservingTest extends TestCase
         $this->assertEquals(
             new TranslatableMessage('observee.not_observing', ['%id%' => (string) $observeeId]),
             $this->command->execute($observerId, self::VALID_COMMAND),
-    );
+        );
     }
 
     /**
