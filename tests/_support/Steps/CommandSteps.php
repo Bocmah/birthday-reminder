@@ -30,4 +30,15 @@ trait CommandSteps
             ],
         ]);
     }
+
+    #[When('I issue the "change birthdate" command with user id :id and birthdate :birthdate')]
+    public function iIssueTheChangeBirthdateCommandWithUserIdAndBirthdate(string $id, string $birthdate): void
+    {
+        $this->sendPost('/message', [
+            'object' => [
+                'from_id' => ObserverData::ID,
+                'text'    => sprintf('update %s %s', $id, $birthdate),
+            ],
+        ]);
+    }
 }
