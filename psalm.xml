@@ -11,7 +11,7 @@
         <directory name="tests"/>
         <ignoreFiles>
             <directory name="vendor"/>
-            <directory name="tests/_support/_generated"/>
+            <directory name="tests/Codeception/Support/_generated"/>
         </ignoreFiles>
     </projectFiles>
 
@@ -23,9 +23,19 @@
         </InaccessibleProperty>
         <UndefinedTrait>
             <errorLevel type="suppress">
-                <file name="tests/_support/AcceptanceTester.php"/>
+                <file name="tests/Codeception/Support/AcceptanceTester.php"/>
             </errorLevel>
         </UndefinedTrait>
+        <ImplementedReturnTypeMismatch>
+            <errorLevel type="suppress">
+                <file name="tests/Codeception/Support/AcceptanceTester.php"/>
+            </errorLevel>
+        </ImplementedReturnTypeMismatch>
+        <TooManyArguments>
+            <errorLevel type="suppress">
+                <directory name="tests/Codeception/Support/Steps"></directory>
+            </errorLevel>
+        </TooManyArguments>
     </issueHandlers>
 
     <plugins>
