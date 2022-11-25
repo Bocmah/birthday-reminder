@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BirthdayReminder\Kernel;
+use BirthdayReminder\Infrastructure\Http\Kernel;
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 

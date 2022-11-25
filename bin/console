@@ -3,8 +3,8 @@
 
 declare(strict_types=1);
 
+use BirthdayReminder\Infrastructure\Http\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use BirthdayReminder\Kernel;
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 

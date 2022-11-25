@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Infrastructure\Controller;
+namespace BirthdayReminder\Infrastructure\Http\Controller;
 
 use BirthdayReminder\Application\Command\CommandSelector;
 use BirthdayReminder\Application\Command\Exception\ErrorDuringCommandExecution;

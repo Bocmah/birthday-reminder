@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Infrastructure\Request\ParamConverter;
+namespace BirthdayReminder\Infrastructure\Http\Request\ParamConverter;
 
 use BirthdayReminder\Domain\Messenger\IncomingMessage;
 use BirthdayReminder\Domain\User\UserId;
