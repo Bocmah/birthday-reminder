@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Infrastructure\Http\Middleware;
+namespace BirthdayReminder\Infrastructure\Http\Middleware\Exception;
 
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;

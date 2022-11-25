@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application\Command;
 
+use BirthdayReminder\Application\Command\Exception\ErrorDuringCommandExecution;
 use BirthdayReminder\Domain\User\UserId;
 use Symfony\Component\Translation\TranslatableMessage;
 use Throwable;

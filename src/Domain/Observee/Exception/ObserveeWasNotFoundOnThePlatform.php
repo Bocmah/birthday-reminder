@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Domain\Observee;
+namespace BirthdayReminder\Domain\Observee\Exception;
 
 use BirthdayReminder\Domain\User\UserId;
 use RuntimeException;

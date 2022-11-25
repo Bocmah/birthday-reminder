@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application\Command;
 
+use BirthdayReminder\Application\Command\Exception\InvalidCommandFormat;
+
 final class ParseResult
 {
     /**

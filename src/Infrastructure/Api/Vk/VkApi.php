@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Infrastructure\Api\Vk;
 
-use BirthdayReminder\Infrastructure\Http\Middleware\ReceivedInappropriateHttpStatusCode;
+use BirthdayReminder\Infrastructure\Http\Middleware\Exception\ReceivedInappropriateHttpStatusCode;
 use BirthdayReminder\Infrastructure\Util\Json;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;

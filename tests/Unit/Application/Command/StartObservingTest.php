@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Application\Command;
 
-use BirthdayReminder\Application\Command\ErrorDuringCommandExecution;
+use BirthdayReminder\Application\Command\Exception\ErrorDuringCommandExecution;
 use BirthdayReminder\Application\Command\StartObserving;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
-use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
-use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
+use BirthdayReminder\Domain\Observee\Exception\ObserveeWasNotFoundOnThePlatform;
+use BirthdayReminder\Domain\Observer\Exception\AlreadyObservingUser;
+use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundOnThePlatform;
 use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

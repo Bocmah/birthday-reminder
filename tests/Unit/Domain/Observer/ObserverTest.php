@@ -6,8 +6,8 @@ namespace Tests\Unit\Domain\Observer;
 
 use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
-use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
-use BirthdayReminder\Domain\Observer\NotObservingUser;
+use BirthdayReminder\Domain\Observer\Exception\AlreadyObservingUser;
+use BirthdayReminder\Domain\Observer\Exception\NotObservingUser;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;

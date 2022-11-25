@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Infrastructure\Http\Middleware;
 
+use BirthdayReminder\Infrastructure\Http\Middleware\Exception\ReceivedInappropriateHttpStatusCode;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

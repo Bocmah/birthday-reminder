@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructure\Http\Middleware;
 
-use BirthdayReminder\Infrastructure\Http\Middleware\ReceivedInappropriateHttpStatusCode;
+use BirthdayReminder\Infrastructure\Http\Middleware\Exception\ReceivedInappropriateHttpStatusCode;
 use BirthdayReminder\Infrastructure\Http\Middleware\ThrowExceptionOnResponseWithInappropriateHttpStatusCode;
 use GuzzleHttp\Promise\PromiseInterface;
 use InvalidArgumentException;

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application;
 
+use BirthdayReminder\Domain\Observee\Exception\ObserveeWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observee\Observee;
-use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
+use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundInTheSystem;
+use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\Observer\ObserverRepository;
-use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
-use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\User\User;
 use BirthdayReminder\Domain\User\UserFinder;
 use BirthdayReminder\Domain\User\UserId;

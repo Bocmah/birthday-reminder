@@ -9,7 +9,7 @@ use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\Date\DateFormatter;
 use BirthdayReminder\Domain\Observee\Observee;
 use BirthdayReminder\Domain\Observee\ObserveeFormatter;
-use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
+use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\User\UserId;
 use Symfony\Component\Translation\TranslatableMessage;
 

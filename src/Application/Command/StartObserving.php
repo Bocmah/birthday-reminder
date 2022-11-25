@@ -6,9 +6,9 @@ namespace BirthdayReminder\Application\Command;
 
 use BirthdayReminder\Application\Message\Message;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Observee\ObserveeWasNotFoundOnThePlatform;
-use BirthdayReminder\Domain\Observer\AlreadyObservingUser;
-use BirthdayReminder\Domain\Observer\ObserverWasNotFoundOnThePlatform;
+use BirthdayReminder\Domain\Observee\Exception\ObserveeWasNotFoundOnThePlatform;
+use BirthdayReminder\Domain\Observer\Exception\AlreadyObservingUser;
+use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundOnThePlatform;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use Symfony\Component\Translation\TranslatableMessage;

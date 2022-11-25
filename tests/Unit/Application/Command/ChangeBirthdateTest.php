@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Unit\Application\Command;
 
 use BirthdayReminder\Application\Command\ChangeBirthdate;
-use BirthdayReminder\Application\Command\ErrorDuringCommandExecution;
+use BirthdayReminder\Application\Command\Exception\ErrorDuringCommandExecution;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Observer\NotObservingUser;
-use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
+use BirthdayReminder\Domain\Observer\Exception\NotObservingUser;
+use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundInTheSystem;
 use DateTimeImmutable;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

@@ -7,6 +7,8 @@ namespace BirthdayReminder\Domain\Observer;
 use BirthdayReminder\Domain\Date\Date;
 use BirthdayReminder\Domain\FullName;
 use BirthdayReminder\Domain\Observee\Observee;
+use BirthdayReminder\Domain\Observer\Exception\AlreadyObservingUser;
+use BirthdayReminder\Domain\Observer\Exception\NotObservingUser;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;

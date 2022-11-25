@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BirthdayReminder\Application\Command;
+namespace BirthdayReminder\Application\Command\Exception;
 
 use RuntimeException;
 

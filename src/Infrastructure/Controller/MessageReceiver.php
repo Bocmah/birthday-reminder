@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BirthdayReminder\Infrastructure\Controller;
 
 use BirthdayReminder\Application\Command\CommandSelector;
-use BirthdayReminder\Application\Command\ErrorDuringCommandExecution;
+use BirthdayReminder\Application\Command\Exception\ErrorDuringCommandExecution;
 use BirthdayReminder\Application\Message\Message;
 use BirthdayReminder\Domain\Messenger\IncomingMessage;
 use BirthdayReminder\Domain\Messenger\Messenger;

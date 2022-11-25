@@ -6,8 +6,8 @@ namespace Tests\Unit\Application\Command;
 
 use BirthdayReminder\Application\Command\StopObserving;
 use BirthdayReminder\Application\ObserverService;
-use BirthdayReminder\Domain\Observer\NotObservingUser;
-use BirthdayReminder\Domain\Observer\ObserverWasNotFoundInTheSystem;
+use BirthdayReminder\Domain\Observer\Exception\NotObservingUser;
+use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundInTheSystem;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\TranslatableMessage;

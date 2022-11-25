@@ -6,7 +6,7 @@ namespace Tests\Unit\Infrastructure\Api\Vk;
 
 use BirthdayReminder\Infrastructure\Api\Vk\VkApi;
 use BirthdayReminder\Infrastructure\Api\Vk\VkApiMethod;
-use BirthdayReminder\Infrastructure\Http\Middleware\ReceivedInappropriateHttpStatusCode;
+use BirthdayReminder\Infrastructure\Http\Middleware\Exception\ReceivedInappropriateHttpStatusCode;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
