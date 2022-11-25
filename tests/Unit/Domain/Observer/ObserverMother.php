@@ -10,16 +10,14 @@ use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\User\UserId;
 use DateTimeImmutable;
 use LogicException;
+use Tests\Support\ObserveeData;
+use Tests\Support\ObserverData;
 
 final class ObserverMother
 {
-    private const OBSERVER_ID = '123';
-
-    private const OBSERVEE_ID = '333';
-
     public static function createObserverWithoutObservees(
-        UserId $id = new UserId(self::OBSERVER_ID),
-        FullName $fullName = new FullName('John', 'Doe')
+        UserId $id = new UserId(ObserverData::ID),
+        FullName $fullName = new FullName(ObserverData::FIRST_NAME, ObserverData::LAST_NAME)
     ): Observer {
         return new Observer($id, $fullName);
     }
@@ -35,9 +33,9 @@ final class ObserverMother
 
     public static function attachObservee(
         Observer $observer,
-        UserId $id = new UserId(self::OBSERVEE_ID),
-        FullName $fullName = new FullName('James', 'Dean'),
-        DateTimeImmutable $birthdate = new DateTimeImmutable('11.10.1990'),
+        UserId $id = new UserId(ObserveeData::ID),
+        FullName $fullName = new FullName(ObserveeData::FIRST_NAME, ObserveeData::LAST_NAME),
+        DateTimeImmutable $birthdate = new DateTimeImmutable(ObserveeData::BIRTHDATE),
     ): Observee {
         $observer->startObserving($id, $fullName, $birthdate);
 
@@ -57,7 +55,7 @@ final class ObserverMother
 
     public static function createObserverId(): UserId
     {
-        return new UserId(self::OBSERVER_ID);
+        return new UserId(ObserverData::ID);
     }
 
     /**
@@ -65,6 +63,6 @@ final class ObserverMother
      */
     public static function createObserverIdAndObserveeId(): array
     {
-        return [self::createObserverId(), new UserId(self::OBSERVEE_ID)];
+        return [self::createObserverId(), new UserId(ObserveeData::ID)];
     }
 }
