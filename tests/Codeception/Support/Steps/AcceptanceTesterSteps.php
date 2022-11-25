@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Steps;
+namespace Tests\Codeception\Support\Steps;
 
 trait AcceptanceTesterSteps
 {

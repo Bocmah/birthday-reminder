@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Helper;
+namespace Tests\Codeception\Support\Helper;
 
 use Codeception\Module;
 use WireMock\Client\WireMock;

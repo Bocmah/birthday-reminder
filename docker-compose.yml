@@ -27,7 +27,7 @@ services:
       - "8082:8082"
     command: "--port=8082 --local-response-templating --root-dir=/home/storage"
     volumes:
-      - ./tests/_data/http-mock:/home/storage
+      - ./tests/Codeception/Data/HttpMock:/home/storage
 
 volumes:
   mongodata:

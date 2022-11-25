@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Steps;
+namespace Tests\Codeception\Support\Steps;
 
 use Codeception\Attribute\When;
-use Tests\ObserverData;
+use Tests\Support\ObserverData;
 
 trait CommandSteps
 {

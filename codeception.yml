@@ -1,10 +1,10 @@
-namespace: Tests
+namespace: Tests\Codeception\Support
 paths:
     tests: tests
-    output: tests/_output
-    data: tests/_data
-    support: tests/_support
-    envs: tests/_envs
+    output: tests/Codeception/Output
+    data: tests/Codeception/Data
+    support: tests/Codeception/Support
+    envs: tests/Codeception/Envs
 actor_suffix: Tester
 extensions:
     enabled:
