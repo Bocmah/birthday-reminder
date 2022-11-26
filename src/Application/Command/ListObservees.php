@@ -27,7 +27,7 @@ final class ListObservees extends Command
         try {
             $observees = $this->observerService->getObservees($observerId);
         } catch (ObserverWasNotFoundInTheSystem) {
-            return Message::unexpectedError();
+            $observees = [];
         }
 
         if ($observees === []) {

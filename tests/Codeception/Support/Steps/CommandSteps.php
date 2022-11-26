@@ -41,4 +41,15 @@ trait CommandSteps
             ],
         ]);
     }
+
+    #[When('I issue the "list observees" command')]
+    public function iIssueTheListObserveesCommand(): void
+    {
+        $this->sendPost('/message', [
+            'object' => [
+                'from_id' => ObserverData::ID,
+                'text'    => 'list',
+            ],
+        ]);
+    }
 }
