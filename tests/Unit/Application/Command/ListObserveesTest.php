@@ -78,7 +78,7 @@ final class ListObserveesTest extends TestCase
             ->willThrowException(ObserverWasNotFoundInTheSystem::withUserId($observerId));
 
         $this->assertEquals(
-            new TranslatableMessage('unexpected_error'),
+            new TranslatableMessage('observee.not_observing_anyone'),
             $this->command->execute($observerId, self::VALID_COMMAND),
         );
     }
