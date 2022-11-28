@@ -15,7 +15,6 @@ Feature: list observees
 *id444 (Kate Watts) - 11.11.2001
 """
 
-
     Scenario: I have no observees
         When I issue the "list observees" command
         Then I should receive message "Вы еще не отслеживаете день рождения ни одного юзера."

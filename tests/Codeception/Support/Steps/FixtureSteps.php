@@ -16,13 +16,17 @@ trait FixtureSteps
     {
         $observees = [];
 
+        /**
+         * @var int $index
+         * @var array{0: string|int, 1: string, 2: string, 3: string} $row
+         */
         foreach ($node->getRows() as $index => $row) {
             if ($index === 0) { // first row to define fields
                 continue;
             }
 
             $observees[] = $this->observee([
-                'userId' => $row[0],
+                'userId' => (string) $row[0],
                 'fullName' => [
                     'firstName' => $row[1],
                     'lastName' => $row[2],
@@ -72,6 +76,18 @@ trait FixtureSteps
                 $this->observee(['userId' => $id]),
             ],
         ]);
+    }
+
+    #[Given("I'm notified even if there are no upcoming birthdays")]
+    public function imNotifiedEvenIfThereAreNoUpcomingBirthdays(): void
+    {
+        $this->putObserverInCollection(['shouldAlwaysBeNotified' => true]);
+    }
+
+    #[Given("I'm notified only if there are upcoming birthdays")]
+    public function imNotifiedOnlyIfThereAreUpcomingBirthdays(): void
+    {
+        $this->putObserverInCollection(['shouldAlwaysBeNotified' => false]);
     }
 
     private function putObserverInCollection(array $observer = []): void

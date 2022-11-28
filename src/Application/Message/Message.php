@@ -48,4 +48,14 @@ final class Message
     {
         return new TranslatableMessage('observee.not_observing_anyone');
     }
+
+    public static function alwaysNotify(): TranslatableMessage
+    {
+        return new TranslatableMessage('always_notify');
+    }
+
+    public static function notifyOnlyOnUpcomingBirthdays(): TranslatableMessage
+    {
+        return new TranslatableMessage('notify_only_on_upcoming_birthdays');
+    }
 }
