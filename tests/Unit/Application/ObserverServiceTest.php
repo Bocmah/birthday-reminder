@@ -217,7 +217,7 @@ final class ObserverServiceTest extends TestCase
     /**
      * @test
      */
-    public function observerCanToggleNotifiability(): void
+    public function existingObserverCanToggleNotifiability(): void
     {
         $observer = ObserverMother::createObserverWithOneObservee();
 
@@ -237,12 +237,18 @@ final class ObserverServiceTest extends TestCase
     /**
      * @test
      */
-    public function canNotToggleNotifiabilityBecauseObserverWasNotFoundInTheSystem(): void
+    public function newObserverCanToggleNotifiability(): void
     {
-        $this->expectException(ObserverWasNotFoundInTheSystem::class);
-        $this->expectExceptionMessage('Observer with user id non-existent-observer was not found in the system');
+        $expectedObserver = ObserverMother::createObserverWithoutObservees(shouldAlwaysBeNotified: false);
 
-        $this->observerService->toggleNotifiability(new UserId('non-existent-observer'));
+        $this->givenUsersExist(new User($expectedObserver->id, $expectedObserver->fullName));
+
+        $this->observerRepository
+            ->expects($this->once())
+            ->method('save')
+            ->with($expectedObserver);
+
+        $this->observerService->toggleNotifiability($expectedObserver->id);
     }
 
     protected function setUp(): void

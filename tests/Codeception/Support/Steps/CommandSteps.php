@@ -52,4 +52,15 @@ trait CommandSteps
             ],
         ]);
     }
+
+    #[When('I issue the "toggle notifiability" command')]
+    public function iIssueTheToggleNotifiabilityCommand(): void
+    {
+        $this->sendPost('/message', [
+            'object' => [
+                'from_id' => ObserverData::ID,
+                'text'    => 'notify',
+            ],
+        ]);
+    }
 }

@@ -17,9 +17,16 @@ final class ObserverMother
 {
     public static function createObserverWithoutObservees(
         UserId $id = new UserId(ObserverData::ID),
-        FullName $fullName = new FullName(ObserverData::FIRST_NAME, ObserverData::LAST_NAME)
+        FullName $fullName = new FullName(ObserverData::FIRST_NAME, ObserverData::LAST_NAME),
+        bool $shouldAlwaysBeNotified = true,
     ): Observer {
-        return new Observer($id, $fullName);
+        $observer = new Observer($id, $fullName);
+
+        if (!$shouldAlwaysBeNotified) {
+            $observer->toggleNotifiability();
+        }
+
+        return $observer;
     }
 
     public static function createObserverWithOneObservee(): Observer

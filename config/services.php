@@ -9,6 +9,7 @@ use BirthdayReminder\Application\Command\CommandSelector;
 use BirthdayReminder\Application\Command\ListObservees;
 use BirthdayReminder\Application\Command\StartObserving;
 use BirthdayReminder\Application\Command\StopObserving;
+use BirthdayReminder\Application\Command\ToggleNotifiability;
 use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\BirthdaysNotifier\BirthdaysNotifierSelector;
 use BirthdayReminder\Domain\BirthdaysNotifier\NoUpcomingBirthdaysNotifier;
@@ -63,6 +64,7 @@ return static function (ContainerConfigurator $configurator): void {
     $services
         ->set(ListObservees::class)
         ->arg('$dateFormatter', inline_service(FixedFormatDateFormatter::class)->arg('$format', 'd.m.Y'));
+    $services->set(ToggleNotifiability::class);
 
     $services->set(CommandSelector::class)->args([tagged_iterator('command')]);
 

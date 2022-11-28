@@ -23,6 +23,11 @@ class ObserverService
     ) {
     }
 
+    public function getObserverById(UserId $observerId): Observer
+    {
+        return $this->findObserverInTheSystem($observerId);
+    }
+
     /**
      * @return Observee[]
      */
@@ -62,7 +67,7 @@ class ObserverService
 
     public function toggleNotifiability(UserId $observerId): void
     {
-        $observer = $this->findObserverInTheSystem($observerId);
+        $observer = $this->findObserverInTheSystemOrOnThePlatform($observerId);
 
         $observer->toggleNotifiability();
 
