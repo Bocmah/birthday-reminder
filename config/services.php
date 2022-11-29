@@ -26,6 +26,7 @@ use BirthdayReminder\Infrastructure\Api\Messenger\BatchMessengerDecorator;
 use BirthdayReminder\Infrastructure\Api\Messenger\VkMessenger;
 use BirthdayReminder\Infrastructure\Api\User\VkUserFinder;
 use BirthdayReminder\Infrastructure\Api\Vk\VkApi;
+use BirthdayReminder\Infrastructure\BirthdaysNotifier\NotifyAllObservers;
 use BirthdayReminder\Infrastructure\Date\FixedFormatDateFormatter;
 use BirthdayReminder\Infrastructure\Date\SystemCalendar;
 use BirthdayReminder\Infrastructure\Http\Controller\MessageReceiver;
@@ -157,4 +158,6 @@ return static function (ContainerConfigurator $configurator): void {
     $services->alias(ClientInterface::class, 'vk.http.client');
 
     $services->set(IncomingMessageParamConverter::class);
+
+    $services->set(NotifyAllObservers::class);
 };
