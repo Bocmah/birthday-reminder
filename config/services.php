@@ -6,6 +6,8 @@ use BirthdayReminder\Application\BirthdaysNotifierService;
 use BirthdayReminder\Application\Command\ChangeBirthdate;
 use BirthdayReminder\Application\Command\Command;
 use BirthdayReminder\Application\Command\CommandSelector;
+use BirthdayReminder\Application\Command\Describable;
+use BirthdayReminder\Application\Command\GetHelp;
 use BirthdayReminder\Application\Command\ListObservees;
 use BirthdayReminder\Application\Command\StartObserving;
 use BirthdayReminder\Application\Command\StopObserving;
@@ -57,6 +59,7 @@ return static function (ContainerConfigurator $configurator): void {
           ->autoconfigure();
 
     $services->instanceof(Command::class)->tag('command');
+    $services->instanceof(Describable::class)->tag('command.describable');
 
     $services->set(StartObserving::class);
     $services->set(StopObserving::class);
@@ -65,6 +68,9 @@ return static function (ContainerConfigurator $configurator): void {
         ->set(ListObservees::class)
         ->arg('$dateFormatter', inline_service(FixedFormatDateFormatter::class)->arg('$format', 'd.m.Y'));
     $services->set(ToggleNotifiability::class);
+    $services
+        ->set(GetHelp::class)
+        ->arg('$describables', tagged_iterator('command.describable'));
 
     $services->set(CommandSelector::class)->args([tagged_iterator('command')]);
 
