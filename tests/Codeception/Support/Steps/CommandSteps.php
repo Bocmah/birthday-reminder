@@ -63,4 +63,15 @@ trait CommandSteps
             ],
         ]);
     }
+
+    #[When('I issue the "get help" command')]
+    public function iIssueTheGetHelpCommand(): void
+    {
+        $this->sendPost('/message', [
+            'object' => [
+                'from_id' => ObserverData::ID,
+                'text'    => 'help',
+            ],
+        ]);
+    }
 }

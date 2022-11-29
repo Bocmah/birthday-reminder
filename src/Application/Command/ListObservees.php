@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BirthdayReminder\Application\Command;
 
+use BirthdayReminder\Application\Message\Description;
 use BirthdayReminder\Application\Message\Message;
 use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\Date\DateFormatter;
@@ -12,14 +13,25 @@ use BirthdayReminder\Domain\Observee\ObserveeFormatter;
 use BirthdayReminder\Domain\Observer\Exception\ObserverWasNotFoundInTheSystem;
 use BirthdayReminder\Domain\User\UserId;
 use Symfony\Component\Translation\TranslatableMessage;
+use Symfony\Contracts\Translation\TranslatableInterface;
 
-final class ListObservees extends Command
+final class ListObservees extends Command implements Describable
 {
     public function __construct(
         private readonly ObserverService $observerService,
         private readonly ObserveeFormatter $observeeFormatter,
         private readonly DateFormatter $dateFormatter,
     ) {
+    }
+
+    public function name(): string
+    {
+        return 'list';
+    }
+
+    public function description(): TranslatableInterface
+    {
+        return Description::listObservees();
     }
 
     protected function executedParsed(UserId $observerId, ParseResult $parseResult): string|TranslatableMessage
