@@ -10,7 +10,7 @@ use BirthdayReminder\Domain\Observer\ObserverRepository;
 final class BirthdaysNotifierService
 {
     public function __construct(
-        private readonly ObserverRepository        $observerRepository,
+        private readonly ObserverRepository $observerRepository,
         private readonly BirthdaysNotifierSelector $notifierSelector,
     ) {
     }

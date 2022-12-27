@@ -17,7 +17,6 @@ doctrine_mongodb:
           dir: '%kernel.project_dir%/src/Domain'
           prefix: 'BirthdayReminder\Domain'
 
-
 when@prod:
   doctrine_mongodb:
     auto_generate_proxy_classes: false

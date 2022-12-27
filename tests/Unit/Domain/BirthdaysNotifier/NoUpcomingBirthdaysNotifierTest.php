@@ -70,6 +70,7 @@ final class NoUpcomingBirthdaysNotifierTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider canNotifyProvider
      *
      * @param callable(DateTimeImmutable,DateTimeImmutable):Observer $createObserver

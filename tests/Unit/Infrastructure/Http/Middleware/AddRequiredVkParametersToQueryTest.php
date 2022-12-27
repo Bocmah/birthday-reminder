@@ -23,6 +23,7 @@ final class AddRequiredVkParametersToQueryTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider addRequiredParametersProvider
      */
     public function addRequiredParameters(string $query, string $expected): void

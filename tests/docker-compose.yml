@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  app:
+    image: birthday-reminder/app-test:${PROJECT_VERSION:-latest}
+    depends_on:
+      mongo:
+        condition: service_healthy
+      wiremock:
+        condition: service_started
+
+  mongo:
+    image: mongo:6.0.2
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+  wiremock:
+    image: wiremock/wiremock:2.35.0
+    ports:
+      - "8082:8082"
+    command: "--port=8082 --local-response-templating --root-dir=/home/storage"
+    volumes:
+      - ./Codeception/Data/HttpMock:/home/storage

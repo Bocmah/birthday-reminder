@@ -32,12 +32,11 @@ final class GetHelpTest extends TestCase
 
         $command = new GetHelp([$describable1, $describable2], $translator);
 
-        $expectedMessage = <<<MESSAGE
-        name1 - description1
+        $expectedMessage = <<<'MESSAGE'
+            name1 - description1
 
-        name2 - description2
-        MESSAGE;
-
+            name2 - description2
+            MESSAGE;
 
         $this->assertEquals(
             $expectedMessage,

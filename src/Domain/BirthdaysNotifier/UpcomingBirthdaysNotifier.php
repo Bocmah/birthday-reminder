@@ -50,7 +50,7 @@ final class UpcomingBirthdaysNotifier implements BirthdaysNotifier
      */
     private function composeNotification(DateTimeImmutable $date, array $observees): string
     {
-        if (count($observees) > 0) {
+        if (\count($observees) > 0) {
             $message = $this->translator->trans('birthdays_on_date', ['%date%' => $this->dateFormatter->format($date)]);
             $message .= '\n\n';
         } else {

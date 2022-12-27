@@ -92,7 +92,7 @@ final class ObserverTest extends TestCase
     {
         $observer = ObserverMother::createObserverWithoutObservees();
 
-        $observer->startObserving($this->observeeId,$this->observeeFullName, $this->observeeBirthdate);
+        $observer->startObserving($this->observeeId, $this->observeeFullName, $this->observeeBirthdate);
 
         $newBirthdate = new DateTimeImmutable('25.10.1990');
 
@@ -149,6 +149,7 @@ final class ObserverTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider birthdaysOnDateProvider
      *
      * @param Observee[] $birthdays

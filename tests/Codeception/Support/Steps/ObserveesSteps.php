@@ -15,7 +15,7 @@ trait ObserveesSteps
         $this->sendPost('/message', [
             'object' => [
                 'from_id' => ObserverData::ID,
-                'text'    => 'list'
+                'text'    => 'list',
             ],
         ]);
 
@@ -28,7 +28,7 @@ trait ObserveesSteps
         $this->sendPost('/message', [
             'object' => [
                 'from_id' => ObserverData::ID,
-                'text'    => 'list'
+                'text'    => 'list',
             ],
         ]);
 

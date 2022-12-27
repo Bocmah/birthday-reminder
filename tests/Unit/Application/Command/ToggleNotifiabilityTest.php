@@ -33,7 +33,7 @@ final class ToggleNotifiabilityTest extends TestCase
         $this->observerService
             ->method('toggleNotifiability')
             ->with($observer->id)
-            ->willReturnCallback(fn () => $observer->toggleNotifiability());
+            ->willReturnCallback(static fn () => $observer->toggleNotifiability());
 
         $this->observerService
             ->method('getObserverById')

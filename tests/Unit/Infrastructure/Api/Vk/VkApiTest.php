@@ -73,7 +73,8 @@ final class VkApiTest extends TestCase
     {
         $request = $this->createMock(RequestInterface::class);
 
-        $clientException = new class (code: 123) extends Exception implements ClientExceptionInterface {};
+        $clientException = new class(code: 123) extends Exception implements ClientExceptionInterface {
+        };
 
         $this->requestFactory
             ->method('createRequest')

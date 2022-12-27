@@ -16,7 +16,7 @@ class Observee
 {
     public function __construct(
         #[Field(type: 'user_id')]
-        public readonly UserId    $userId,
+        public readonly UserId $userId,
         #[EmbedOne(targetDocument: FullName::class)]
         public readonly FullName $fullName,
         #[Field(type: 'date_immutable')]

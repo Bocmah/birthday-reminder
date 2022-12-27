@@ -17,7 +17,8 @@ use Symfony\Contracts\Translation\TranslatableInterface;
 
 final class StartObserving extends Command implements Describable
 {
-    public function __construct(private readonly ObserverService $observerService) {
+    public function __construct(private readonly ObserverService $observerService)
+    {
     }
 
     public function name(): string

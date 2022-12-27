@@ -35,9 +35,7 @@ class Messenger extends Module
 
     private function wiremock(): Module\WireMock
     {
-        /** @var Module\WireMock $wiremock */
-        $wiremock = $this->getModule('WireMock');
-
-        return $wiremock;
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->getModule('WireMock');
     }
 }

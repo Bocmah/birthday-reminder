@@ -1,7 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude(['vendor'])
+    ->exclude(['vendor', 'var'])
     ->notPath('*')
     ->in(__DIR__);
 
@@ -100,7 +100,7 @@ return (new PhpCsFixer\Config())
         'php_unit_fqcn_annotation' => true,
         'php_unit_construct' => true,
         'php_unit_expectation' => true,
-        'php_unit_method_casing' => ['case' => 'snake_case'],
+        'php_unit_method_casing' => ['case' => 'camel_case'],
         'php_unit_mock_short_will_return' => true,
         'php_unit_namespaced' => true,
         'phpdoc_order_by_value' => ['annotations' => [ 'covers' ]],

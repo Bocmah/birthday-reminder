@@ -19,7 +19,7 @@ class ObserverService
 {
     public function __construct(
         private readonly ObserverRepository $observerRepository,
-        private readonly UserFinder         $userFinder,
+        private readonly UserFinder $userFinder,
     ) {
     }
 

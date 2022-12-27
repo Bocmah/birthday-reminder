@@ -11,7 +11,7 @@ export DOCKER_BUILDKIT := 1
 include .docker/Makefile
 
 .DEFAULT_GOAL := help
-PHP_SERVICE = php
+APP_SERVICE = app
 
 help: ## Show this help
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -28,35 +28,35 @@ restart: ## Restart services
 ps: ## Dump running services
 	@docker-compose ps
 
-php-logs: ## Show PHP container logs
-	@docker-compose logs php
+logs: ## Show app logs
+	@docker-compose logs app
 
-cli: ## Jump to PHP service shell
-	@docker-compose exec $(PHP_SERVICE) sh
+cli: ## Jump to app service shell
+	@docker-compose exec $(APP_SERVICE) sh
 
 phpunit: ## Run tests
-	@docker-compose exec -T $(PHP_SERVICE) composer phpunit
+	@docker-compose exec -T $(APP_SERVICE) composer phpunit
 
 phpcs: ## Run PHP Code Sniffer across all project files
-	@docker-compose exec -T $(PHP_SERVICE) composer phpcs
+	@docker-compose exec -T $(APP_SERVICE) composer phpcs
 
 php-cs-fixer: ## Run PHP CS Fixer across all project files
-	@docker-compose exec -T $(PHP_SERVICE) composer php-cs-fixer
+	@docker-compose exec -T $(APP_SERVICE) composer php-cs-fixer
 
 infection: ## Run infection across all project files
-	@docker-compose exec -T $(PHP_SERVICE) composer infection
+	@docker-compose exec -T $(APP_SERVICE) composer infection
 
 psalm: ## Run psalm across all project files
-	@docker-compose exec -T $(PHP_SERVICE) composer psalm
+	@docker-compose exec -T $(APP_SERVICE) composer psalm
 
 migrate-generate: ## Generate template migration
-	@docker-compose exec $(PHP_SERVICE) composer migrate-generate
+	@docker-compose exec $(APP_SERVICE) composer migrate-generate
 
 migrate: ## Run migrations
-	docker-compose exec $(PHP_SERVICE) composer migrate
+	docker-compose exec $(APP_SERVICE) composer migrate
 
 composer-update:
-	@docker-compose exec $(PHP_SERVICE) composer update
+	@docker-compose exec $(APP_SERVICE) composer update
 
 composer: ## Run arbitrary composer command
-	@docker-composer exec $(PHP_SERVICE) composer $(COMPOSER_FLAGS)
+	@docker-composer exec $(APP_SERVICE) composer $(COMPOSER_FLAGS)

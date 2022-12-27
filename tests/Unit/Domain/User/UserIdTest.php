@@ -15,6 +15,7 @@ final class UserIdTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider successfulCreationProvider
      */
     public function successfulCreation(string $id): void
@@ -48,6 +49,7 @@ final class UserIdTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider unsuccessfulCreationProvider
      */
     public function unsuccessfulCreation(string $id): void

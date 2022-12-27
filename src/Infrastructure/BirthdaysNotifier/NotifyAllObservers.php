@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'observers:notify', description: 'Notify all observers about upcoming birthdays.')]
 final class NotifyAllObservers extends Command
 {
-    private function __construct(private readonly BirthdaysNotifierService $notifierService)
+    public function __construct(private readonly BirthdaysNotifierService $notifierService)
     {
         parent::__construct();
     }

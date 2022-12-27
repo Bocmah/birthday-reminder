@@ -23,7 +23,7 @@ final class VkUserFinder implements UserFinder
         /** @var list<array{id: int, first_name: string, last_name: string}>|null $users */
         $users = $this->vkApi->callMethod(VkApiMethod::GetUser, ['user_ids' => (string) $id]);
 
-        if (!is_array($users) || $users === []) {
+        if (!\is_array($users) || $users === []) {
             return null;
         }
 
@@ -39,7 +39,7 @@ final class VkUserFinder implements UserFinder
 
     private function ensureOnlyOneUserForId(array $users, UserId $id): void
     {
-        if (count($users) > 1) {
+        if (\count($users) > 1) {
             throw new UnexpectedValueException(
                 sprintf('Multiple users returned by VK API for id %s', (string) $id),
             );

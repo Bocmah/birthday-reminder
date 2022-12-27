@@ -56,7 +56,7 @@ final class BirthdaysNotifierServiceTest extends TestCase
             ->willReturnMap(
                 [
                     [$observers[0], $notifierForFirstObserver],
-                    [$observers[1], $notifierForSecondObserver]
+                    [$observers[1], $notifierForSecondObserver],
                 ]
             );
 

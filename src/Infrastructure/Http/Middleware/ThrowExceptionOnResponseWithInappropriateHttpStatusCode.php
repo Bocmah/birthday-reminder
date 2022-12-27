@@ -38,7 +38,7 @@ final class ThrowExceptionOnResponseWithInappropriateHttpStatusCode
 
     private function ensureAppropriateStatusCode(ResponseInterface $response): void
     {
-        if (!in_array($response->getStatusCode(), $this->allowedStatusCodes, true)) {
+        if (!\in_array($response->getStatusCode(), $this->allowedStatusCodes, true)) {
             throw ReceivedInappropriateHttpStatusCode::fromResponse($response);
         }
     }
