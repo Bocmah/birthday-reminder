@@ -16,6 +16,7 @@ final class ShouldAlwaysBeNotifiedTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider isSatisfiedByProvider
      */
     public function isSatisfiedBy(Observer $observer, bool $result): void

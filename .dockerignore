@@ -1,0 +1,10 @@
+.idea/
+.DS_Store
+.gitignore
+.git/
+.github/
+.editorconfig
+.dockerignore
+docker-compose.yml
+README.md
+Makefile

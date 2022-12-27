@@ -56,8 +56,8 @@ return static function (ContainerConfigurator $configurator): void {
     $services = $configurator
         ->services()
         ->defaults()
-          ->autowire()
-          ->autoconfigure();
+        ->autowire()
+        ->autoconfigure();
 
     $services->instanceof(Command::class)->tag('command');
     $services->instanceof(Describable::class)->tag('command.describable');
@@ -152,7 +152,7 @@ return static function (ContainerConfigurator $configurator): void {
         ->arg('$config', [
             'base_uri' => env('VK_API_URL'),
             'timeout'  => env('VK_API_TIMEOUT')->float(),
-            'handler'  => service('vk.http.handler_stack')
+            'handler'  => service('vk.http.handler_stack'),
         ]);
 
     $services->alias(ClientInterface::class, 'vk.http.client');

@@ -110,12 +110,12 @@ final class ListObserveesTest extends TestCase
         $dateFormatter = $this->createMock(DateFormatter::class);
         $dateFormatter
             ->method('format')
-            ->willReturnCallback(fn (DateTimeImmutable $date) => $date->format('d.m.Y'));
+            ->willReturnCallback(static fn (DateTimeImmutable $date) => $date->format('d.m.Y'));
 
         $observeeFormatter = $this->createMock(ObserveeFormatter::class);
         $observeeFormatter
             ->method('format')
-            ->willReturnCallback(fn (Observee $observee) => sprintf(
+            ->willReturnCallback(static fn (Observee $observee) => sprintf(
                 '*id%s (%s %s)',
                 (string) $observee->userId,
                 $observee->fullName->firstName,

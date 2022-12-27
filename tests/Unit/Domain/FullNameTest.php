@@ -14,6 +14,7 @@ final class FullNameTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider invalidNames
      */
     public function canNotBeCreatedWithInvalidFirstName(string $name): void
@@ -25,6 +26,7 @@ final class FullNameTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invalidNames
      */
     public function canNotBeCreatedWithInvalidLastName(string $name): void
@@ -33,7 +35,6 @@ final class FullNameTest extends TestCase
 
         new FullName('John', $name);
     }
-
 
     /**
      * @see canNotBeCreatedWithInvalidFirstName()

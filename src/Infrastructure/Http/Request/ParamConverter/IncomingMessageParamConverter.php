@@ -19,7 +19,7 @@ final class IncomingMessageParamConverter implements ParamConverterInterface
 
         $object = $data['object'] ?? null;
 
-        if (!is_array($object)) {
+        if (!\is_array($object)) {
             throw new BadRequestException();
         }
 

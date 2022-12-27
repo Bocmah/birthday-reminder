@@ -8,7 +8,8 @@ use Codeception\Actor;
 use Tests\Codeception\Support\Steps\AcceptanceTesterSteps;
 
 /**
- * Inherited Methods
+ * Inherited Methods.
+ *
  * @method void wantToTest($text)
  * @method void wantTo($text)
  * @method void execute($callable)
@@ -21,7 +22,7 @@ use Tests\Codeception\Support\Steps\AcceptanceTesterSteps;
  * @method void pause($vars = [])
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 final class AcceptanceTester extends Actor
 {
     use _generated\AcceptanceTesterActions, AcceptanceTesterSteps;

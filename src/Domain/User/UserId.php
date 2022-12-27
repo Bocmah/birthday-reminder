@@ -18,7 +18,7 @@ final class UserId implements Stringable
         $this->id = $id;
     }
 
-    public function equals(UserId $other): bool
+    public function equals(self $other): bool
     {
         return $this->id === $other->id;
     }

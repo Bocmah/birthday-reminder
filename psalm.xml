@@ -2,6 +2,9 @@
 <psalm
     errorLevel="1"
     resolveFromConfigFile="true"
+    findUnusedCode="true"
+    findUnusedPsalmSuppress="true"
+    runTaintAnalysis="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
@@ -41,4 +44,10 @@
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
+
+    <forbiddenFunctions>
+        <function name="var_dump"/>
+        <function name="dd"/>
+        <function name="dump"/>
+    </forbiddenFunctions>
 </psalm>

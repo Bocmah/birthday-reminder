@@ -17,6 +17,7 @@ final class DoesntHaveBirthdaysOnDateTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider isSatisfiedByProvider
      *
      * @param callable():Observer $createObserver

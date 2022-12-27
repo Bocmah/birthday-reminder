@@ -38,7 +38,7 @@ class Observer
     private bool $shouldAlwaysBeNotified = true;
 
     public function __construct(
-        UserId   $id,
+        UserId $id,
         FullName $fullName,
     ) {
         $this->id = $id;
@@ -84,7 +84,7 @@ class Observer
     {
         return array_values(
             $this->observees
-                ->filter(fn (Observee $observee): bool => Date::isSameDay($date, $observee->birthdate()))
+                ->filter(static fn (Observee $observee): bool => Date::isSameDay($date, $observee->birthdate()))
                 ->toArray()
         );
     }

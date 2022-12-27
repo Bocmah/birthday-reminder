@@ -66,7 +66,7 @@ final class VkUserFinderTest extends TestCase
     {
         $this->vkApiWillReturn([
             ['id' => self::USER_ID, 'first_name' => 'John', 'last_name' => 'Doe'],
-            ['id' => self::USER_ID, 'first_name' => 'Joe', 'last_name' => 'James']
+            ['id' => self::USER_ID, 'first_name' => 'Joe', 'last_name' => 'James'],
         ]);
 
         $this->expectExceptionObject(

@@ -15,6 +15,7 @@ final class DateTest extends TestCase
 {
     /**
      * @test
+     *
      * @dataProvider dates
      */
     public function isSameDay(DateTimeImmutable $dateA, DateTimeImmutable $dateB, bool $result): void
