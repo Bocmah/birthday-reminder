@@ -33,6 +33,15 @@ final class ObserverServiceTest extends TestCase
     /** @var MockObject&UserFinder */
     private readonly MockObject $userFinder;
 
+    public function observerCanBeRetrievedById(): void
+    {
+        $observer = ObserverMother::createObserverWithoutObservees();
+
+        $this->givenObserverExists($observer);
+
+        $this->assertEquals($observer, $this->observerService->getObserverById($observer->id));
+    }
+
     /**
      * @test
      */
@@ -154,7 +163,9 @@ final class ObserverServiceTest extends TestCase
 
         $observee = $observer->observees()[0];
 
-        $observer->stopObserving($observee->userId);
+        $this->expectObserverWillBeSaved($observer);
+
+        $this->observerService->stopObserving($observer->id, $observee->userId);
 
         $observer = $this->observerRepository->findByUserId($observer->id);
 
@@ -189,6 +200,8 @@ final class ObserverServiceTest extends TestCase
         $observee = $observer->observees()[0];
 
         $newBirthdate = new DateTimeImmutable('15.10.1964');
+
+        $this->expectObserverWillBeSaved($observer);
 
         $this->observerService->changeObserveeBirthdate($observer->id, $observee->userId, $newBirthdate);
 
@@ -280,5 +293,13 @@ final class ObserverServiceTest extends TestCase
             ->method('findByUserId')
             ->with($observer->id)
             ->willReturn($observer);
+    }
+
+    private function expectObserverWillBeSaved(Observer $observer): void
+    {
+        $this->observerRepository
+            ->expects($this->once())
+            ->method('save')
+            ->with($observer);
     }
 }
