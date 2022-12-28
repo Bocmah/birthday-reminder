@@ -26,7 +26,7 @@ final class GetHelp extends Command
             $helpMessage .= sprintf("%s - %s\n\n", $describable->name(), $describable->description()->trans($this->translator));
         }
 
-        if (trim($helpMessage) === '') {
+        if ($helpMessage === '') {
             return Message::unexpectedError();
         }
 

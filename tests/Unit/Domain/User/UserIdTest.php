@@ -68,4 +68,13 @@ final class UserIdTest extends TestCase
     {
         yield 'blank string' => [''];
     }
+
+    /**
+     * @test
+     */
+    public function equality(): void
+    {
+        $this->assertTrue((new UserId('foo'))->equals(new UserId('foo')));
+        $this->assertFalse((new UserId('foo'))->equals(new UserId('bar')));
+    }
 }
