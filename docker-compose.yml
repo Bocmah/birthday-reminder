@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   app:
-    image: birthday-reminder/app-dev:${PROJECT_VERSION:-latest}
+    image: ${APP_IMAGE:-birthday-reminder/app-dev}:${APP_IMAGE_TAG:-latest}
     ports:
       - "8080:8080"
     volumes:

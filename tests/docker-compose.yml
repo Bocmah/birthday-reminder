@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   app:
-    image: birthday-reminder/app-test:${PROJECT_VERSION:-latest}
+    image: ${APP_IMAGE:-birthday-reminder/app-test}:${APP_IMAGE_TAG:-latest}
     depends_on:
       mongo:
         condition: service_healthy
@@ -23,8 +23,6 @@ services:
 
   wiremock:
     image: wiremock/wiremock:2.35.0
-    ports:
-      - "8082:8082"
     command: "--port=8082 --local-response-templating --root-dir=/home/storage"
     volumes:
       - ./Codeception/Data/HttpMock:/home/storage
