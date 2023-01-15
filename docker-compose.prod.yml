@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  app:
+    image: ${APP_IMAGE:-birthday-reminder/app-prod}:${APP_IMAGE_TAG:-latest}
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - APP_ENV=prod
+      - APP_DEBUG=false
+
+  mongo:
+    image: mongo:6.0.2
+    restart: always
+    volumes:
+      - mongodata:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+
+volumes:
+  mongodata:

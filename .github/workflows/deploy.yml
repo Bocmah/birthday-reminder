@@ -1,0 +1,39 @@
+name: Deploy
+
+on: [ workflow_dispatch ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Copy docker-compose.prod.yml to remote host
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command_timeout: 1m
+          source: docker-compose.prod.yml
+          target: /app/docker-compose.yml
+
+      - name: Deploy to remote host
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /app
+            docker login --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} ${{ secrets.CONTAINER_REGISTRY }}
+            APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose pull app
+            APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose up -d --no-deps
+            docker logout ${{ secrets.CONTAINER_REGISTRY }}

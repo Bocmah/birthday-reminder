@@ -1,4 +1,4 @@
-name: app
+name: Build and push
 
 on:
   push:
@@ -7,10 +7,20 @@ on:
     branches: [ main ]
 
 env:
-  TEST_IMAGE: birthday-reminder/app-test:latest
+  TEST_IMAGE: "birthday-reminder/app-test:latest"
+  PROD_IMAGE: "birthday-reminder/app-prod:latest"
 
 jobs:
   build:
+    strategy:
+      matrix:
+        image: ["birthday-reminder/app-test:latest", "birthday-reminder/app-prod:latest"]
+        include:
+          - image: "birthday-reminder/app-test:latest"
+            target: test
+          - image: "birthday-reminder/app-prod:latest"
+            target: prod
+
     runs-on: ubuntu-latest
 
     steps:
@@ -30,30 +40,30 @@ jobs:
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          path: /tmp/.buildx-cache-${{ matrix.target }}
+          key: ${{ runner.os }}-buildx-${{ matrix.target }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-buildx
+            ${{ runner.os }}-buildx-${{ matrix.target }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           context: .
           file: ./.docker/php/Dockerfile
-          target: test
+          target: ${{ matrix.target }}
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.CONTAINER_REGISTRY }}/${{ env.TEST_IMAGE }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
+          tags: ${{ secrets.CONTAINER_REGISTRY }}/${{ matrix.image }}
+          cache-from: type=local,src=/tmp/.buildx-cache-${{ matrix.target }}
+          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-${{ matrix.target }}-new
 
       # Temp fix
       # https://github.com/docker/build-push-action/issues/252
       # https://github.com/moby/buildkit/issues/1896
       - name: Move cache
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf /tmp/.buildx-cache-${{ matrix.target }}
+          mv /tmp/.buildx-cache-${{ matrix.target }}-new /tmp/.buildx-cache-${{ matrix.target }}
 
   lint:
     runs-on: ubuntu-latest
