@@ -23,7 +23,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           command_timeout: 1m
           source: docker-compose.prod.yml
-          target: /app/docker-compose.yml
+          target: /app
+          overwrite: true
 
       - name: Deploy to remote host
         uses: appleboy/ssh-action@v0.1.7
@@ -34,6 +35,6 @@ jobs:
           script: |
             cd /app
             docker login --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} ${{ secrets.CONTAINER_REGISTRY }}
-            APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose pull app
-            APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose up -d --no-deps
+            APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose -f docker-compose.prod.yml pull app
+            APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose -f docker-compose.prod.yml up -d --no-deps
             docker logout ${{ secrets.CONTAINER_REGISTRY }}
