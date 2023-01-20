@@ -29,6 +29,7 @@ use BirthdayReminder\Infrastructure\Api\Vk\VkApi;
 use BirthdayReminder\Infrastructure\BirthdaysNotifier\NotifyAllObservers;
 use BirthdayReminder\Infrastructure\Date\FixedFormatDateFormatter;
 use BirthdayReminder\Infrastructure\Date\SystemCalendar;
+use BirthdayReminder\Infrastructure\Event\ConfirmationKeySubscriber;
 use BirthdayReminder\Infrastructure\Http\Controller\MessageReceiver;
 use BirthdayReminder\Infrastructure\Http\Middleware\AddRequiredVkParametersToQuery;
 use BirthdayReminder\Infrastructure\Http\Middleware\ThrowExceptionOnResponseWithInappropriateHttpStatusCode;
@@ -160,4 +161,8 @@ return static function (ContainerConfigurator $configurator): void {
     $services->set(IncomingMessageParamConverter::class);
 
     $services->set(NotifyAllObservers::class);
+
+    $services
+        ->set(ConfirmationKeySubscriber::class)
+        ->arg('$confirmationKey', env('VK_API_CONFIRMATION_KEY'));
 };

@@ -12,66 +12,47 @@ trait CommandSteps
     #[When('I issue the "start observing" command with user id :id and birthdate :birthdate')]
     public function iIssueTheStartObservingCommandWithUserIdAndBirthdate(string $id, string $birthdate): void
     {
-        $this->sendPost('/message', [
-            'object' => [
-                'from_id' => ObserverData::ID,
-                'text'    => sprintf('add %s %s', $id, $birthdate),
-            ],
-        ]);
+        $this->sendPost('/message', $this->messageFromObserver(sprintf('add %s %s', $id, $birthdate)));
     }
 
     #[When('I issue the "stop observing" command with user id :id')]
     public function iIssueTheStopObservingCommandWithUserId(string $id): void
     {
-        $this->sendPost('/message', [
-            'object' => [
-                'from_id' => ObserverData::ID,
-                'text'    => sprintf('delete %s', $id),
-            ],
-        ]);
+        $this->sendPost('/message', $this->messageFromObserver(sprintf('delete %s', $id)));
     }
 
     #[When('I issue the "change birthdate" command with user id :id and birthdate :birthdate')]
     public function iIssueTheChangeBirthdateCommandWithUserIdAndBirthdate(string $id, string $birthdate): void
     {
-        $this->sendPost('/message', [
-            'object' => [
-                'from_id' => ObserverData::ID,
-                'text'    => sprintf('update %s %s', $id, $birthdate),
-            ],
-        ]);
+        $this->sendPost('/message', $this->messageFromObserver(sprintf('update %s %s', $id, $birthdate)));
     }
 
     #[When('I issue the "list observees" command')]
     public function iIssueTheListObserveesCommand(): void
     {
-        $this->sendPost('/message', [
-            'object' => [
-                'from_id' => ObserverData::ID,
-                'text'    => 'list',
-            ],
-        ]);
+        $this->sendPost('/message', $this->messageFromObserver('list'));
     }
 
     #[When('I issue the "toggle notifiability" command')]
     public function iIssueTheToggleNotifiabilityCommand(): void
     {
-        $this->sendPost('/message', [
-            'object' => [
-                'from_id' => ObserverData::ID,
-                'text'    => 'notify',
-            ],
-        ]);
+        $this->sendPost('/message', $this->messageFromObserver('notify'));
     }
 
     #[When('I issue the "get help" command')]
     public function iIssueTheGetHelpCommand(): void
     {
-        $this->sendPost('/message', [
+        $this->sendPost('/message', $this->messageFromObserver('help'));
+    }
+
+    private function messageFromObserver(string $text): array
+    {
+        return [
             'object' => [
                 'from_id' => ObserverData::ID,
-                'text'    => 'help',
+                'text'    => $text,
             ],
-        ]);
+            'type' => 'message_new',
+        ];
     }
 }
