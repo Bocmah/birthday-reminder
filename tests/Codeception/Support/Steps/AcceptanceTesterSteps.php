@@ -6,5 +6,5 @@ namespace Tests\Codeception\Support\Steps;
 
 trait AcceptanceTesterSteps
 {
-    use CommandSteps, FixtureSteps, ObserveesSteps, MessageSteps;
+    use CommandSteps, FixtureSteps, ObserveesSteps, MessageSteps, ConfirmationSteps;
 }
