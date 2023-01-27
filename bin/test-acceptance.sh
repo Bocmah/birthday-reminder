@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-test_suite=$1
-
 set -o errexit nounset
 
 trap 'clean' EXIT

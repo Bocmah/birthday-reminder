@@ -6,7 +6,7 @@
 
 FROM php:8.1.7-cli-alpine3.16 AS base
 
-RUN apk add --no-cache --update \
+RUN apk add --update \
     alpine-conf \
     autoconf \
     curl-dev \
@@ -16,13 +16,9 @@ RUN apk add --no-cache --update \
     libzip-dev \
     oniguruma-dev \
     && \
-    apk add --update --no-cache --virtual .build-deps \
-       alpine-sdk\
-       gcc \
-       gnupg \
-       g++ \
-       libgcc \
-       make \
+    apk add --update --virtual .build-deps \
+      build-base \
+      linux-headers \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
        intl \
@@ -49,7 +45,6 @@ WORKDIR /app
 
 RUN setup-timezone -z "Europe/Moscow"
 
-# Reset all configs
 RUN rm $PHP_INI_DIR/conf.d/*
 
 COPY .docker/php/conf.d/ $PHP_INI_DIR/conf.d/
@@ -57,16 +52,11 @@ COPY .docker/php/conf.d/ $PHP_INI_DIR/conf.d/
 # Composer section
 ENV COMPOSER_HOME /var/composer
 
-COPY --from=composer:2.3.7 /usr/bin/composer /usr/bin/composer
+RUN mkdir ${COMPOSER_HOME}
 
-RUN mkdir -p ${COMPOSER_HOME}/cache \
-    && chmod 0777 ${COMPOSER_HOME}/cache  \
-    && chown -R www-data:www-data ${COMPOSER_HOME}/cache
+COPY --link --from=composer:2.3.7 /usr/bin/composer /usr/bin/composer
 
-RUN chown www-data:www-data /var/www/ /usr/local/bin/
-
-# Copy RoadRunner
-COPY --from=spiralscout/roadrunner:2.10.5 /usr/bin/rr /usr/bin/rr
+COPY --link --from=spiralscout/roadrunner:2.10.5 /usr/bin/rr /usr/bin/rr
 
 ##
 ## Dev image
@@ -76,14 +66,24 @@ FROM base AS dev
 
 ENV APP_ENV=dev \
     OPCACHE_ENABLE=0 \
-    PCOV_ENABLE=1
+    PCOV_ENABLE=1 \
+    XDEBUG_MODE=debug
+
+## Install xdebug
+RUN apk add --update --virtual .build-deps \
+      build-base \
+      linux-headers \
+    && pecl install xdebug-3.2.0 \
+    && docker-php-ext-enable xdebug \
+    && apk del .build-deps
+
+COPY .docker/php/conf.d.dev/xdebug.ini $PHP_INI_DIR/conf.d/
 
 COPY . .
 
-RUN --mount=type=cache,target=/var/composer,uid=82,gid=82,mode=777 \
-    composer validate --no-check-all --strict && composer install --prefer-dist --optimize-autoloader
+RUN composer validate --no-check-all --strict && composer install --prefer-dist --optimize-autoloader
 
-RUN chown -R www-data:www-data .
+RUN chown -R www-data:www-data . /var/composer
 
 USER www-data
 
@@ -99,14 +99,13 @@ ENV APP_ENV=test \
     PCOV_ENABLE=1
 
 ## Psalm and Infection need it
-RUN apk add git
+RUN apk add --update git
 
 COPY . .
 
-RUN --mount=type=cache,target=/var/composer,uid=82,gid=82,mode=777 \
-    composer validate --no-check-all --strict && composer install --prefer-dist --optimize-autoloader
+RUN composer validate --no-check-all --strict && composer install --prefer-dist --optimize-autoloader
 
-RUN chown -R www-data:www-data .
+RUN chown -R www-data:www-data . /var/composer
 
 USER www-data
 
@@ -126,10 +125,9 @@ ENV APP_ENV=prod \
 
 COPY . .
 
-RUN --mount=type=cache,target=/var/composer,uid=82,gid=82,mode=777 \
-    composer validate --no-check-all --strict && composer install --no-dev --prefer-dist --optimize-autoloader
+RUN composer validate --no-check-all --strict && composer install --no-dev --prefer-dist --optimize-autoloader
 
-RUN chown -R www-data:www-data .
+RUN chown -R www-data:www-data . /var/composer
 
 USER www-data
 
