@@ -12,6 +12,13 @@ services:
     environment:
       - APP_ENV=prod
       - APP_DEBUG=false
+      - APP_SECRET
+      - VK_API_URL
+      - VK_API_TIMEOUT
+      - VK_API_VERSION
+      - VK_API_ACCESS_TOKEN
+      - VK_API_CONFIRMATION_KEY
+      - DATABASE_URL
 
   mongo:
     image: mongo:6.0.2
@@ -19,8 +26,8 @@ services:
     volumes:
       - mongodata:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
