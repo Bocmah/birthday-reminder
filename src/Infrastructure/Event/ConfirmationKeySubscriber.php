@@ -6,6 +6,7 @@ namespace BirthdayReminder\Infrastructure\Event;
 
 use BirthdayReminder\Infrastructure\Api\Vk\VkEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Exception\JsonException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -18,7 +19,11 @@ final class ConfirmationKeySubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        $request = $event->getRequest()->toArray();
+        try {
+            $request = $event->getRequest()->toArray();
+        } catch (JsonException) {
+            return;
+        }
 
         if (!isset($request['type'])) {
             return;
