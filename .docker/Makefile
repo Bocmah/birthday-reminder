@@ -12,7 +12,7 @@ build-app-test:
 	$(call build_image,app-test,--target=test)
 
 build-app-prod:
-	$(call build_image,app,--target=prod)
+	$(call build_image,app-prod,--target=prod)
 
 ### build_image,name,args
 define build_image
