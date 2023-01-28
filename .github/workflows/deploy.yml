@@ -36,14 +36,15 @@ jobs:
             cd /app
             docker login --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} ${{ secrets.CONTAINER_REGISTRY }}
             APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose -f docker-compose.prod.yml pull app
-             APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose -f docker-compose.prod.yml up -d \
-              -e "APP_SECRET=${{ secrets.APP_SECRET }}" \
-              -e "VK_API_URL=${{ secrets.VK_API_URL }}" \
-              -e "VK_API_TIMEOUT=2" \
-              -e "VK_API_VERSION=${{ secrets.VK_API_VERSION }}" \
-              -e "VK_API_ACCESS_TOKEN=${{ secrets.VK_API_ACCESS_TOKEN }}" \
-              -e "VK_API_CONFIRMATION_KEY=${{ secrets.VK_API_CONFIRMATION_KEY }}" \
-              -e "DATABASE_URL=${{ secrets.DATABASE_URL }}" \
-              -e "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" \
-              -e "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}"
+             APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod \
+            APP_SECRET=${{ secrets.APP_SECRET }} \
+            VK_API_URL=${{ secrets.VK_API_URL }} \
+            VK_API_TIMEOUT=2 \
+            VK_API_VERSION=${{ secrets.VK_API_VERSION }} \
+            VK_API_ACCESS_TOKEN=${{ secrets.VK_API_ACCESS_TOKEN }} \
+            VK_API_CONFIRMATION_KEY=${{ secrets.VK_API_CONFIRMATION_KEY }} \
+            DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }} \
+            MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }} \
+            docker-compose -f docker-compose.prod.yml up -d
             docker logout ${{ secrets.CONTAINER_REGISTRY }}
