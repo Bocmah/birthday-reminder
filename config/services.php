@@ -43,6 +43,8 @@ use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+use Symfony\Component\ErrorHandler\ErrorRenderer\SerializerErrorRenderer;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
@@ -165,4 +167,16 @@ return static function (ContainerConfigurator $configurator): void {
     $services
         ->set(ConfirmationKeySubscriber::class)
         ->arg('$confirmationKey', env('VK_API_CONFIRMATION_KEY'));
+
+    // Render all exceptions as JSON
+    $services
+        ->set('error_renderer', SerializerErrorRenderer::class)
+        ->args([
+            service('serializer'),
+            'json',
+            service('error_renderer.html'),
+            inline_service()
+                ->factory([HtmlErrorRenderer::class, 'isDebug'])
+                ->args([service('request_stack'), param('kernel.debug')]),
+        ]);
 };
