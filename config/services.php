@@ -19,6 +19,7 @@ use BirthdayReminder\Domain\BirthdaysNotifier\NoUpcomingBirthdaysNotifier;
 use BirthdayReminder\Domain\BirthdaysNotifier\NullBirthdaysNotifier;
 use BirthdayReminder\Domain\BirthdaysNotifier\UpcomingBirthdaysNotifier;
 use BirthdayReminder\Domain\Date\Calendar;
+use BirthdayReminder\Domain\Date\DateFormatter;
 use BirthdayReminder\Domain\Messenger\Messenger;
 use BirthdayReminder\Domain\Observee\ObserveeFormatter;
 use BirthdayReminder\Domain\Observer\ObserverRepository;
@@ -63,6 +64,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->autowire()
         ->autoconfigure();
 
+    $services
+        ->set('moscow_timezone', DateTimeZone::class)
+        ->arg('$timezone', 'Europe/Moscow');
+
     $services->instanceof(Command::class)->tag('command');
     $services->instanceof(Describable::class)->tag('command.describable');
 
@@ -82,10 +87,7 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services->set(CommandSelector::class)->args([tagged_iterator('command')]);
 
-    $services
-        ->set(UpcomingBirthdaysNotifier::class)
-        ->arg('$dateFormatter', inline_service(\BirthdayReminder\Infrastructure\Date\IntlDateFormatter::class))
-        ->tag('birthdays_notifier');
+    $services->set(UpcomingBirthdaysNotifier::class)->tag('birthdays_notifier');
     $services->set(NoUpcomingBirthdaysNotifier::class)->tag('birthdays_notifier');
     $services->set(NullBirthdaysNotifier::class)->tag('birthdays_notifier', ['priority' => -1]);
 
@@ -118,7 +120,12 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services->alias(Calendar::class, SystemCalendar::class);
 
-    $services->set(\BirthdayReminder\Infrastructure\Date\IntlDateFormatter::class);
+    $services
+        ->set(\BirthdayReminder\Infrastructure\Date\IntlDateFormatter::class)
+        ->arg('$locale', param('kernel.default_locale'))
+        ->arg('$timezone', service('moscow_timezone'));
+
+    $services->alias(DateFormatter::class, \BirthdayReminder\Infrastructure\Date\IntlDateFormatter::class);
 
     $services
         ->set(BatchMessengerDecorator::class)
