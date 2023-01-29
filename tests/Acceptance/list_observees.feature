@@ -1,14 +1,14 @@
 Feature: list observees
     In order to see my observees
     As an observer
-    I need to issue the "list observees" command
+    I need to issue the "list" command
 
     Scenario: I have two observees
         Given I observe users
             | id  | firstName | lastName | birthdate  |
             | 333 | James     | Dean     | 05.09.1985 |
             | 444 | Kate      | Watts    | 11.11.2001 |
-        When I issue the "list observees" command
+        When I issue the "list" command
         Then I should receive message
 """
 *id333 (James Dean) - 05.09.1985
@@ -16,5 +16,5 @@ Feature: list observees
 """
 
     Scenario: I have no observees
-        When I issue the "list observees" command
+        When I issue the "list" command
         Then I should receive message "Вы еще не отслеживаете день рождения ни одного юзера."

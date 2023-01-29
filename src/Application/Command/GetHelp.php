@@ -35,6 +35,6 @@ final class GetHelp extends Command
 
     protected function pattern(): string
     {
-        return '/help/';
+        return '/^help$/';
     }
 }

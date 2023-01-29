@@ -4,7 +4,7 @@ Feature: get help
     I need to issue the "help" command
 
     Scenario: get description of all commands
-        When I issue the "get help" command
+        When I issue the "help" command
         Then I should receive message
 """
 add id DD.MM.YYYY - Добавить день рождения. id - id юзера VK. Может быть как числовым, так и именем страницы, которое задал пользователь. DD.MM.YYYY - день рождения (например, 13.10.1996).
