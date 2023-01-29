@@ -41,9 +41,11 @@ use BirthdayReminder\Infrastructure\Persistence\Observer\DoctrineMongoDBObserver
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware as GuzzleMiddleware;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\ErrorHandler\ErrorRenderer\SerializerErrorRenderer;
@@ -143,6 +145,15 @@ return static function (ContainerConfigurator $configurator): void {
     $services
         ->set('vk.http.handler_stack', HandlerStack::class)
         ->arg('$handler', inline_service(CurlHandler::class))
+        ->call(
+            'push',
+            [
+                inline_service()
+                    ->factory([GuzzleMiddleware::class, 'log'])
+                    ->arg('$logger', service(LoggerInterface::class))
+                    ->arg('$formatter', inline_service(\GuzzleHttp\MessageFormatter::class)->arg('$template', '[VK API] {uri} - [{code}] {res_body}')),
+            ],
+        )
         ->call(
             'push',
             [
