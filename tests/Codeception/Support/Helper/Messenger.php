@@ -5,10 +5,27 @@ declare(strict_types=1);
 namespace Tests\Codeception\Support\Helper;
 
 use Codeception\Module;
+use Tests\Support\ObserverData;
 use WireMock\Client\WireMock;
 
 class Messenger extends Module
 {
+    public function sendMessageFromObserver(string $message): void
+    {
+        /** @var Module\REST $rest */
+        $rest = $this->getModule('REST');
+
+        $rest->sendPost('/message', [
+            'object' => [
+                'message' => [
+                    'from_id' => ObserverData::ID,
+                    'text'    => $message,
+                ],
+            ],
+            'type' => 'message_new',
+        ]);
+    }
+
     public function seeMessageToUserWasSent(string $message, string $userId): void
     {
         $this->wiremock()->receivedRequestToWireMock(

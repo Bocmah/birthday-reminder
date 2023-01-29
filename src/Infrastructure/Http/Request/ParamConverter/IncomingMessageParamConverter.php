@@ -17,16 +17,16 @@ final class IncomingMessageParamConverter implements ParamConverterInterface
     {
         $data = $request->toArray();
 
-        $object = $data['object'] ?? null;
+        $message = $data['object']['message'] ?? null;
 
-        if (!\is_array($object)) {
+        if (!\is_array($message)) {
             throw new BadRequestException();
         }
 
         /** @var string|int|null $from */
-        $from = $object['from_id'] ?? null;
+        $from = $message['from_id'] ?? null;
         /** @var string|int|null $text */
-        $text = $object['text'] ?? null;
+        $text = $message['text'] ?? null;
 
         if ($from && $text) {
             $request->attributes->set(
