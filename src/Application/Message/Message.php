@@ -58,4 +58,9 @@ final class Message
     {
         return new TranslatableMessage('notify_only_on_upcoming_birthdays');
     }
+
+    public static function unknownCommand(): TranslatableMessage
+    {
+        return new TranslatableMessage('command.unknown_command');
+    }
 }

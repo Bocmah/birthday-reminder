@@ -44,6 +44,6 @@ final class StopObserving extends Command implements Describable
 
     protected function pattern(): string
     {
-        return '/delete (?<id>\S+)/';
+        return '/^delete (?<id>\S+)$/';
     }
 }

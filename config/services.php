@@ -12,6 +12,7 @@ use BirthdayReminder\Application\Command\ListObservees;
 use BirthdayReminder\Application\Command\StartObserving;
 use BirthdayReminder\Application\Command\StopObserving;
 use BirthdayReminder\Application\Command\ToggleNotifiability;
+use BirthdayReminder\Application\Command\UnknownCommand;
 use BirthdayReminder\Application\ObserverService;
 use BirthdayReminder\Domain\BirthdaysNotifier\BirthdaysNotifierSelector;
 use BirthdayReminder\Domain\BirthdaysNotifier\NoUpcomingBirthdaysNotifier;
@@ -75,6 +76,9 @@ return static function (ContainerConfigurator $configurator): void {
     $services
         ->set(GetHelp::class)
         ->arg('$describables', tagged_iterator('command.describable'));
+    $services
+        ->set(UnknownCommand::class)
+        ->tag('command', ['priority' => -1]); // Invoke this last in the chain
 
     $services->set(CommandSelector::class)->args([tagged_iterator('command')]);
 

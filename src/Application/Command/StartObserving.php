@@ -51,6 +51,6 @@ final class StartObserving extends Command implements Describable
 
     protected function pattern(): string
     {
-        return '/add (?<id>\S+) (?<date>\d\d\.\d\d\.\d{4})/';
+        return '/^add (?<id>\S+) (?<date>\d\d\.\d\d\.\d{4})$/';
     }
 }

@@ -26,21 +26,9 @@ trait CommandSteps
         $this->sendMessageFromObserver(sprintf('update %s %s', $id, $birthdate));
     }
 
-    #[When('I issue the "list observees" command')]
-    public function iIssueTheListObserveesCommand(): void
+    #[When('I issue the ":command" command')]
+    public function iIssueTheCommand(string $command): void
     {
-        $this->sendMessageFromObserver('list');
-    }
-
-    #[When('I issue the "toggle notifiability" command')]
-    public function iIssueTheToggleNotifiabilityCommand(): void
-    {
-        $this->sendMessageFromObserver('notify');
-    }
-
-    #[When('I issue the "get help" command')]
-    public function iIssueTheGetHelpCommand(): void
-    {
-        $this->sendMessageFromObserver('help');
+        $this->sendMessageFromObserver($command);
     }
 }

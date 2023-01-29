@@ -31,6 +31,9 @@ ps: ## Dump running services
 logs: ## Show app logs
 	@docker-compose logs app
 
+logs-tail: ## Follow app logs
+	@docker-compose logs -f app
+
 cli: ## Jump to app service shell
 	@docker-compose exec $(APP_SERVICE) sh
 

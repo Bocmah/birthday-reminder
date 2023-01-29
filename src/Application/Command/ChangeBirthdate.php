@@ -46,6 +46,6 @@ final class ChangeBirthdate extends Command implements Describable
 
     protected function pattern(): string
     {
-        return '/update (?<id>\S+) (?<date>\d\d\.\d\d\.\d{4})/';
+        return '/^update (?<id>\S+) (?<date>\d\d\.\d\d\.\d{4})$/';
     }
 }

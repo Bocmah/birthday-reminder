@@ -41,6 +41,6 @@ final class ToggleNotifiability extends Command implements Describable
 
     protected function pattern(): string
     {
-        return '/notify/';
+        return '/^notify$/';
     }
 }

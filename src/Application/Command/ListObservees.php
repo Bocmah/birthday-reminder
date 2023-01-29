@@ -51,7 +51,7 @@ final class ListObservees extends Command implements Describable
 
     protected function pattern(): string
     {
-        return '/list/';
+        return '/^list$/';
     }
 
     /**
