@@ -27,7 +27,10 @@ class VkApi
         $request = $this->requestFactory->createRequest('GET', $this->buildUri($method, $params));
 
         try {
-            $rawResponse = $this->httpClient->sendRequest($request)->getBody()->getContents();
+            $body = $this->httpClient->sendRequest($request)->getBody();
+            $body->rewind();
+
+            $rawResponse = $body->getContents();
         } catch (ClientExceptionInterface $exception) {
             throw new RuntimeException('Error while processing request to VK API', $exception->getCode(), $exception);
         } catch (ReceivedInappropriateHttpStatusCode $exception) {
