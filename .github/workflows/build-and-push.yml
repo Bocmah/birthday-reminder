@@ -82,6 +82,9 @@ jobs:
           registry-password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
           image: ${{ env.TEST_IMAGE }}
 
+      - name: Run Symfony container lint
+        run: docker run --rm ${{ env.TEST_IMAGE }} php bin/console lint:container
+
       - name: Run PHP CS Fixer
         if: success() || failure()
         run: docker run --rm ${{ env.TEST_IMAGE }} vendor/bin/php-cs-fixer fix --dry-run --config=.php-cs-fixer.dist.php -v --using-cache=no
