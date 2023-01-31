@@ -11,7 +11,7 @@ use BirthdayReminder\Infrastructure\Api\Vk\VkApiMethod;
 
 final class VkMessenger implements Messenger
 {
-    public function __construct(private readonly VkApi $vkApi)
+    public function __construct(private readonly VkApi $vkApi, private readonly int $randomIdMaxValue)
     {
     }
 
@@ -20,9 +20,16 @@ final class VkMessenger implements Messenger
         $this->vkApi->callMethod(
             VkApiMethod::SendMessage,
             [
-                'user_id' => (string) $to,
-                'message' => $text,
+                'user_id'   => (string) $to,
+                'message'   => $text,
+                'random_id' => $this->generateRandomId(),
             ],
         );
+    }
+
+    private function generateRandomId(): int
+    {
+        /** @noinspection RandomApiMigrationInspection */
+        return mt_rand(0, $this->randomIdMaxValue);
     }
 }

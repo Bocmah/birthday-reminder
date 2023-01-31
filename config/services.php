@@ -45,7 +45,6 @@ use GuzzleHttp\Middleware as GuzzleMiddleware;
 use GuzzleHttp\Psr7\HttpFactory;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
 use Symfony\Component\ErrorHandler\ErrorRenderer\SerializerErrorRenderer;
@@ -58,7 +57,8 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_it
 return static function (ContainerConfigurator $configurator): void {
     $configurator
         ->parameters()
-        ->set('vk.max_message_length', 4096);
+        ->set('vk.max_message_length', 4096)
+        ->set('vk.random_id_max_value', 2_147_483_647);
 
     $services = $configurator
         ->services()
@@ -112,7 +112,9 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services->alias(UserFinder::class, VkUserFinder::class);
 
-    $services->set(VkMessenger::class);
+    $services
+        ->set(VkMessenger::class)
+        ->arg('$randomIdMaxValue', param('vk.random_id_max_value'));
 
     $services->alias(Messenger::class, VkMessenger::class);
 
@@ -150,8 +152,8 @@ return static function (ContainerConfigurator $configurator): void {
             [
                 inline_service()
                     ->factory([GuzzleMiddleware::class, 'log'])
-                    ->arg('$logger', service(LoggerInterface::class))
-                    ->arg('$formatter', inline_service(\GuzzleHttp\MessageFormatter::class)->arg('$template', '[VK API] {uri} - [{code}] {res_body}')),
+                    ->arg('$logger', service('monolog.logger.vk'))
+                    ->arg('$formatter', inline_service(\GuzzleHttp\MessageFormatter::class)->arg('$template', '{uri} - [{code}] {res_body}')),
             ],
         )
         ->call(
