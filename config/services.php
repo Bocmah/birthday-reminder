@@ -29,7 +29,9 @@ use BirthdayReminder\Infrastructure\Api\Messenger\VkMessenger;
 use BirthdayReminder\Infrastructure\Api\User\VkUserFinder;
 use BirthdayReminder\Infrastructure\Api\Vk\VkApi;
 use BirthdayReminder\Infrastructure\BirthdaysNotifier\NotifyAllObservers;
+use BirthdayReminder\Infrastructure\Date\FixedCalendar;
 use BirthdayReminder\Infrastructure\Date\FixedFormatDateFormatter;
+use BirthdayReminder\Infrastructure\Date\RelativeOrFallbackDateFormatter;
 use BirthdayReminder\Infrastructure\Date\SystemCalendar;
 use BirthdayReminder\Infrastructure\Event\ConfirmationKeySubscriber;
 use BirthdayReminder\Infrastructure\Http\Controller\MessageReceiver;
@@ -67,8 +69,14 @@ return static function (ContainerConfigurator $configurator): void {
         ->autoconfigure();
 
     $services
-        ->set('moscow_timezone', DateTimeZone::class)
-        ->arg('$timezone', 'Europe/Moscow');
+        ->set(FixedFormatDateFormatter::class)
+        ->arg('$format', 'd.m.Y');
+
+    $services
+        ->set(RelativeOrFallbackDateFormatter::class)
+        ->arg('$fallbackFormatter', service(FixedFormatDateFormatter::class));
+
+    $services->alias(DateFormatter::class, RelativeOrFallbackDateFormatter::class);
 
     $services->instanceof(Command::class)->tag('command');
     $services->instanceof(Describable::class)->tag('command.describable');
@@ -78,7 +86,7 @@ return static function (ContainerConfigurator $configurator): void {
     $services->set(ChangeBirthdate::class);
     $services
         ->set(ListObservees::class)
-        ->arg('$dateFormatter', inline_service(FixedFormatDateFormatter::class)->arg('$format', 'd.m.Y'));
+        ->arg('$dateFormatter', service(FixedFormatDateFormatter::class));
     $services->set(ToggleNotifiability::class);
     $services
         ->set(GetHelp::class)
@@ -120,16 +128,18 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services->set(MessageReceiver::class);
 
-    $services->set(SystemCalendar::class);
+    if ($configurator->env() === 'test') {
+        $services
+            ->set(FixedCalendar::class)
+            ->arg('$today', inline_service(DateTimeImmutable::class)->arg('$datetime', '21.01.2023'))
+            ->arg('$tomorrow', inline_service(DateTimeImmutable::class)->arg('$datetime', '22.01.2023'));
 
-    $services->alias(Calendar::class, SystemCalendar::class);
+        $services->alias(Calendar::class, FixedCalendar::class);
+    } else {
+        $services->set(SystemCalendar::class);
 
-    $services
-        ->set(\BirthdayReminder\Infrastructure\Date\IntlDateFormatter::class)
-        ->arg('$locale', param('kernel.default_locale'))
-        ->arg('$timezone', service('moscow_timezone'));
-
-    $services->alias(DateFormatter::class, \BirthdayReminder\Infrastructure\Date\IntlDateFormatter::class);
+        $services->alias(Calendar::class, SystemCalendar::class);
+    }
 
     $services
         ->set(BatchMessengerDecorator::class)

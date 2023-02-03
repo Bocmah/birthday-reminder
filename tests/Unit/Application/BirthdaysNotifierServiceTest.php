@@ -10,6 +10,7 @@ use BirthdayReminder\Domain\BirthdaysNotifier\BirthdaysNotifierSelector;
 use BirthdayReminder\Domain\Observer\ObserverRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Tests\Unit\Domain\Observer\ObserverMother;
 
 /**
@@ -70,6 +71,10 @@ final class BirthdaysNotifierServiceTest extends TestCase
         $this->observerRepository = $this->createMock(ObserverRepository::class);
         $this->notifierSelector = $this->createMock(BirthdaysNotifierSelector::class);
 
-        $this->notifierService = new BirthdaysNotifierService($this->observerRepository, $this->notifierSelector);
+        $this->notifierService = new BirthdaysNotifierService(
+            $this->observerRepository,
+            $this->notifierSelector,
+            $this->createMock(LoggerInterface::class),
+        );
     }
 }

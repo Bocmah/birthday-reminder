@@ -50,6 +50,16 @@ class Messenger extends Module
         );
     }
 
+    public function seeNoMessagesWereSent(): void
+    {
+        $this->wiremock()->receivedRequestToWireMock(
+            0,
+            WireMock::getRequestedFor(
+                WireMock::urlPathEqualTo('/method/messages.send'),
+            ),
+        );
+    }
+
     private function wiremock(): Module\WireMock
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */

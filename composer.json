@@ -43,6 +43,7 @@
     },
     "require-dev": {
         "codeception/codeception": "^5.0",
+        "codeception/module-cli": "^2.0",
         "codeception/module-mongodb": "^3.0",
         "codeception/module-phpbrowser": "^3.0",
         "codeception/module-rest": "^3.3",
@@ -67,12 +68,14 @@
     "autoload": {
         "psr-4": {
             "BirthdayReminder\\": "src"
-        }
+        },
+        "files": ["src/functions.php"]
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files": ["src/functions.php"]
     },
     "config": {
         "sort-packages": true,
