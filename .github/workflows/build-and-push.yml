@@ -134,7 +134,7 @@ jobs:
           image: ${{ env.TEST_IMAGE }}
 
       - name: Run acceptance tests
-        run: bin/test-acceptance.sh
+        run: bin/test-acceptance
 
   test-unit:
     runs-on: ubuntu-latest

@@ -1,12 +1,8 @@
-actor: AcceptanceTester
-suite_namespace: Tests\Acceptance
-path: Acceptance
+actor: FunctionalTester
+suite_namespace: Tests\Functional
+path: Functional
 modules:
   enabled:
-    - REST:
-        url: http://app:8080/api/v1/
-        depends: PhpBrowser
-        part: Json
     - WireMock:
         host: '%WIREMOCK_HOST%'
         port: '%WIREMOCK_PORT%'
@@ -15,3 +11,4 @@ modules:
     - \Tests\Codeception\Support\Helper\Messenger
     - \Tests\Codeception\Support\Helper\WireMockRequestJournalCleaner
     - \Tests\Codeception\Support\Helper\Fixture
+    - Cli
