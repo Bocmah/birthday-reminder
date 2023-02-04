@@ -4,7 +4,7 @@
 ## Base image
 ##
 
-FROM php:8.1.7-cli-alpine3.16 AS base
+FROM php:8.1.15-cli-alpine3.17 AS base
 
 RUN apk add --update \
     alpine-conf \
@@ -54,9 +54,9 @@ ENV COMPOSER_HOME /var/composer
 
 RUN mkdir ${COMPOSER_HOME}
 
-COPY --link --from=composer:2.3.7 /usr/bin/composer /usr/bin/composer
+COPY --link --from=composer:2.5.1 /usr/bin/composer /usr/bin/composer
 
-COPY --link --from=spiralscout/roadrunner:2.10.5 /usr/bin/rr /usr/bin/rr
+COPY --link --from=spiralscout/roadrunner:2.12.2 /usr/bin/rr /usr/bin/rr
 
 ##
 ## Dev image
