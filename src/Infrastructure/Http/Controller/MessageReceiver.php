@@ -32,10 +32,12 @@ final class MessageReceiver extends AbstractController
     #[Route('/api/v1/message', methods: ['POST'])]
     public function receive(IncomingMessage $message): Response
     {
-        $command = $this->commandSelector->select($message->text);
+        $text = mb_strtolower($message->text);
+
+        $command = $this->commandSelector->select($text);
 
         try {
-            $commandResponse = $command->execute($message->from, $message->text);
+            $commandResponse = $command->execute($message->from, $text);
         } catch (ErrorDuringCommandExecution $e) {
             $this->logger->error(
                 'Error during command execution',
