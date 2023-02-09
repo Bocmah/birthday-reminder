@@ -37,6 +37,7 @@
         "symfony/routing": "^6.2.5",
         "symfony/runtime": "^6.2.5",
         "symfony/serializer": "^6.2.5",
+        "symfony/stopwatch": "^6.2.5",
         "symfony/translation": "^6.2.5",
         "tanigami/specification": "dev-master",
         "webmozart/assert": "^1.11"

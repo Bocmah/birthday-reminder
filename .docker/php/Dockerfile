@@ -132,3 +132,21 @@ RUN chown -R www-data:www-data . /var/composer
 USER www-data
 
 CMD ["/usr/bin/rr", "serve", "-d", "-c", ".rr.yaml"]
+
+##
+## Cron image
+##
+
+FROM prod AS cron
+
+USER root
+
+RUN apk add --no-cache dcron libcap && \
+    chown www-data:www-data /usr/sbin/crond && \
+    setcap cap_setgid=ep /usr/sbin/crond
+
+USER www-data
+
+COPY --chown=www-data:www-data .docker/php/cron/crontab /etc/crontabs/www-data
+
+CMD ["crond", "-f"]
