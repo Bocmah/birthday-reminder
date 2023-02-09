@@ -14,12 +14,14 @@ jobs:
   build:
     strategy:
       matrix:
-        image: ["birthday-reminder/app-test:latest", "birthday-reminder/app-prod:latest"]
+        image: ["birthday-reminder/app-test:latest", "birthday-reminder/app-prod:latest", "birthday-reminder/cron:latest"]
         include:
           - image: "birthday-reminder/app-test:latest"
             target: test
           - image: "birthday-reminder/app-prod:latest"
             target: prod
+          - image: "birthday-reminder/cron:latest"
+            target: cron
 
     runs-on: ubuntu-latest
 

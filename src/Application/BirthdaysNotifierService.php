@@ -8,6 +8,7 @@ use BirthdayReminder\Domain\BirthdaysNotifier\BirthdaysNotifierSelector;
 use BirthdayReminder\Domain\Observer\Observer;
 use BirthdayReminder\Domain\Observer\ObserverRepository;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Throwable;
 
 final class BirthdaysNotifierService
@@ -21,9 +22,24 @@ final class BirthdaysNotifierService
 
     public function notifyObservers(): void
     {
-        foreach ($this->observerRepository->findAll() as $observer) {
+        $observers = $this->observerRepository->findAll();
+
+        if ($observers === []) {
+            $this->logger->info('There are no observers in the system. Nobody to notify.');
+
+            return;
+        }
+
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('observers_notification');
+
+        foreach ($observers as $observer) {
             $this->notify($observer);
         }
+
+        $event = $stopwatch->stop('observers_notification');
+
+        $this->logger->info(sprintf('Finished observers notification. Took %s ms. Used %.2F MiB of memory.', $event->getDuration(), $event->getMemory() / 1024 / 1024));
     }
 
     private function notify(Observer $observer): void

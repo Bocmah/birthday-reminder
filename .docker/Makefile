@@ -14,6 +14,9 @@ build-app-test:
 build-app-prod:
 	$(call build_image,app-prod,--target=prod)
 
+build-cron:
+	$(call build_image,cron,--target=cron)
+
 ### build_image,name,args
 define build_image
 	@docker build \

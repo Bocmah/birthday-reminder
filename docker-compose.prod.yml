@@ -9,7 +9,7 @@ services:
         condition: service_healthy
     ports:
       - "80:8080"
-    environment:
+    environment: &app-env
       - APP_ENV=prod
       - APP_DEBUG=false
       - APP_SECRET
@@ -19,6 +19,13 @@ services:
       - VK_API_ACCESS_TOKEN
       - VK_API_CONFIRMATION_KEY
       - DATABASE_URL
+
+  cron:
+    image: ${CRON_IMAGE:-birthday-reminder/cron}:${APP_IMAGE_TAG:-latest}
+    init: true
+    depends_on:
+      - app
+    environment: *app-env
 
   mongo:
     image: mongo:6.0.2
