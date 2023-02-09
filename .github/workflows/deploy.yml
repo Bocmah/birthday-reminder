@@ -36,7 +36,9 @@ jobs:
             cd /app
             docker login --username ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password ${{ secrets.CONTAINER_REGISTRY_PASSWORD }} ${{ secrets.CONTAINER_REGISTRY }}
             APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod docker-compose -f docker-compose.prod.yml pull app
+            CRON_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/cron docker-compose -f docker-compose.prod.yml pull cron
              APP_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/app-prod \
+            CRON_IMAGE=${{ secrets.CONTAINER_REGISTRY }}/birthday-reminder/cron \
             APP_SECRET=${{ secrets.APP_SECRET }} \
             VK_API_URL=${{ secrets.VK_API_URL }} \
             VK_API_TIMEOUT=2 \
